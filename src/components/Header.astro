@@ -1,0 +1,34 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site';
+---
+<header class="sticky top-0 z-50 border-b border-noche/15 bg-marfil/90 backdrop-blur" style="padding-top: env(safe-area-inset-top, 0px)">
+  <div class="wrap flex h-16 items-center justify-between gap-6">
+    <a href="#inicio" aria-label="Zyvo Solutions, inicio"><Logo size={30} /></a>
+    <nav aria-label="Principal" class="hidden items-center gap-8 text-[15px] lg:flex">
+      {nav.map((n) => <a href={n.href} class="text-tinta-2 transition-colors hover:text-noche">{n.label}</a>)}
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="#contacto" class="hidden rounded-full bg-noche px-5 py-2.5 text-sm font-semibold text-marfil transition-colors hover:bg-azul sm:inline-block">Escríbenos</a>
+      <button id="menu-btn" type="button" class="grid h-10 w-10 place-items-center rounded-full border border-noche/20 lg:hidden" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 6h14M2 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+      </button>
+    </div>
+  </div>
+  <nav id="menu" aria-label="Menú móvil" class="wrap hidden flex-col pb-4 lg:hidden">
+    {nav.map((n) => <a href={n.href} class="cond border-b border-noche/10 py-3 text-3xl">{n.label}</a>)}
+    <a href="#contacto" class="cond py-3 text-3xl text-azul">Escríbenos</a>
+  </nav>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu');
+  const set = (open: boolean) => {
+    btn?.setAttribute('aria-expanded', String(open));
+    menu?.classList.toggle('hidden', !open);
+    menu?.classList.toggle('flex', open);
+  };
+  btn?.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => set(false)));
+</script>

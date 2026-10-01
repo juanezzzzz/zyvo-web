@@ -1,0 +1,53 @@
+---
+import { timeline } from '../data/site';
+const weeks = Array.from({ length: 8 }, (_, i) => i + 1);
+---
+<section id="como" class="bg-noche text-marfil">
+  <div class="wrap py-20 md:py-28">
+    <div class="grid gap-6 md:grid-cols-12">
+      <h2 class="cond text-[clamp(2.8rem,7vw,5.5rem)] md:col-span-7">Cómo trabajamos</h2>
+      <p class="max-w-[46ch] self-end text-niebla md:col-span-5">
+        Así se ve un proyecto de ocho semanas. Cada proyecto tiene su propio cronograma y lo acordamos contigo antes de empezar.
+      </p>
+    </div>
+
+    <div class="mt-14 overflow-x-auto">
+      <div class="min-w-[720px]">
+        <div class="grid grid-cols-[220px_repeat(8,minmax(0,1fr))] border-b border-marfil/20 pb-3">
+          <span></span>
+          {weeks.map((w) => <span class="meta text-center text-niebla">Sem {w}</span>)}
+        </div>
+        {timeline.map((t) => (
+          <div class="grid grid-cols-[220px_repeat(8,minmax(0,1fr))] items-center border-b border-marfil/10 py-5">
+            <div class="pr-4">
+              <p class="cond text-2xl">{t.phase}</p>
+              <p class="mt-1 text-sm text-niebla">{t.detail}</p>
+            </div>
+            <div class="relative h-10" style={`grid-column:${t.start + 1} / ${t.end + 2}`}>
+              <div class="absolute inset-y-1 left-1 right-1 -skew-x-[20deg] bg-azul"></div>
+              {t.sprints?.map((s) => (
+                <span class="absolute inset-y-0 w-0.5 bg-noche" style={`left:${((s - t.start) / (t.end - t.start + 1)) * 100}%`} title={`Entrega parcial, semana ${s}`}></span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+    <p class="mt-5 text-sm text-niebla">Las marcas dentro de Desarrollo son entregas parciales: ves avances funcionando, no solo informes.</p>
+
+    <div class="mt-16 grid gap-8 md:grid-cols-3">
+      <div class="border-t border-marfil/30 pt-5">
+        <h3 class="text-lg font-semibold">El código es tuyo</h3>
+        <p class="mt-2 text-niebla">Te entregamos el repositorio, la documentación y una sesión para explicarte cómo está hecho.</p>
+      </div>
+      <div class="border-t border-marfil/30 pt-5">
+        <h3 class="text-lg font-semibold">Pruebas desde el inicio</h3>
+        <p class="mt-2 text-niebla">Escribimos pruebas automatizadas mientras construimos, no al final.</p>
+      </div>
+      <div class="border-t border-marfil/30 pt-5">
+        <h3 class="text-lg font-semibold">Nos puedes visitar</h3>
+        <p class="mt-2 text-niebla">Estamos en Yopal. Las reuniones pueden ser en persona.</p>
+      </div>
+    </div>
+  </div>
+</section>

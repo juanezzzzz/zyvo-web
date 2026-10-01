@@ -1,0 +1,13 @@
+---
+// Isotipo Zyvo (hexágono + banda). Colores por props o variables CSS.
+interface Props { size?: number | string; white?: string; band?: string; class?: string; title?: string }
+const { size = 40, white = 'currentColor', band = 'var(--color-azul)', class: cls = '', title } = Astro.props;
+const id = 'zc' + Math.random().toString(36).slice(2, 8);
+---
+<svg viewBox="0 0 200 200" width={size} height={size} class={cls} role={title ? 'img' : undefined} aria-label={title} aria-hidden={title ? undefined : 'true'}>
+  <defs><clipPath id={id}><polygon points="100,4 183,52 183,148 100,196 17,148 17,52" /></clipPath></defs>
+  <g transform="translate(100 100) scale(.94) translate(-100 -100)">
+    <path style={`fill:${white};stroke:${white};stroke-width:8;stroke-linejoin:round`} d="M22.06 88V55L100 10L177.94 55V88L100 46ZM177.94 112V145L100 190L22.06 145V112L100 154Z" />
+    <path clip-path={`url(#${id})`} style={`fill:${band}`} d="M10 102L64 79C80 72 88 93 100 100C112 93 125 76 149.4 69.6L190 52V106L136.1 122C120 128 112 107 100 100C88 107 75 124 50.6 130.4L10 147Z" />
+  </g>
+</svg>

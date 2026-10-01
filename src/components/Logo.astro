@@ -1,0 +1,12 @@
+---
+import Iso from './Iso.astro';
+interface Props { size?: number; class?: string; band?: string }
+const { size = 34, class: cls = '', band } = Astro.props;
+---
+<span class={`inline-flex items-center gap-2.5 ${cls}`} role="img" aria-label="Zyvo Solutions">
+  <Iso size={size} white="currentColor" band={band} />
+  <span class="grid leading-none" aria-hidden="true">
+    <span class="wide font-[750] tracking-[0.06em]" style={`font-size:${size * 0.5}px`}>ZYVO</span>
+    <span class="wide tracking-[0.6em] opacity-70" style={`font-size:${size * 0.16}px;margin-top:${size * 0.08}px`}>SOLUTIONS</span>
+  </span>
+</span>

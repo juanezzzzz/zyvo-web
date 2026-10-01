@@ -1,0 +1,25 @@
+---
+import { audiences } from '../data/site';
+---
+<section id="para-quien" class="bg-papel">
+  <div class="wrap py-20 md:py-28">
+    <div class="grid gap-6 md:grid-cols-12">
+      <h2 class="cond text-[clamp(2.8rem,7vw,5.5rem)] md:col-span-6">Para quién trabajamos</h2>
+      <p class="max-w-[46ch] self-end text-tinta-2 md:col-span-5 md:col-start-8">
+        No vendemos paquetes. Partimos de lo que hace tu organización y construimos lo que le hace falta.
+      </p>
+    </div>
+
+    <ul class="mt-14 border-b border-noche">
+      {audiences.map((a) => (
+        <li class="group grid gap-3 border-t border-noche py-7 md:grid-cols-12 md:items-baseline md:gap-8 md:py-9">
+          <h3 class="cond text-[clamp(1.9rem,3.6vw,3rem)] transition-colors group-hover:text-azul md:col-span-5">{a.who}</h3>
+          <p class="text-tinta-2 md:col-span-5">{a.what}</p>
+          <a href={a.case.href} class="meta text-noche underline decoration-noche/30 underline-offset-4 hover:decoration-azul md:col-span-2 md:justify-self-end">
+            Caso: {a.case.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

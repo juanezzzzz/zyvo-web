@@ -1,0 +1,55 @@
+---
+import { projects } from '../data/projects';
+import ProjectArt from './ProjectArt.astro';
+---
+<section id="trabajos">
+  <div class="wrap py-20 md:py-28">
+    <div class="grid gap-6 md:grid-cols-12">
+      <h2 class="cond text-[clamp(2.8rem,7vw,5.5rem)] md:col-span-7">Trabajos</h2>
+      <p class="max-w-[46ch] self-end text-tinta-2 md:col-span-5">
+        Cuatro proyectos, cuatro sectores. Cada uno empezó con un problema concreto de gente de aquí.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-20 md:gap-28">
+      {projects.map((p, i) => (
+        <article id={p.slug} class="grid gap-8 border-t border-noche pt-8 md:grid-cols-12 md:gap-10 md:pt-10">
+          <div class={`min-w-0 md:col-span-7 ${i % 2 ? 'md:order-2' : ''}`}>
+            <div class="overflow-hidden rounded-[4px]">
+              {p.image ? <img src={p.image} alt={`Captura de ${p.name}`} loading="lazy" class="block w-full" /> : <ProjectArt art={p.art} />}
+            </div>
+          </div>
+          <div class={`flex min-w-0 flex-col gap-6 md:col-span-5 ${i % 2 ? 'md:order-1' : ''}`}>
+            <div>
+              <p class="meta text-tinta-2">{p.sector}</p>
+              <h3 class="cond mt-2 text-[clamp(2.6rem,5vw,4.2rem)]">{p.name}</h3>
+              {p.award && (
+                <p class="mt-4 inline-flex items-center gap-3 bg-noche px-3 py-2 text-sm font-semibold text-marfil">
+                  <span class="h-3 w-5 -skew-x-[39deg] bg-azul" aria-hidden="true"></span>{p.award}
+                </p>
+              )}
+            </div>
+            <dl class="grid gap-5">
+              <div>
+                <dt class="meta text-azul-prof">El problema</dt>
+                <dd class="mt-1.5">{p.problem}</dd>
+              </div>
+              <div>
+                <dt class="meta text-azul-prof">Lo que hicimos</dt>
+                <dd class="mt-1.5">{p.built}</dd>
+              </div>
+              <div>
+                <dt class="meta text-azul-prof">Detalle</dt>
+                <dd class="mt-1.5 text-tinta-2">{p.detail}</dd>
+              </div>
+            </dl>
+            <p class="border-t border-noche/15 pt-4 font-mono text-[13px] text-tinta-2">{p.stack.join(' / ')}</p>
+            {p.links?.length ? (
+              <div class="flex flex-wrap gap-5">{p.links.map((l) => <a href={l.href} class="link-arrow" target="_blank" rel="noopener">{l.label} <span aria-hidden="true">↗</span></a>)}</div>
+            ) : null}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+---
+import { site } from '../data/site';
+---
+<section id="inicio" class="relative overflow-hidden">
+  <div class="wrap pt-10 md:pt-14">
+    <div class="meta flex flex-wrap justify-between gap-x-8 gap-y-1 border-b border-noche/15 pb-4 text-tinta-2">
+      <span>Estudio de software</span>
+      <span>{site.city}</span>
+      <span class="hidden sm:inline">{site.coords}</span>
+    </div>
+
+    <h1 class="cond mt-8 text-[clamp(3.6rem,12.5vw,11.5rem)] md:mt-12">
+      Software a la medida,<br /><span class="text-azul">hecho en el llano.</span>
+    </h1>
+  </div>
+
+  <!-- La banda del isotipo, estirada a todo el ancho -->
+  <svg class="band-in mt-6 block h-[clamp(64px,11vw,150px)] w-full md:mt-10" viewBox="10 50 180 100" preserveAspectRatio="none" aria-hidden="true">
+    <path fill="#4766F5" d="M10 102L64 79C80 72 88 93 100 100C112 93 125 76 149.4 69.6L190 52V106L136.1 122C120 128 112 107 100 100C88 107 75 124 50.6 130.4L10 147Z" />
+  </svg>
+
+  <div class="wrap grid gap-10 pb-20 pt-10 md:grid-cols-12 md:pb-28 md:pt-14">
+    <p class="text-xl leading-relaxed md:col-span-7 md:text-2xl">
+      Somos {site.team}, desarrolladores de Yopal. Hacemos aplicaciones web, APIs y plataformas para productores, instituciones, alcaldías y empresas de Casanare y del resto del país.
+    </p>
+    <div class="flex flex-col items-start gap-4 md:col-span-4 md:col-start-9 md:pt-2">
+      <a href="#contacto" class="link-arrow text-lg">Cuéntanos tu proyecto <span aria-hidden="true">→</span></a>
+      <a href="#trabajos" class="link-arrow text-lg text-tinta-2">Ver trabajos <span aria-hidden="true">↓</span></a>
+    </div>
+  </div>
+</section>
