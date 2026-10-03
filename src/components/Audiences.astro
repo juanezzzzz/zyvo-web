@@ -1,22 +1,24 @@
 ---
+import { ArrowRight } from '@lucide/astro';
 import { audiences } from '../data/site';
 ---
-<section id="para-quien" class="bg-papel">
-  <div class="wrap py-20 md:py-28">
-    <div class="grid gap-6 md:grid-cols-12">
-      <h2 class="cond text-[clamp(2.8rem,7vw,5.5rem)] md:col-span-6">Para quién trabajamos</h2>
-      <p class="max-w-[46ch] self-end text-tinta-2 md:col-span-5 md:col-start-8">
+<section id="para-quien" class="relative border-t border-white/10 bg-noche" aria-labelledby="para-quien-title">
+  <div class="wrap py-24 md:py-32">
+    <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+      <h2 id="para-quien-title" class="h-section lg:col-span-7">Para quién trabajamos</h2>
+      <p class="lede max-w-[46ch] lg:col-span-5 lg:justify-self-end">
         No vendemos paquetes. Partimos de lo que hace tu organización y construimos lo que le hace falta.
       </p>
     </div>
 
-    <ul class="mt-14 border-b border-noche">
+    <ul class="mt-14 border-b border-white/10">
       {audiences.map((a) => (
-        <li class="group grid gap-3 border-t border-noche py-7 md:grid-cols-12 md:items-baseline md:gap-8 md:py-9">
-          <h3 class="cond text-[clamp(1.9rem,3.6vw,3rem)] transition-colors group-hover:text-azul md:col-span-5">{a.who}</h3>
-          <p class="text-tinta-2 md:col-span-5">{a.what}</p>
-          <a href={a.case.href} class="meta text-noche underline decoration-noche/30 underline-offset-4 hover:decoration-azul md:col-span-2 md:justify-self-end">
-            Caso: {a.case.label}
+        <li class="group relative grid gap-3 border-t border-white/10 py-8 md:grid-cols-12 md:items-baseline md:gap-8 md:py-10">
+          <span class="absolute left-0 top-0 h-0.5 w-0 bg-banda transition-[width] duration-500 ease-out group-hover:w-full" aria-hidden="true"></span>
+          <h3 class="wide text-[clamp(1.5rem,2.6vw,2.1rem)] font-bold leading-tight md:col-span-5">{a.who}</h3>
+          <p class="max-w-[46ch] text-niebla-2 md:col-span-4">{a.what}</p>
+          <a href={`/proyectos/${a.case.slug}/`} class="inline-flex items-center gap-1.5 justify-self-start rounded-md py-1 text-sm font-semibold text-azul-luz transition-colors after:absolute after:inset-0 hover:text-marfil md:col-span-3 md:justify-self-end">
+            Ver el caso {a.case.label}<ArrowRight size={16} aria-hidden="true" />
           </a>
         </li>
       ))}

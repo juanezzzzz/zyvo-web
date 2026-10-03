@@ -1,0 +1,33 @@
+---
+import { MessageCircle } from '@lucide/astro';
+import { site } from '../data/site';
+---
+<!-- Atajo a WhatsApp: aparece al pasar el hero y se esconde cuando el formulario de contacto está en pantalla -->
+<a
+  id="wa-fab"
+  href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Zyvo, quiero hablar de un proyecto.')}`}
+  target="_blank"
+  rel="noopener"
+  data-show="false"
+  class="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex h-14 items-center gap-2.5 rounded-full bg-[#1FAF5A] pl-4 pr-5 font-semibold text-white shadow-[0_12px_30px_-8px_rgba(0,0,0,.6)] transition-[opacity,transform,background-color] duration-300 hover:bg-[#178F49] data-[show=false]:pointer-events-none data-[show=false]:translate-y-4 data-[show=false]:opacity-0 sm:right-6"
+  aria-label="Escríbenos por WhatsApp"
+>
+  <MessageCircle size={22} aria-hidden="true" />
+  <span class="hidden sm:inline">Escríbenos</span>
+</a>
+
+<script>
+  const fab = document.getElementById('wa-fab')!;
+  const contact = document.getElementById('contacto');
+  let contactVisible = false;
+  if (contact) {
+    new IntersectionObserver(([e]) => { contactVisible = e.isIntersecting; update(); }, { threshold: 0.15 }).observe(contact);
+  }
+  function update() {
+    const show = window.scrollY > window.innerHeight * 0.8 && !contactVisible;
+    fab.dataset.show = String(show);
+    fab.tabIndex = show ? 0 : -1;
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+</script>

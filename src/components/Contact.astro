@@ -1,93 +1,37 @@
 ---
+import { MessageCircle, Mail, MapPin } from '@lucide/astro';
+import ContactForm from './ContactForm';
 import { site } from '../data/site';
-const types = ['Aplicación web', 'API o backend', 'Plataforma educativa', 'Automatización o IA', 'Todavía no sé'];
-const field = 'w-full border-0 border-b-2 border-white/40 bg-transparent px-0 py-2.5 text-lg text-white placeholder:text-white/50 outline-none focus:border-white focus:ring-0';
+const channels = [
+  { label: 'WhatsApp', value: site.whatsappLabel, href: `https://wa.me/${site.whatsapp}`, icon: MessageCircle, external: true },
+  { label: 'Correo', value: site.email, href: `mailto:${site.email}`, icon: Mail },
+  { label: 'Ubicación', value: site.city, icon: MapPin },
+];
 ---
-<section id="contacto" class="bg-azul text-white">
-  <div class="wrap py-20 md:py-28">
-    <h2 class="cond text-[clamp(3.6rem,12vw,10rem)]">Hablemos.</h2>
+<section id="contacto" class="relative bg-marfil text-noche">
+  <div class="wrap grid gap-14 py-24 md:py-32 lg:grid-cols-12">
+    <div class="min-w-0 lg:col-span-5">
+      <h2 class="h-section">Cuéntanos qué quieres construir</h2>
+      <p class="mt-6 max-w-[44ch] text-lg text-tinta-2">Te respondemos en menos de 24 horas hábiles con preguntas concretas o una propuesta inicial.</p>
 
-    <div class="mt-12 grid gap-14 md:grid-cols-12">
-      <div class="min-w-0 md:col-span-5">
-        <p class="text-xl">Cuéntanos qué quieres construir, aunque todavía no lo tengas claro. Te respondemos con preguntas concretas o una primera propuesta.</p>
-        <dl class="mt-10 grid gap-6">
-          <div>
-            <dt class="meta text-white/85">Correo</dt>
-            <dd class="mt-1 flex flex-wrap items-center gap-3">
-              <a href={`mailto:${site.email}`} class="text-2xl font-semibold underline decoration-white/40 underline-offset-[6px] hover:decoration-white">{site.email}</a>
-              <button type="button" class="copy rounded-full border border-white/40 px-3 py-1 font-mono text-xs hover:border-white" data-copy={site.email}>Copiar</button>
-            </dd>
-          </div>
-          <div>
-            <dt class="meta text-white/85">WhatsApp</dt>
-            <dd class="mt-1"><a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" class="text-2xl font-semibold underline decoration-white/40 underline-offset-[6px] hover:decoration-white">{site.whatsappLabel}</a></dd>
-          </div>
-          <div>
-            <dt class="meta text-white/85">Dónde</dt>
-            <dd class="mt-1 text-2xl font-semibold">{site.city}</dd>
-          </div>
-        </dl>
-      </div>
-
-      <form id="contact-form" class="grid min-w-0 gap-7 md:col-span-6 md:col-start-7" data-endpoint={site.formEndpoint} data-wa={site.whatsapp} novalidate>
-        <div class="grid gap-7 sm:grid-cols-2">
-          <label class="grid gap-1"><span class="meta text-white/80">Nombre</span><input id="f-name" name="nombre" autocomplete="name" class={field} /></label>
-          <label class="grid gap-1"><span class="meta text-white/80">Correo o WhatsApp</span><input id="f-contact" name="contacto" autocomplete="email" class={field} /></label>
-        </div>
-        <label class="grid gap-1"><span class="meta text-white/80">Empresa u organización (opcional)</span><input id="f-company" name="empresa" autocomplete="organization" class={field} /></label>
-        <fieldset>
-          <legend class="meta mb-3 text-white/80">¿Qué necesitas?</legend>
-          <div class="flex flex-wrap gap-2">
-            {types.map((t, i) => (
-              <label class="cursor-pointer">
-                <input id={`f-type-${i}`} type="radio" name="tipo" value={t} class="peer sr-only" checked={i === 0} />
-                <span class="inline-block border border-white/50 px-3.5 py-2 text-sm transition-colors peer-checked:border-white peer-checked:bg-white peer-checked:text-azul-prof peer-focus-visible:outline-2 peer-focus-visible:outline-white">{t}</span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
-        <label class="grid gap-1"><span class="meta text-white/80">Cuéntanos un poco</span><textarea id="f-msg" name="mensaje" rows="3" class={field} placeholder="Ej.: llevamos el inventario de dos sedes en Excel y queremos un sistema"></textarea></label>
-        <div class="flex flex-wrap items-center gap-5">
-          <button type="submit" class="bg-noche px-7 py-4 font-semibold text-white transition-colors hover:bg-white hover:text-noche">Enviar mensaje</button>
-          <p id="form-status" class="text-sm text-white/90" role="status" aria-live="polite"></p>
-        </div>
-      </form>
+      <ul class="mt-12 grid gap-6">
+        {channels.map((c) => (
+          <li class="flex items-center gap-4">
+            <span class="hex-clip grid h-12 w-[2.6rem] shrink-0 place-items-center bg-noche text-marfil" aria-hidden="true"><c.icon size={18} /></span>
+            <span class="min-w-0">
+              <span class="block text-sm text-tinta-2">{c.label}</span>
+              {c.href ? (
+                <a class="font-semibold underline-offset-4 hover:text-azul-prof hover:underline" href={c.href} target={c.external ? '_blank' : undefined} rel={c.external ? 'noopener' : undefined}>{c.value}</a>
+              ) : (
+                <span class="font-semibold">{c.value}</span>
+              )}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="min-w-0 lg:col-span-7">
+      <ContactForm client:visible endpoint={site.formEndpoint} whatsapp={site.whatsapp} />
     </div>
   </div>
 </section>
-
-<script>
-  document.querySelectorAll<HTMLButtonElement>('button.copy').forEach((b) =>
-    b.addEventListener('click', () => {
-      const v = b.dataset.copy || '';
-      const done = (t: string) => { const o = b.textContent; b.textContent = t; setTimeout(() => (b.textContent = o), 1400); };
-      navigator.clipboard?.writeText(v).then(() => done('Copiado'), () => done(v));
-    }),
-  );
-
-  const form = document.getElementById('contact-form') as HTMLFormElement | null;
-  const status = document.getElementById('form-status');
-  const say = (t: string) => { if (status) status.textContent = t; };
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = new FormData(form);
-    const missing = ['nombre', 'contacto', 'mensaje'].some((k) => !String(data.get(k) || '').trim());
-    if (missing) return say('Falta tu nombre, cómo contactarte o qué necesitas.');
-    const endpoint = form.dataset.endpoint;
-    if (endpoint) {
-      say('Enviando…');
-      try {
-        const res = await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-        if (!res.ok) throw new Error();
-        form.reset();
-        say('Recibimos tu mensaje. Te escribimos pronto.');
-      } catch {
-        say('No se pudo enviar. Escríbenos al correo o por WhatsApp.');
-      }
-      return;
-    }
-    const text = `Hola Zyvo, soy ${data.get('nombre')}${data.get('empresa') ? ` de ${data.get('empresa')}` : ''}.\nNecesito: ${data.get('tipo')}\n${data.get('mensaje')}\nContacto: ${data.get('contacto')}`;
-    window.open(`https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
-    say('Abrimos WhatsApp con tu mensaje listo para enviar.');
-  });
-</script>

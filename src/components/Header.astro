@@ -1,34 +1,68 @@
 ---
 import Logo from './Logo.astro';
 import { nav } from '../data/site';
+// En el inicio los enlaces son anclas; desde otras páginas vuelven al inicio
+const home = Astro.url.pathname === '/';
+const to = (h: string) => (home ? h : `/${h}`);
 ---
-<header class="sticky top-0 z-50 border-b border-noche/15 bg-marfil/90 backdrop-blur" style="padding-top: env(safe-area-inset-top, 0px)">
-  <div class="wrap flex h-16 items-center justify-between gap-6">
-    <a href="#inicio" aria-label="Zyvo Solutions, inicio"><Logo size={30} /></a>
-    <nav aria-label="Principal" class="hidden items-center gap-8 text-[15px] lg:flex">
-      {nav.map((n) => <a href={n.href} class="text-tinta-2 transition-colors hover:text-noche">{n.label}</a>)}
+<header id="top-bar" style="view-transition-name: top-bar; padding-top: env(safe-area-inset-top, 0px)" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 border-b border-transparent data-[scrolled=true]:border-white/10 data-[scrolled=true]:bg-noche/95 data-[scrolled=true]:backdrop-blur-xl">
+  <div class="wrap flex h-[4.5rem] items-center justify-between gap-4">
+    <a href={home ? '#inicio' : '/'} class="text-marfil" aria-label="Zyvo Solutions, inicio"><Logo size={34} /></a>
+    <nav aria-label="Principal" class="hidden items-center gap-1 text-sm md:flex">
+      {nav.map((n) => (
+        <a href={to(n.href)} data-spy={home ? n.href.slice(1) : undefined} class="relative rounded-md px-3.5 py-2 text-niebla-2 transition-colors hover:text-marfil aria-[current=true]:text-marfil">
+          {n.label}
+          <span class="spy-bar absolute inset-x-3.5 -bottom-px h-0.5 origin-left scale-x-0 bg-azul transition-transform duration-300"></span>
+        </a>
+      ))}
     </nav>
-    <div class="flex items-center gap-3">
-      <a href="#contacto" class="hidden rounded-full bg-noche px-5 py-2.5 text-sm font-semibold text-marfil transition-colors hover:bg-azul sm:inline-block">Escríbenos</a>
-      <button id="menu-btn" type="button" class="grid h-10 w-10 place-items-center rounded-full border border-noche/20 lg:hidden" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
-        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 6h14M2 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+    <div class="flex items-center gap-2">
+      <a href={to('#contacto')} class="btn-primary hidden !py-2.5 sm:inline-flex">Cotiza tu proyecto</a>
+      <button id="menu-btn" type="button" class="grid h-11 w-11 place-items-center rounded-md border border-white/15 bg-noche/60 md:hidden" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path class="origin-center transition-transform" d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
       </button>
     </div>
   </div>
-  <nav id="menu" aria-label="Menú móvil" class="wrap hidden flex-col pb-4 lg:hidden">
-    {nav.map((n) => <a href={n.href} class="cond border-b border-noche/10 py-3 text-3xl">{n.label}</a>)}
-    <a href="#contacto" class="cond py-3 text-3xl text-azul">Escríbenos</a>
+  <nav id="menu" aria-label="Menú móvil" class="wrap hidden flex-col gap-1 border-t border-white/10 bg-noche/95 pb-5 pt-2 backdrop-blur-xl md:hidden">
+    {nav.map((n) => <a href={to(n.href)} class="rounded-md px-3 py-3 text-lg text-marfil hover:bg-acero">{n.label}</a>)}
+    <a href={to('#contacto')} class="btn-primary mt-3">Cotiza tu proyecto</a>
   </nav>
 </header>
 
+<style>
+  a[aria-current='true'] .spy-bar { transform: scaleX(1); }
+</style>
+
 <script>
-  const btn = document.getElementById('menu-btn');
-  const menu = document.getElementById('menu');
-  const set = (open: boolean) => {
-    btn?.setAttribute('aria-expanded', String(open));
-    menu?.classList.toggle('hidden', !open);
-    menu?.classList.toggle('flex', open);
+  const bar = document.getElementById('top-bar')!;
+  const btn = document.getElementById('menu-btn')!;
+  const menu = document.getElementById('menu')!;
+
+  const setMenu = (open: boolean) => {
+    btn.setAttribute('aria-expanded', String(open));
+    btn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    menu.classList.toggle('hidden', !open);
+    menu.classList.toggle('flex', open);
+    bar.dataset.scrolled = String(open || window.scrollY > 8);
   };
-  btn?.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
-  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => set(false)));
+  btn.addEventListener('click', () => setMenu(btn.getAttribute('aria-expanded') !== 'true'));
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', (e) => e.key === 'Escape' && setMenu(false));
+
+  const onScroll = () => { bar.dataset.scrolled = String(window.scrollY > 8 || btn.getAttribute('aria-expanded') === 'true'); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Marca en el menú la sección que está en pantalla
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-spy]')];
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        links.forEach((l) => l.setAttribute('aria-current', String(l.dataset.spy === e.target.id)));
+      }
+    },
+    { rootMargin: '-45% 0px -50% 0px' },
+  );
+  links.forEach((l) => { const s = document.getElementById(l.dataset.spy!); if (s) io.observe(s); });
 </script>

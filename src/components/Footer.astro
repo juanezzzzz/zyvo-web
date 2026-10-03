@@ -1,23 +1,41 @@
 ---
+import { ArrowUpRight } from '@lucide/astro';
 import Logo from './Logo.astro';
 import { site, nav } from '../data/site';
 const year = new Date().getFullYear();
+const home = Astro.url.pathname === '/';
+const [a, b, c] = site.tagline.split(' ');
 ---
-<footer class="bg-noche text-marfil">
-  <div class="wrap grid gap-10 py-14 md:grid-cols-12">
-    <div class="md:col-span-5">
-      <Logo size={40} />
-      <p class="cond mt-8 text-4xl text-niebla">{site.tagline}</p>
+<footer class="relative overflow-hidden bg-carbon">
+  <svg class="absolute inset-x-0 top-0 h-6 w-full" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 0h1440v8H900l-14 16H0Z" fill="#2456E8" />
+  </svg>
+  <div class="wrap pb-10 pt-24">
+    <p class="display text-[clamp(2.4rem,7.5vw,6.5rem)] leading-[0.95] text-marfil">
+      <span class="block">{a}</span><span class="block text-metal/80">{b}</span><span class="block text-metal/50">{c}</span>
+    </p>
+
+    <div class="mt-20 grid gap-10 border-t border-white/10 pt-12 md:grid-cols-12">
+      <div class="md:col-span-6">
+        <Logo size={40} class="text-marfil" />
+        <p class="mt-4 max-w-[38ch] text-niebla-2">Software a la medida y contenido para desarrolladores, hecho en {site.city}.</p>
+      </div>
+      <nav aria-label="Pie de página" class="md:col-span-3">
+        <h2 class="text-sm text-niebla">Navegación</h2>
+        <ul class="mt-4 grid gap-2.5">{nav.map((n) => <li><a href={home ? n.href : `/${n.href}`} class="text-niebla-2 transition-colors hover:text-marfil">{n.label}</a></li>)}</ul>
+      </nav>
+      <div class="md:col-span-3">
+        <h2 class="text-sm text-niebla">Redes</h2>
+        <ul class="mt-4 grid gap-2.5">
+          {site.social.map((s) => (
+            <li><a href={s.href} target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-niebla-2 transition-colors hover:text-marfil">{s.label}<ArrowUpRight size={14} aria-hidden="true" /></a></li>
+          ))}
+        </ul>
+      </div>
     </div>
-    <nav aria-label="Pie de página" class="md:col-span-3 md:col-start-7">
-      <ul class="grid gap-2">{[...nav, { label: 'Contacto', href: '#contacto' }].map((n) => <li><a href={n.href} class="text-niebla hover:text-marfil">{n.label}</a></li>)}</ul>
-    </nav>
-    <ul class="grid content-start gap-2 md:col-span-3">
-      {site.social.map((s) => <li><a href={s.href} target="_blank" rel="noopener" class="text-niebla hover:text-marfil">{s.label} ↗</a></li>)}
-    </ul>
-  </div>
-  <div class="wrap meta flex flex-wrap justify-between gap-3 border-t border-marfil/15 py-6 text-niebla">
-    <span>© {year} {site.name}</span>
-    <span>{site.city} · {site.coords}</span>
+    <div class="mt-12 flex flex-wrap justify-between gap-3 text-sm text-niebla">
+      <span>© {year} {site.name}, {site.team}</span>
+      <span>Hecho en Casanare</span>
+    </div>
   </div>
 </footer>
