@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import { ArrowRight } from '@lucide/astro';
 import { audiences } from '../data/site';
 ---
@@ -17,7 +18,7 @@ import { audiences } from '../data/site';
           <span class="absolute left-0 top-0 h-0.5 w-0 bg-banda transition-[width] duration-500 ease-out group-hover:w-full" aria-hidden="true"></span>
           <h3 class="wide text-[clamp(1.5rem,2.6vw,2.1rem)] font-bold leading-tight md:col-span-5">{a.who}</h3>
           <p class="max-w-[46ch] text-niebla-2 md:col-span-4">{a.what}</p>
-          <a href={`/proyectos/${a.case.slug}/`} class="inline-flex items-center gap-1.5 justify-self-start rounded-md py-1 text-sm font-semibold text-azul-luz transition-colors after:absolute after:inset-0 hover:text-marfil md:col-span-3 md:justify-self-end">
+          <a href={url(`/proyectos/${a.case.slug}/`)} class="inline-flex items-center gap-1.5 justify-self-start rounded-md py-1 text-sm font-semibold text-azul-luz transition-colors after:absolute after:inset-0 hover:text-marfil md:col-span-3 md:justify-self-end">
             Ver el caso {a.case.label}<ArrowRight size={16} aria-hidden="true" />
           </a>
         </li>

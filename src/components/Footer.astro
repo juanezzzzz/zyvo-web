@@ -1,9 +1,10 @@
 ---
+import { url, isHome } from '../lib/url';
 import { ArrowUpRight } from '@lucide/astro';
 import Logo from './Logo.astro';
 import { site, nav } from '../data/site';
 const year = new Date().getFullYear();
-const home = Astro.url.pathname === '/';
+const home = isHome(Astro.url.pathname);
 const [a, b, c] = site.tagline.split(' ');
 ---
 <footer class="relative overflow-hidden bg-carbon">
@@ -22,7 +23,7 @@ const [a, b, c] = site.tagline.split(' ');
       </div>
       <nav aria-label="Pie de página" class="md:col-span-3">
         <h2 class="text-sm text-niebla">Navegación</h2>
-        <ul class="mt-4 grid gap-2.5">{nav.map((n) => <li><a href={home ? n.href : `/${n.href}`} class="text-niebla-2 transition-colors hover:text-marfil">{n.label}</a></li>)}</ul>
+        <ul class="mt-4 grid gap-2.5">{nav.map((n) => <li><a href={home ? n.href : url(`/${n.href}`)} class="text-niebla-2 transition-colors hover:text-marfil">{n.label}</a></li>)}</ul>
       </nav>
       <div class="md:col-span-3">
         <h2 class="text-sm text-niebla">Redes</h2>

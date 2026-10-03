@@ -1,8 +1,9 @@
+import { url } from '../lib/url';
 import { accents, type Project } from '../lib/projects';
 
 /** Portada del proyecto: su captura si existe; si no, una generada con la marca (hexágono, banda e iniciales). */
 export default function ProjectCover({ p, large = false }: { p: Project; large?: boolean }) {
-  if (p.image) return <img src={p.image} alt={`Captura de ${p.name}`} className="h-full w-full object-cover" loading={large ? 'eager' : 'lazy'} />;
+  if (p.image) return <img src={url(p.image)} alt={`Captura de ${p.name}`} className="h-full w-full object-cover" loading={large ? 'eager' : 'lazy'} />;
   const c = accents[p.accent];
   const initials = p.name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
   return (

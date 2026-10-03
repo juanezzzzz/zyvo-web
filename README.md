@@ -36,7 +36,7 @@ Requiere Node 18.20+ (recomendado Node 20 o 22).
 | Servicios, pasos del proceso, tecnologías | `src/data/site.ts` |
 | Proyectos y sus páginas de caso | `src/content/proyectos/*.md` |
 | Colores y fuentes de marca | `src/styles/global.css` (bloque `@theme`) |
-| Dominio para SEO | `astro.config.mjs` → `site` |
+| Dominio para SEO | Lo pone el workflow de Pages; en local, `astro.config.mjs` → `site` |
 
 ### Agregar un proyecto
 
@@ -60,10 +60,19 @@ La imagen para compartir en redes (`/og/<proyecto>.png`) se genera sola al compi
 
 ## Desplegar
 
-Es un sitio estático: sirve en cualquier hosting.
+### GitHub Pages (configurado)
 
-- **Vercel / Netlify:** importa el repo; detectan Astro solos (build `npm run build`, salida `dist`).
-- **GitHub Pages:** usa la acción oficial `withastro/action`. Si el sitio queda en `usuario.github.io/repo`, agrega `base: '/repo'` en `astro.config.mjs`.
+El workflow `.github/workflows/deploy.yml` compila y publica la web en cada push a `main`. También se puede lanzar a mano desde la pestaña **Actions**.
+
+- URL: https://juanezzzzz.github.io/zyvo-web/
+- Requisito (una sola vez): **Settings → Pages → Source: GitHub Actions**.
+- El dominio y la subcarpeta (`/zyvo-web`) los pone el workflow. En el código, usa siempre `url('/ruta')` de `src/lib/url.ts` para enlaces internos, nunca `href="/ruta"` directo, o se romperán en Pages.
+
+**Dominio propio:** en Settings → Pages → Custom domain escribe el dominio (ej. `zyvosolutions.com`) y configura el DNS como indica GitHub. El siguiente despliegue usa el dominio y quita la subcarpeta solo, sin cambiar código.
+
+### Otros hostings
+
+Es un sitio estático (`npm run build` → carpeta `dist`). Vercel y Netlify detectan Astro solos.
 
 ## Estructura
 
@@ -84,5 +93,5 @@ public/         favicon.svg, /projects (capturas)
 ## Pendientes antes de publicar
 
 - [ ] Reemplazar correo, WhatsApp y redes de ejemplo en `src/data/site.ts`.
-- [ ] Poner el dominio real en `astro.config.mjs`.
+- [ ] (Opcional) Conectar un dominio propio en Settings → Pages.
 - [ ] Agregar capturas reales de los proyectos y enlaces a demos o repos.

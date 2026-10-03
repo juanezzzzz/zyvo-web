@@ -1,4 +1,5 @@
 ---
+import { url } from '../lib/url';
 import { Image } from 'astro:assets';
 import zy from '../assets/zy-robot.webp';
 import Base from '../layouts/Base.astro';
@@ -17,8 +18,8 @@ import Header from '../components/Header.astro';
         <h1 class="display mt-3 text-[clamp(2.5rem,6vw,5rem)] leading-[1]">Esta página no existe</h1>
         <p class="lede mt-6 max-w-[46ch]">Puede que el enlace esté mal escrito o que la página se haya movido. Desde el inicio encuentras todo.</p>
         <div class="mt-9 flex flex-wrap gap-3">
-          <a href="/" class="btn-primary !px-6 !py-3.5 text-base">Ir al inicio</a>
-          <a href="/#proyectos" class="btn-ghost !px-6 !py-3.5 text-base">Ver proyectos</a>
+          <a href={url()} class="btn-primary !px-6 !py-3.5 text-base">Ir al inicio</a>
+          <a href={url('/#proyectos')} class="btn-ghost !px-6 !py-3.5 text-base">Ver proyectos</a>
         </div>
       </div>
       <div class="md:col-span-5">

@@ -1,3 +1,4 @@
+import { url } from '../lib/url';
 import { useId, useRef, useState, type KeyboardEvent } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 import { ArrowRight, ArrowUpRight, Trophy } from 'lucide-react';
@@ -83,7 +84,7 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className="overflow-hidden rounded-xl border border-white/10 bg-acero"
             >
-              <a href={`/proyectos/${p.slug}/`} className="group/cover relative block aspect-[16/8] overflow-hidden" style={{ viewTransitionName: `cover-${p.slug}` }} aria-label={`Ver el caso de ${p.name}`}>
+              <a href={url(`/proyectos/${p.slug}/`)} className="group/cover relative block aspect-[16/8] overflow-hidden" style={{ viewTransitionName: `cover-${p.slug}` }} aria-label={`Ver el caso de ${p.name}`}>
                 <ProjectCover p={p} />
                 {p.highlight && (
                   <span className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-md bg-senal px-3 py-1.5 text-sm font-semibold text-carbon">
@@ -98,7 +99,7 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
                   <h3 className="display mt-2 text-3xl md:text-4xl">{p.name}</h3>
                   <p className="mt-4 text-niebla-2">{p.summary}</p>
                   <div className="mt-6 flex flex-wrap gap-3">
-                    <a href={`/proyectos/${p.slug}/`} className="btn-primary">
+                    <a href={url(`/proyectos/${p.slug}/`)} className="btn-primary">
                       Ver el caso completo <ArrowRight size={16} aria-hidden="true" />
                     </a>
                     {p.links?.map((l) => (

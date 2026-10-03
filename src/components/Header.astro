@@ -1,13 +1,14 @@
 ---
+import { url, isHome } from '../lib/url';
 import Logo from './Logo.astro';
 import { nav } from '../data/site';
 // En el inicio los enlaces son anclas; desde otras páginas vuelven al inicio
-const home = Astro.url.pathname === '/';
-const to = (h: string) => (home ? h : `/${h}`);
+const home = isHome(Astro.url.pathname);
+const to = (h: string) => (home ? h : url(`/${h}`));
 ---
 <header id="top-bar" style="view-transition-name: top-bar; padding-top: env(safe-area-inset-top, 0px)" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 border-b border-transparent data-[scrolled=true]:border-white/10 data-[scrolled=true]:bg-noche/95 data-[scrolled=true]:backdrop-blur-xl">
   <div class="wrap flex h-[4.5rem] items-center justify-between gap-4">
-    <a href={home ? '#inicio' : '/'} class="text-marfil" aria-label="Zyvo Solutions, inicio"><Logo size={34} /></a>
+    <a href={home ? '#inicio' : url()} class="text-marfil" aria-label="Zyvo Solutions, inicio"><Logo size={34} /></a>
     <nav aria-label="Principal" class="hidden items-center gap-1 text-sm md:flex">
       {nav.map((n) => (
         <a href={to(n.href)} data-spy={home ? n.href.slice(1) : undefined} class="relative rounded-md px-3.5 py-2 text-niebla-2 transition-colors hover:text-marfil aria-[current=true]:text-marfil">
