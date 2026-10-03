@@ -11,25 +11,25 @@ const [a, b, c] = site.tagline.split(' ');
   <svg class="absolute inset-x-0 top-0 h-6 w-full" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0 0h1440v8H900l-14 16H0Z" fill="#2456E8" />
   </svg>
-  <div class="wrap pb-10 pt-24">
+  <div class="wrap pb-24 pt-16 sm:pb-10 sm:pt-24">
     <p class="display text-[clamp(2.4rem,7.5vw,6.5rem)] leading-[0.95] text-marfil">
       <span class="block">{a}</span><span class="block text-metal/80">{b}</span><span class="block text-metal/50">{c}</span>
     </p>
 
-    <div class="mt-20 grid gap-10 border-t border-white/10 pt-12 md:grid-cols-12">
-      <div class="md:col-span-6">
+    <div class="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t sm:mt-20 border-white/10 pt-12 md:grid-cols-12">
+      <div class="col-span-2 md:col-span-6">
         <Logo size={40} class="text-marfil" />
         <p class="mt-4 max-w-[38ch] text-niebla-2">Software a la medida y contenido para desarrolladores, hecho en {site.city}.</p>
       </div>
-      <nav aria-label="Pie de página" class="md:col-span-3">
+      <nav aria-label="Pie de página" class="col-span-1 md:col-span-3">
         <h2 class="text-sm text-niebla">Navegación</h2>
-        <ul class="mt-4 grid gap-2.5">{nav.map((n) => <li><a href={home ? n.href : url(`/${n.href}`)} class="text-niebla-2 transition-colors hover:text-marfil">{n.label}</a></li>)}</ul>
+        <ul class="mt-2 grid">{nav.map((n) => <li><a href={home ? n.href : url(`/${n.href}`)} class="inline-flex min-h-11 items-center text-niebla-2 transition-colors hover:text-marfil">{n.label}</a></li>)}</ul>
       </nav>
-      <div class="md:col-span-3">
+      <div class="col-span-1 md:col-span-3">
         <h2 class="text-sm text-niebla">Redes</h2>
-        <ul class="mt-4 grid gap-2.5">
+        <ul class="mt-2 grid">
           {site.social.map((s) => (
-            <li><a href={s.href} target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-niebla-2 transition-colors hover:text-marfil">{s.label}<ArrowUpRight size={14} aria-hidden="true" /></a></li>
+            <li><a href={s.href} target="_blank" rel="noopener" class="inline-flex min-h-11 items-center gap-1 text-niebla-2 transition-colors hover:text-marfil">{s.label}<ArrowUpRight size={14} aria-hidden="true" /></a></li>
           ))}
         </ul>
       </div>

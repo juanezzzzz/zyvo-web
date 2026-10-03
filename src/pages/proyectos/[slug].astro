@@ -28,13 +28,13 @@ const c = accents[p.accent];
   <main id="main" class="bg-carbon pt-[4.5rem]">
     <article>
       <header class="wrap pt-10 md:pt-16">
-        <a href={url('/#proyectos')} class="inline-flex items-center gap-2 rounded-md py-2 text-sm text-niebla-2 transition-colors hover:text-marfil">
+        <a href={url('/#proyectos')} class="inline-flex min-h-11 items-center gap-2 rounded-md text-sm text-niebla-2 transition-colors hover:text-marfil">
           <ArrowLeft size={16} aria-hidden="true" /> Todos los proyectos
         </a>
         <div class="mt-8 grid gap-10 lg:grid-cols-12 lg:items-end">
           <div class="min-w-0 lg:col-span-8">
             <p class="text-niebla-2">{p.kind}</p>
-            <h1 class="display mt-3 text-[clamp(2.6rem,7vw,6rem)] leading-[0.98]">{p.name}</h1>
+            <h1 class="display mt-3 text-[clamp(2.6rem,7vw,6rem)] leading-[0.98]" translate="no">{p.name}</h1>
             <p class="lede mt-6 max-w-[58ch]">{p.summary}</p>
           </div>
           <dl class="grid grid-cols-2 gap-x-6 gap-y-5 border-t border-white/10 pt-6 sm:grid-cols-3 lg:col-span-4 lg:grid-cols-1 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
@@ -75,7 +75,7 @@ const c = accents[p.accent];
             <section>
               <h2 class="font-semibold">Tecnologías</h2>
               <ul class="mt-4 flex flex-wrap gap-1.5">
-                {p.stack.map((t) => <li class="rounded bg-acero px-2.5 py-1 font-mono text-xs text-niebla-2">{t}</li>)}
+                {p.stack.map((t) => <li class="rounded bg-acero px-2.5 py-1 font-mono text-[13px] text-niebla-2 sm:text-xs">{t}</li>)}
               </ul>
             </section>
             {p.links.length > 0 && (
@@ -100,7 +100,7 @@ const c = accents[p.accent];
           <h2 id="cta-title" class="h-section">¿Tienes un reto parecido?</h2>
           <p class="lede mt-4 max-w-[52ch]">Cuéntanos qué necesitas. Te respondemos en menos de 24 horas hábiles con preguntas concretas o una propuesta inicial.</p>
         </div>
-        <div class="flex flex-wrap gap-3 md:col-span-4 md:justify-end">
+        <div class="grid gap-3 sm:flex sm:flex-wrap md:col-span-4 md:justify-end">
           <a href={url('/#contacto')} class="btn-primary !px-6 !py-3.5 text-base">Cotiza tu proyecto</a>
           <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" class="btn-ghost !px-6 !py-3.5 text-base"><MessageCircle size={18} aria-hidden="true" /> WhatsApp</a>
         </div>

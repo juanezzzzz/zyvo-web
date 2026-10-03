@@ -82,6 +82,34 @@ export const audiences = [
   },
 ];
 
+// Preguntas frecuentes (también se publican como FAQPage para Google)
+export const faq = [
+  {
+    q: '¿Cuánto cuesta un proyecto?',
+    a: 'Depende de lo que haya que construir. Después del diagnóstico te entregamos una propuesta con tiempos y costos concretos, sin letra pequeña, y decides si seguimos.',
+  },
+  {
+    q: '¿Cuánto tiempo toma?',
+    a: 'El diagnóstico toma una semana y el diseño entre una y dos. El desarrollo depende del alcance, pero cada dos semanas recibes una entrega que puedes probar.',
+  },
+  {
+    q: '¿El código queda a mi nombre?',
+    a: 'Sí. Te entregamos el repositorio, la documentación y una explicación de cada decisión técnica. El proyecto es tuyo.',
+  },
+  {
+    q: '¿Qué pasa después de la entrega?',
+    a: 'Desplegamos el sistema, capacitamos a tu equipo y te acompañamos después de salir a producción.',
+  },
+  {
+    q: '¿Pueden mejorar un sistema que ya tengo?',
+    a: 'Sí. Revisamos lo que ya usas y te decimos qué conviene mejorar, integrar o reemplazar, desde una integración puntual hasta una plataforma completa.',
+  },
+  {
+    q: '¿Solo trabajan con empresas de Casanare?',
+    a: 'Estamos en Yopal y podemos reunirnos en persona. Si estás en otra ciudad, trabajamos por videollamada con las mismas entregas cada dos semanas.',
+  },
+];
+
 export const process = [
   { title: 'Diagnóstico', text: 'Entendemos el problema contigo, levantamos requisitos y definimos qué sí y qué no entra.', time: '1 semana' },
   { title: 'Diseño', text: 'Prototipo navegable y arquitectura técnica. Lo validas antes de escribir la primera línea.', time: '1–2 semanas' },

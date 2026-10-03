@@ -40,6 +40,9 @@
   h1, h2, h3 { text-wrap: balance; line-height: 1.04; }
   p { text-wrap: pretty; }
   ::selection { background: var(--color-azul); color: #fff; }
+  /* Táctil: sin destello gris al tocar y sin espera de doble toque */
+  html { color-scheme: dark; -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; }
+  a, button, label, input, textarea { touch-action: manipulation; }
   :focus-visible { outline: 2px solid var(--color-azul-luz); outline-offset: 3px; border-radius: 4px; }
 }
 

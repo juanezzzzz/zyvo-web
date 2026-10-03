@@ -2,7 +2,7 @@
 import { MessageCircle } from '@lucide/astro';
 import { site } from '../data/site';
 ---
-<!-- Atajo a WhatsApp: aparece al pasar el hero y se esconde cuando el formulario de contacto está en pantalla -->
+<!-- Atajo a WhatsApp: aparece al pasar el hero, se esconde al bajar y cuando el formulario de contacto está en pantalla -->
 <a
   id="wa-fab"
   href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Zyvo, quiero hablar de un proyecto.')}`}
@@ -23,8 +23,13 @@ import { site } from '../data/site';
   if (contact) {
     new IntersectionObserver(([e]) => { contactVisible = e.isIntersecting; update(); }, { threshold: 0.15 }).observe(contact);
   }
+  // Se esconde mientras bajas (lees) y vuelve al subir, para no tapar el contenido
+  let lastY = window.scrollY;
+  let goingDown = false;
   function update() {
-    const show = window.scrollY > window.innerHeight * 0.8 && !contactVisible;
+    const y = window.scrollY;
+    if (Math.abs(y - lastY) > 6) { goingDown = y > lastY; lastY = y; }
+    const show = y > window.innerHeight * 0.8 && !contactVisible && !goingDown;
     fab.dataset.show = String(show);
     fab.tabIndex = show ? 0 : -1;
   }

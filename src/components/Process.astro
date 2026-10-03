@@ -5,7 +5,7 @@ import { process, stack } from '../data/site';
 const icons = [Search, PenTool, Code, Rocket];
 ---
 <section id="proceso" class="relative overflow-hidden bg-noche">
-  <div class="wrap py-24 md:py-32">
+  <div class="wrap py-16 sm:py-24 md:py-32">
     <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
       <h2 class="h-section lg:col-span-7">Cómo trabajamos contigo</h2>
       <p class="lede max-w-[46ch] lg:col-span-5 lg:justify-self-end">
@@ -13,7 +13,7 @@ const icons = [Search, PenTool, Code, Rocket];
       </p>
     </div>
 
-    <div id="process-track" class="relative mt-16 lg:mt-24">
+    <div id="process-track" class="relative mt-12 lg:mt-24">
       <svg id="process-svg" class="pointer-events-none absolute inset-0 h-full w-full overflow-visible" aria-hidden="true">
         <path id="process-ghost" class="band-path" stroke-width="22" style="stroke: var(--color-grafito); opacity:.6" />
         <path id="process-band" class="band-path" stroke-width="22" />
@@ -38,7 +38,7 @@ const icons = [Search, PenTool, Code, Rocket];
       </ol>
     </div>
 
-    <div class="mt-24 grid gap-10 border-t border-white/10 pt-12 md:grid-cols-12">
+    <div class="mt-16 grid gap-8 border-t sm:mt-24 sm:gap-10 border-white/10 pt-12 md:grid-cols-12">
       <h3 class="wide text-xl font-bold md:col-span-3">Con qué construimos</h3>
       <dl class="grid gap-x-10 gap-y-6 sm:grid-cols-2 md:col-span-9 lg:grid-cols-4">
         {stack.map((g) => (

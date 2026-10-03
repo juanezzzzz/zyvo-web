@@ -1,0 +1,40 @@
+---
+import { Plus } from '@lucide/astro';
+import { faq } from '../data/site';
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<section id="preguntas" class="relative border-t border-white/10 bg-carbon" aria-labelledby="faq-title">
+  <div class="wrap grid gap-10 py-16 sm:py-24 md:py-32 lg:grid-cols-12 lg:gap-6">
+    <div class="lg:col-span-4">
+      <h2 id="faq-title" class="h-section">Preguntas frecuentes</h2>
+      <p class="lede mt-5 max-w-[34ch]">Lo que casi todos nos preguntan antes de empezar. ¿Tienes otra duda? <a href="#contacto" class="text-marfil underline decoration-azul decoration-2 underline-offset-4 hover:text-azul-luz">Escríbenos</a>.</p>
+    </div>
+    <div class="border-t border-white/10 lg:col-span-7 lg:col-start-6">
+      {faq.map((f, i) => (
+        <details class="faq group border-b border-white/10" open={i === 0}>
+          <summary class="flex min-h-16 cursor-pointer list-none items-center justify-between gap-6 py-5 text-left [&::-webkit-details-marker]:hidden">
+            <span class="wide text-lg font-bold leading-snug sm:text-xl">{f.q}</span>
+            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-niebla-2 transition-[transform,background-color,color,border-color] duration-300 group-open:rotate-45 group-open:border-azul group-open:bg-azul group-open:text-white" aria-hidden="true">
+              <Plus size={18} />
+            </span>
+          </summary>
+          <p class="faq-a max-w-[60ch] pb-6 pr-14 text-niebla-2">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</section>
+
+<style>
+  /* Apertura suave donde el navegador lo soporta (interpolate-size); en el resto abre al instante */
+  @media (prefers-reduced-motion: no-preference) {
+    .faq { interpolate-size: allow-keywords; }
+    .faq::details-content { block-size: 0; overflow: hidden; transition: block-size .35s var(--ease-out-expo), content-visibility .35s allow-discrete; }
+    .faq[open]::details-content { block-size: auto; }
+  }
+</style>

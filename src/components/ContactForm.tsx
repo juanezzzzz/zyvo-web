@@ -25,7 +25,7 @@ type Values = z.infer<typeof schema>;
 type Props = { endpoint: string; whatsapp: string };
 
 const field =
-  'w-full rounded-md border bg-white px-3.5 py-3 text-noche outline-none transition-[border-color,box-shadow] placeholder:text-tinta-2/60 focus:border-azul focus:ring-4 focus:ring-azul/15';
+  'w-full rounded-md border bg-white px-3.5 py-3 text-base text-noche outline-none transition-[border-color,box-shadow] placeholder:text-tinta-2/60 focus:border-azul focus:ring-4 focus:ring-azul/15';
 
 export default function ContactForm({ endpoint, whatsapp }: Props) {
   const [sent, setSent] = useState<null | 'mail' | 'wa'>(null);
@@ -111,7 +111,7 @@ export default function ContactForm({ endpoint, whatsapp }: Props) {
                 </label>
                 <label className="grid gap-1.5 text-sm font-medium text-noche">
                   Correo o WhatsApp
-                  <input {...register('contacto')} {...aria('contacto')} autoComplete="email" className={`${field} ${border('contacto')}`} />
+                  <input {...register('contacto')} {...aria('contacto')} autoComplete="email" autoCapitalize="none" spellCheck={false} className={`${field} ${border('contacto')}`} />
                   {err('contacto')}
                 </label>
               </div>
@@ -127,7 +127,7 @@ export default function ContactForm({ endpoint, whatsapp }: Props) {
                   {types.map((t) => (
                     <label key={t} className="cursor-pointer">
                       <input type="radio" value={t} {...register('tipo')} className="peer sr-only" />
-                      <span className="inline-block rounded-md border border-noche/15 px-3.5 py-2 text-sm text-noche transition-colors peer-checked:border-azul peer-checked:bg-azul peer-checked:text-white peer-focus-visible:ring-4 peer-focus-visible:ring-azul/25 hover:border-noche/40">
+                      <span className="inline-flex min-h-11 items-center rounded-md border border-noche/15 px-3.5 text-sm text-noche transition-colors peer-checked:border-azul peer-checked:bg-azul peer-checked:text-white peer-focus-visible:ring-4 peer-focus-visible:ring-azul/25 hover:border-noche/40">
                         {t}
                       </span>
                     </label>
@@ -141,7 +141,7 @@ export default function ContactForm({ endpoint, whatsapp }: Props) {
                   {...aria('mensaje')}
                   rows={4}
                   className={`${field} ${border('mensaje')} resize-y`}
-                  placeholder="Ej.: un sistema para manejar inventario y ventas en dos sedes"
+                  placeholder="Ej.: un sistema para manejar inventario y ventas en dos sedes…"
                 />
                 {err('mensaje')}
               </label>

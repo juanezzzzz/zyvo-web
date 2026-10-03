@@ -5,7 +5,7 @@ import { services } from '../data/site';
 const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircuit } as const;
 ---
 <section id="servicios" class="relative bg-noche">
-  <div class="wrap py-24 md:py-32">
+  <div class="wrap py-16 sm:py-24 md:py-32">
     <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
       <h2 class="h-section lg:col-span-7">Lo que hacemos por tu empresa</h2>
       <p class="lede max-w-[46ch] lg:col-span-5 lg:justify-self-end">
@@ -13,12 +13,13 @@ const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircu
       </p>
     </div>
 
-    <div class="mt-16 grid border-t border-white/10 md:grid-cols-2">
+    <div class="mt-10 grid border-t sm:mt-16 border-white/10 md:grid-cols-2">
       {services.map((s, i) => {
         const Icon = icons[s.icon as keyof typeof icons];
         return (
-          <article class:list={['group flex gap-6 border-b border-white/10 py-10 sm:gap-8 md:py-12', i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10']}>
-            <HexBadge size={76} band={i % 2 === 0 ? 'bottom' : 'right'} class="transition-transform duration-500 group-hover:-translate-y-1">
+          <article class:list={['group flex flex-col gap-5 border-b border-white/10 py-9 sm:flex-row sm:gap-8 md:py-12', i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10']}>
+            <HexBadge size={64} class="sm:hidden" band={i % 2 === 0 ? 'bottom' : 'right'}><Icon /></HexBadge>
+            <HexBadge size={76} band={i % 2 === 0 ? 'bottom' : 'right'} class="max-sm:!hidden transition-transform duration-500 group-hover:-translate-y-1">
               <Icon />
             </HexBadge>
             <div class="min-w-0">

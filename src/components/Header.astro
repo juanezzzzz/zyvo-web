@@ -1,5 +1,7 @@
 ---
+import { MessageCircle } from '@lucide/astro';
 import { url, isHome } from '../lib/url';
+import { site } from '../data/site';
 import Logo from './Logo.astro';
 import { nav } from '../data/site';
 // En el inicio los enlaces son anclas; desde otras páginas vuelven al inicio
@@ -20,35 +22,73 @@ const to = (h: string) => (home ? h : url(`/${h}`));
     <div class="flex items-center gap-2">
       <a href={to('#contacto')} class="btn-primary hidden !py-2.5 sm:inline-flex">Cotiza tu proyecto</a>
       <button id="menu-btn" type="button" class="grid h-11 w-11 place-items-center rounded-md border border-white/15 bg-noche/60 md:hidden" aria-expanded="false" aria-controls="menu" aria-label="Abrir menú">
-        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path class="origin-center transition-transform" d="M2 5h14M2 9h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" class="menu-icon" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <path class="l1" d="M2 5h14" /><path class="l2" d="M2 9h14" /><path class="l3" d="M2 13h14" />
+        </svg>
       </button>
     </div>
   </div>
-  <nav id="menu" aria-label="Menú móvil" class="wrap hidden flex-col gap-1 border-t border-white/10 bg-noche/95 pb-5 pt-2 backdrop-blur-xl md:hidden">
-    {nav.map((n) => <a href={to(n.href)} class="rounded-md px-3 py-3 text-lg text-marfil hover:bg-acero">{n.label}</a>)}
-    <a href={to('#contacto')} class="btn-primary mt-3">Cotiza tu proyecto</a>
-  </nav>
 </header>
+
+<!-- Menú móvil a pantalla completa. Va fuera del <header> porque su backdrop-filter
+     convertiría al header en el contenedor de los elementos fixed. -->
+<nav id="menu" aria-label="Menú móvil" hidden class="menu-panel fixed inset-0 z-40 flex flex-col overflow-y-auto overscroll-contain bg-carbon pt-[calc(4.5rem+env(safe-area-inset-top))] md:hidden">
+  <ul class="wrap mt-4 grid">
+    {nav.map((n, i) => (
+      <li class="menu-item border-b border-white/10" style={`--i:${i}`}>
+        <a href={to(n.href)} class="display flex min-h-16 items-center justify-between text-[1.9rem] text-marfil active:text-azul-luz">
+          {n.label}
+          <span class="h-5 w-1.5 -skew-y-[30deg] bg-banda opacity-70" aria-hidden="true"></span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <div class="wrap mt-auto grid gap-3 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-8">
+    <a href={to('#contacto')} class="btn-primary !py-4 text-base">Cotiza tu proyecto</a>
+    <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" class="btn-ghost !py-4 text-base"><MessageCircle size={18} aria-hidden="true" /> Escríbenos por WhatsApp</a>
+  </div>
+</nav>
 
 <style>
   a[aria-current='true'] .spy-bar { transform: scaleX(1); }
+
+  /* Hamburguesa → X */
+  .menu-icon path { transition: transform .3s var(--ease-out-expo), opacity .2s; transform-origin: 9px 9px; }
+  [aria-expanded='true'] .menu-icon .l1 { transform: translateY(4px) rotate(45deg); }
+  [aria-expanded='true'] .menu-icon .l2 { opacity: 0; }
+  [aria-expanded='true'] .menu-icon .l3 { transform: translateY(-4px) rotate(-45deg); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .menu-panel:not([hidden]) { animation: menu-in .35s var(--ease-out-expo); }
+    .menu-panel:not([hidden]) .menu-item { animation: item-in .5s var(--ease-out-expo) both; animation-delay: calc(var(--i) * 40ms + 60ms); }
+    @keyframes menu-in { from { opacity: 0; } }
+    @keyframes item-in { from { opacity: 0; transform: translateY(14px); } }
+  }
 </style>
 
 <script>
+  import { lenis } from '../scripts/motion';
   const bar = document.getElementById('top-bar')!;
   const btn = document.getElementById('menu-btn')!;
   const menu = document.getElementById('menu')!;
 
-  const setMenu = (open: boolean) => {
+  const isOpen = () => btn.getAttribute('aria-expanded') === 'true';
+  const setMenu = (open: boolean, restoreFocus = false) => {
     btn.setAttribute('aria-expanded', String(open));
     btn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
-    menu.classList.toggle('hidden', !open);
-    menu.classList.toggle('flex', open);
+    menu.hidden = !open;
+    // La página de fondo no se desplaza con el menú abierto
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) lenis?.stop(); else lenis?.start();
     bar.dataset.scrolled = String(open || window.scrollY > 8);
+    if (open) menu.querySelector<HTMLElement>('a')?.focus({ preventScroll: true });
+    else if (restoreFocus) btn.focus();
   };
-  btn.addEventListener('click', () => setMenu(btn.getAttribute('aria-expanded') !== 'true'));
+  btn.addEventListener('click', () => setMenu(!isOpen()));
   menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
-  document.addEventListener('keydown', (e) => e.key === 'Escape' && setMenu(false));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) setMenu(false, true); });
+  // Si se agranda la ventana con el menú abierto, ciérralo
+  matchMedia('(min-width: 768px)').addEventListener('change', (e) => e.matches && isOpen() && setMenu(false));
 
   const onScroll = () => { bar.dataset.scrolled = String(window.scrollY > 8 || btn.getAttribute('aria-expanded') === 'true'); };
   window.addEventListener('scroll', onScroll, { passive: true });
