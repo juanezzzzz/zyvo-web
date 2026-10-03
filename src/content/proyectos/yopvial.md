@@ -8,7 +8,7 @@ bullets:
   - Controles táctiles y de teclado
 stack: [JavaScript, Phaser 3, Leaflet, Supabase]
 accent: luz
-order: 3
+order: 4
 facts:
   - { k: Sector, v: Movilidad }
   - { k: Ciudad, v: Yopal }

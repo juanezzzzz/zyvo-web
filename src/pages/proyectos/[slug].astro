@@ -6,6 +6,7 @@ import Base from '../../layouts/Base.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import ProjectCover from '../../components/ProjectCover';
+import VideoPlayer from '../../components/VideoPlayer.astro';
 import { getProjects } from '../../lib/get-projects';
 import { accents } from '../../lib/projects';
 import { site } from '../../data/site';
@@ -49,6 +50,11 @@ const c = accents[p.accent];
       </header>
 
       <div class="wrap mt-12 md:mt-16">
+        {p.video ? (
+          <div class="overflow-hidden rounded-xl border border-white/10" style={`view-transition-name: cover-${p.slug}`}>
+            <VideoPlayer {...p.video} eager />
+          </div>
+        ) : (
         <div class="relative aspect-[16/9] overflow-hidden rounded-xl border border-white/10 md:aspect-[21/9]" style={`view-transition-name: cover-${p.slug}`}>
           <ProjectCover p={p} large />
           {p.highlight && (
@@ -57,6 +63,7 @@ const c = accents[p.accent];
             </span>
           )}
         </div>
+        )}
       </div>
 
       <div class="wrap grid gap-14 py-16 md:py-24 lg:grid-cols-12">

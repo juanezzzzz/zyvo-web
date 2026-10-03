@@ -8,7 +8,7 @@ bullets:
   - "Social Network API en NestJS: 6 módulos, MongoDB y bcrypt"
 stack: [Go, Beego, PostgreSQL, Django REST, NestJS, MongoDB, Swagger]
 accent: azul
-order: 4
+order: 5
 facts:
   - { k: Tipo, v: Backend }
   - { k: Lenguajes, v: "Go, Python y TypeScript" }

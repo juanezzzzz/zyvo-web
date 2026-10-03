@@ -1,0 +1,43 @@
+---
+// Video sin reproducción automática: muestra la portada y solo descarga el video al pulsar «Ver video».
+// Al reproducir uno se pausan los demás, y se pausa solo al salir de la pantalla.
+import { Play } from '@lucide/astro';
+import { url } from '../lib/url';
+interface Props { src: string; poster: string; title: string; duration: number; width: number; height: number; class?: string; eager?: boolean }
+const { src, poster, title, duration, width, height, class: cls = '', eager = false } = Astro.props;
+const mmss = `${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, '0')}`;
+---
+<div class={`video-player relative overflow-hidden bg-carbon ${cls}`} style={`aspect-ratio:${width}/${height}`}>
+  <video class="absolute inset-0 h-full w-full object-cover" src={url(src)} poster={url(poster)} preload="none" playsinline width={width} height={height} title={title}></video>
+  <button type="button" class="vp-play group/vp absolute inset-0 grid place-items-center bg-gradient-to-t from-black/45 via-transparent to-transparent transition-opacity duration-300" aria-label={`Ver video: ${title} (${mmss})`}>
+    <span class="inline-flex items-center gap-3 rounded-full bg-azul py-2.5 pl-3 pr-5 font-semibold text-white shadow-[0_12px_40px_-10px_rgba(71,102,245,.9)] transition-[transform,background-color] duration-300 group-hover/vp:scale-105 group-hover/vp:bg-azul-prof">
+      <span class="grid h-9 w-9 place-items-center rounded-full bg-white/15"><Play size={18} fill="currentColor" aria-hidden="true" /></span>
+      Ver video
+      <span class="font-mono text-sm font-normal text-white/80">{mmss}</span>
+    </span>
+  </button>
+  {eager && <link rel="preload" as="image" href={url(poster)} />}
+</div>
+
+<script>
+  const players = [...document.querySelectorAll<HTMLElement>('.video-player')];
+  const videos = players.map((p) => p.querySelector('video')!);
+  players.forEach((p, i) => {
+    const v = videos[i];
+    const btn = p.querySelector<HTMLButtonElement>('.vp-play')!;
+    btn.addEventListener('click', () => {
+      v.controls = true;
+      btn.hidden = true;
+      v.play().catch(() => {});
+      v.focus({ preventScroll: true });
+    });
+    // Un solo video a la vez
+    v.addEventListener('play', () => videos.forEach((o) => o !== v && o.pause()));
+  });
+  // Pausa el video cuando sale de la pantalla
+  const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+    const v = e.target.querySelector('video');
+    if (v && !e.isIntersecting && !v.paused) v.pause();
+  }), { threshold: 0.25 });
+  players.forEach((p) => io.observe(p));
+</script>

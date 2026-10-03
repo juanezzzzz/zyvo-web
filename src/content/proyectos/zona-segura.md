@@ -8,7 +8,7 @@ bullets:
   - Módulo SENA y seguimiento de progreso
 stack: [JavaScript, Phaser 3, GSAP, Web Audio]
 accent: alerta
-order: 2
+order: 3
 facts:
   - { k: Sector, v: Educación }
   - { k: Para, v: SENA }

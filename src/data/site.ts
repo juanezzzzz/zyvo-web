@@ -78,7 +78,7 @@ export const audiences = [
   {
     who: 'Empresas y comercios',
     what: 'Sistemas internos, APIs e integraciones entre las herramientas que ya usan: ventas, inventario, suscripciones.',
-    case: { label: 'Jobsy', slug: 'jobsy' },
+    case: { label: 'GamerZone', slug: 'gamerzone' },
   },
 ];
 

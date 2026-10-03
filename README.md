@@ -34,6 +34,7 @@ Requiere Node 18.20+ (recomendado Node 20 o 22).
 |---|---|
 | Correo, WhatsApp, redes, textos generales | `src/data/site.ts` |
 | Servicios, proceso, tecnologías, públicos y preguntas frecuentes | `src/data/site.ts` |
+| Video de contenido (resina) | `src/components/Content.astro` + `public/videos/` |
 | Proyectos y sus páginas de caso | `src/content/proyectos/*.md` |
 | Colores y fuentes de marca | `src/styles/global.css` (bloque `@theme`) |
 | Dominio para SEO | Lo pone el workflow de Pages; en local, `astro.config.mjs` → `site` |
@@ -50,6 +51,13 @@ Cada proyecto es un archivo Markdown en `src/content/proyectos/`. El nombre del 
 6. Marca uno con `featured: true` para que aparezca seleccionado al cargar el inicio.
 
 Cada proyecto tiene enlace directo desde el inicio: `/?proyecto=agroia`.
+
+**Video del caso (opcional):** pon el MP4 y su portada en `public/videos/` y agrega `video:` al `.md` (ver `gamerzone.md`). Recomendado: H.264 a 720p con `-movflags +faststart` y una portada WebP, por ejemplo:
+
+```bash
+ffmpeg -i original.mp4 -vf scale=1280:720 -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -movflags +faststart -c:a aac -b:a 112k public/videos/mi-caso.mp4
+ffmpeg -ss 5 -i original.mp4 -frames:v 1 -vf scale=1280:720 -c:v libwebp -quality 82 public/videos/mi-caso.webp
+```
 
 Si un dato está mal escrito, `npm run build` te dice exactamente cuál (los campos se validan con Zod en `src/content.config.ts`).
 
