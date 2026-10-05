@@ -1,0 +1,50 @@
+---
+// Tramo de la banda de integración entre dos secciones: recorre la pantalla, baja a 30° y sigue.
+// La banda es el límite entre el color de la sección de arriba y el de la de abajo, y se dibuja con el scroll.
+// Sin JS se ve completa. Los tramos alternan dirección para que la banda "zigzaguee" por la página.
+interface Props { top: string; bottom: string; dir?: 'ltr' | 'rtl'; class?: string }
+const { top, bottom, dir = 'ltr', class: cls = '' } = Astro.props;
+
+// Lienzo de 1440x220. El SVG usa "slice", así que la diagonal mantiene sus 30° en cualquier ancho.
+const y1 = 58, y2 = 158;
+const dx = (y2 - y1) * Math.sqrt(3);
+const mid = dir === 'ltr' ? 860 : 580;
+const xa = (mid - dx / 2).toFixed(1), xb = (mid + dx / 2).toFixed(1);
+const d = dir === 'ltr'
+  ? `M-40 ${y1}H${xa}L${xb} ${y2}H1480`
+  : `M1480 ${y1}H${xb}L${xa} ${y2}H-40`;
+const fill = dir === 'ltr'
+  ? `M-40 ${y1}H${xa}L${xb} ${y2}H1480V260H-40Z`
+  : `M1480 ${y1}H${xb}L${xa} ${y2}H-40V260H1480Z`;
+const off = 30; // línea fina paralela, como en el hero
+const dThin = dir === 'ltr'
+  ? `M-40 ${y1 + off}H${(+xa + off / Math.sqrt(3)).toFixed(1)}L${(+xb + off / Math.sqrt(3)).toFixed(1)} ${y2 + off}H1480`
+  : `M1480 ${y1 + off}H${(+xb - off / Math.sqrt(3)).toFixed(1)}L${(+xa - off / Math.sqrt(3)).toFixed(1)} ${y2 + off}H-40`;
+---
+<div class={`band-link relative h-[clamp(110px,14vw,210px)] ${cls}`} style={`background:${top}`} aria-hidden="true">
+  <svg class="absolute inset-x-0 top-0 -bottom-px w-full" style="height:calc(100% + 1px)" viewBox="0 0 1440 220" preserveAspectRatio="xMidYMid slice">
+    <path d={fill} fill={bottom} />
+    <path class="band-path bl-thin" d={dThin} stroke-width="5" style="opacity:.35" />
+    <path class="band-path bl-main" d={d} stroke-width="28" />
+  </svg>
+</div>
+
+<script>
+  import { ScrollTrigger, primePath, reduced, whenIdle } from '../scripts/motion';
+
+  whenIdle(() => document.querySelectorAll<HTMLElement>('.band-link').forEach((link) => {
+    const paths = [link.querySelector<SVGPathElement>('.bl-main')!, link.querySelector<SVGPathElement>('.bl-thin')!];
+    const lens = paths.map(primePath);
+    ScrollTrigger.create({
+      trigger: link,
+      start: 'top 92%',
+      end: 'bottom 45%',
+      scrub: reduced ? true : 0.5,
+      onUpdate: (st) => paths.forEach((p, i) => {
+        // La línea fina va un poco detrás de la principal
+        const t = i === 0 ? st.progress : Math.max(0, st.progress * 1.15 - 0.15);
+        p.style.strokeDashoffset = `${lens[i] * (1 - Math.min(1, t))}`;
+      }),
+    });
+  }));
+</script>

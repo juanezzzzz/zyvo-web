@@ -60,7 +60,7 @@ const icons = [Search, PenTool, Code, Rocket];
 </style>
 
 <script>
-  import { gsap, ScrollTrigger, reduced } from '../scripts/motion';
+  import { ScrollTrigger, reduced, whenIdle } from '../scripts/motion';
 
   const track = document.getElementById('process-track')!;
   const band = document.getElementById('process-band') as unknown as SVGPathElement;
@@ -113,22 +113,20 @@ const icons = [Search, PenTool, Code, Rocket];
     nodes.forEach((n, i) => (n.dataset.lit = String(progress >= stops[i] - 0.01)));
   }
 
-  build();
-  if (reduced) {
-    paint(1);
-    new ResizeObserver(() => { build(); paint(1); }).observe(track);
-  } else {
+  // La banda avanza con el scroll en todos los casos: la controla la persona, así que también
+  // se mantiene con "reducir movimiento" (ahí sigue el scroll al instante, sin suavizado).
+  whenIdle(() => {
+    build();
     let p = 0;
     paint(0);
     ScrollTrigger.create({
       trigger: track,
       start: 'top 75%',
       end: 'bottom 55%',
-      scrub: 0.6,
+      scrub: reduced ? true : 0.6,
       onUpdate: (st) => { p = st.progress; paint(p); },
-      onRefresh: () => { build(); paint(p); },
+      onRefresh: (st) => { build(); p = st.progress; paint(p); },
     });
     new ResizeObserver(() => ScrollTrigger.refresh()).observe(track);
-    gsap.set(band, { opacity: 1 });
-  }
+  });
 </script>

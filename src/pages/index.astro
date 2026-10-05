@@ -11,6 +11,7 @@ import Content from '../components/Content.astro';
 import Faq from '../components/Faq.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
+import BandLink from '../components/BandLink.astro';
 ---
 <Base>
   <Header />
@@ -18,11 +19,14 @@ import Footer from '../components/Footer.astro';
     <Hero />
     <Services />
     <Audiences />
+    <BandLink top="var(--color-noche)" bottom="var(--color-carbon)" dir="ltr" />
     <Projects />
     <Process />
     <Team />
+    <BandLink top="var(--color-carbon)" bottom="var(--color-noche)" dir="rtl" />
     <Content />
     <Faq />
+    <BandLink top="var(--color-carbon)" bottom="var(--color-marfil)" dir="ltr" />
     <Contact />
   </main>
   <Footer />

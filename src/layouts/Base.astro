@@ -44,13 +44,6 @@ const jsonLd = {
     <meta property="og:image:alt" content={title} />
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
-    <script is:inline>
-      // Oculta lo que se anima al cargar antes del primer pintado. Si el JS no llega, se muestra igual a los 2.5 s.
-      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.classList.add('anim');
-        setTimeout(() => document.documentElement.classList.remove('anim'), 2500);
-      }
-    </script>
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>

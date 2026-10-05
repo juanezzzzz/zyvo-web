@@ -65,7 +65,7 @@
 }
 
 @utility btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-semibold transition-[background-color,border-color,color,transform] duration-200 active:scale-[0.98];
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-semibold transition-[background-color,border-color,color,scale] duration-200 active:scale-[0.98];
 }
 @utility btn-primary {
   @apply btn bg-azul text-white hover:bg-azul-prof;
@@ -103,11 +103,6 @@
 
 /* El dibujo de la banda: el JS fija la longitud; sin JS se ve completa */
 .band-path { fill: none; stroke: var(--color-banda); stroke-linejoin: round; stroke-linecap: butt; }
-
-/* Estado inicial de la entrada del hero (lo quita GSAP) */
-.anim .hero-line > span { transform: translateY(110%); }
-.anim .hero-in, .anim .hero-term, .anim .term-line { opacity: 0; }
-.anim #hero-band { stroke-dasharray: 3000; stroke-dashoffset: 3000; }
 
 @media (prefers-reduced-motion: no-preference) {
   .blink { animation: blink 1.1s steps(2) infinite; }

@@ -8,7 +8,7 @@ import { nav } from '../data/site';
 const home = isHome(Astro.url.pathname);
 const to = (h: string) => (home ? h : url(`/${h}`));
 ---
-<header id="top-bar" style="view-transition-name: top-bar; padding-top: env(safe-area-inset-top, 0px)" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 border-b border-transparent data-[scrolled=true]:border-white/10 data-[scrolled=true]:bg-noche/95 data-[scrolled=true]:backdrop-blur-xl">
+<header id="top-bar" style="view-transition-name: top-bar; padding-top: env(safe-area-inset-top, 0px)" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 border-b border-transparent data-[scrolled=true]:border-white/10 data-[scrolled=true]:bg-noche/95">
   <div class="wrap flex h-[4.5rem] items-center justify-between gap-4">
     <a href={home ? '#inicio' : url()} class="text-marfil" aria-label="Zyvo Solutions, inicio"><Logo size={34} /></a>
     <nav aria-label="Principal" class="hidden items-center gap-1 text-sm md:flex">
@@ -58,10 +58,11 @@ const to = (h: string) => (home ? h : url(`/${h}`));
   [aria-expanded='true'] .menu-icon .l2 { opacity: 0; }
   [aria-expanded='true'] .menu-icon .l3 { transform: translateY(-4px) rotate(-45deg); }
 
+  /* El panel siempre entra con un fundido; los enlaces suben solo si no se pidió reducir movimiento */
+  .menu-panel:not([hidden]) { animation: menu-in .35s var(--ease-out-expo); }
+  @keyframes menu-in { from { opacity: 0; } }
   @media (prefers-reduced-motion: no-preference) {
-    .menu-panel:not([hidden]) { animation: menu-in .35s var(--ease-out-expo); }
     .menu-panel:not([hidden]) .menu-item { animation: item-in .5s var(--ease-out-expo) both; animation-delay: calc(var(--i) * 40ms + 60ms); }
-    @keyframes menu-in { from { opacity: 0; } }
     @keyframes item-in { from { opacity: 0; transform: translateY(14px); } }
   }
 </style>

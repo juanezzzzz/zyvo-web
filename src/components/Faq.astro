@@ -7,7 +7,7 @@ const jsonLd = {
   mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
 };
 ---
-<section id="preguntas" class="relative border-t border-white/10 bg-carbon" aria-labelledby="faq-title">
+<section id="preguntas" class="relative bg-carbon" aria-labelledby="faq-title">
   <div class="wrap grid gap-10 py-16 sm:py-24 md:py-32 lg:grid-cols-12 lg:gap-6">
     <div class="lg:col-span-4">
       <h2 id="faq-title" class="h-section">Preguntas frecuentes</h2>
@@ -18,7 +18,7 @@ const jsonLd = {
         <details class="faq group border-b border-white/10" open={i === 0}>
           <summary class="flex min-h-16 cursor-pointer list-none items-center justify-between gap-6 py-5 text-left [&::-webkit-details-marker]:hidden">
             <span class="wide text-lg font-bold leading-snug sm:text-xl">{f.q}</span>
-            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-niebla-2 transition-[transform,background-color,color,border-color] duration-300 group-open:rotate-45 group-open:border-azul group-open:bg-azul group-open:text-white" aria-hidden="true">
+            <span class="faq-icon grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-niebla-2 transition-[rotate,background-color,color,border-color] duration-300 group-open:rotate-45 group-open:border-azul group-open:bg-azul group-open:text-white" aria-hidden="true">
               <Plus size={18} />
             </span>
           </summary>
@@ -31,10 +31,45 @@ const jsonLd = {
 </section>
 
 <style>
-  /* Apertura suave donde el navegador lo soporta (interpolate-size); en el resto abre al instante */
-  @media (prefers-reduced-motion: no-preference) {
-    .faq { interpolate-size: allow-keywords; }
-    .faq::details-content { block-size: 0; overflow: hidden; transition: block-size .35s var(--ease-out-expo), content-visibility .35s allow-discrete; }
-    .faq[open]::details-content { block-size: auto; }
-  }
+  /* Mientras se cierra, el ícono vuelve a "+" de inmediato (el <details> sigue abierto hasta terminar) */
+  .faq[data-closing] .faq-icon { rotate: none; border-color: rgb(255 255 255 / .15); background-color: transparent; color: var(--color-niebla-2); }
 </style>
+
+<script>
+  // Apertura y cierre suaves en todos los navegadores (Chrome, Safari, Firefox): se anima la altura del <details>.
+  // Sin JS, o con "reducir movimiento", el <details> nativo sigue funcionando; ahí la respuesta solo aparece con un fundido.
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ease = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
+  document.querySelectorAll<HTMLDetailsElement>('details.faq').forEach((d) => {
+    const summary = d.querySelector('summary')!;
+    const answer = d.querySelector<HTMLElement>('.faq-a')!;
+    let anim: Animation | null = null;
+    let wantOpen = d.open;
+    d.addEventListener('toggle', () => { if (!anim) wantOpen = d.open; });
+
+    summary.addEventListener('click', (e) => {
+      if (reduced) {
+        if (!d.open) answer.animate({ opacity: [0, 1] }, { duration: 250, easing: 'ease-out' });
+        return;
+      }
+      e.preventDefault();
+      const from = d.offsetHeight;
+      anim?.cancel();
+      wantOpen = !wantOpen;
+      d.toggleAttribute('data-closing', !wantOpen);
+      if (wantOpen) d.open = true;
+      const to = wantOpen ? d.offsetHeight : summary.offsetHeight + parseFloat(getComputedStyle(d).borderBottomWidth);
+      d.style.overflow = 'hidden';
+      const a = d.animate({ height: [`${from}px`, `${to}px`] }, { duration: 350, easing: ease });
+      anim = a;
+      a.onfinish = () => {
+        if (!wantOpen) d.open = false;
+        d.removeAttribute('data-closing');
+        d.style.overflow = '';
+        anim = null;
+      };
+      a.oncancel = () => { if (anim === a) anim = null; };
+    });
+  });
+</script>

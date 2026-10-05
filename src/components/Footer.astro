@@ -12,9 +12,15 @@ const [a, b, c] = site.tagline.split(' ');
     <path d="M0 0h1440v8H900l-14 16H0Z" fill="#2456E8" />
   </svg>
   <div class="wrap pb-24 pt-16 sm:pb-10 sm:pt-24">
-    <p class="display text-[clamp(2.4rem,7.5vw,6.5rem)] leading-[0.95] text-marfil">
-      <span class="block">{a}</span><span class="block text-metal/80">{b}</span><span class="block text-metal/50">{c}</span>
-    </p>
+    <!-- Cierre: la banda cruza el lema y cada palabra se enciende cuando la banda pasa por ella -->
+    <div class="finale relative isolate">
+      <svg class="finale-svg pointer-events-none absolute -inset-x-4 inset-y-0 -z-10 h-full w-[calc(100%+2rem)] overflow-visible sm:-inset-x-6 sm:w-[calc(100%+3rem)]" aria-hidden="true">
+        <path class="band-path finale-band" stroke-width="22" />
+      </svg>
+      <p class="display text-[clamp(2.6rem,9vw,6rem)] leading-[0.98] text-marfil">
+        <span class="finale-word block w-fit">{a}</span><span class="finale-word block w-fit text-metal/80">{b}</span><span class="finale-word block w-fit text-metal/50">{c}</span>
+      </p>
+    </div>
 
     <div class="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t sm:mt-20 border-white/10 pt-12 md:grid-cols-12">
       <div class="col-span-2 md:col-span-6">
@@ -40,3 +46,61 @@ const [a, b, c] = site.tagline.split(' ');
     </div>
   </div>
 </footer>
+
+<script>
+  import { ScrollTrigger, reduced, whenIdle } from '../scripts/motion';
+
+  const finale = document.querySelector<HTMLElement>('.finale');
+  if (finale) whenIdle(() => {
+    const svg = finale.querySelector('svg')!;
+    const band = finale.querySelector<SVGPathElement>('.finale-band')!;
+    const words = [...finale.querySelectorAll<HTMLElement>('.finale-word')];
+    const SLOPE = Math.sqrt(3);
+    let len = 0;
+
+    // Escalera bajo el lema: subraya cada línea, baja a 30° a la siguiente y sale por la derecha (orden de lectura)
+    const build = () => {
+      const box = svg.getBoundingClientRect();
+      const rows = words.map((w) => {
+        const r = w.getBoundingClientRect();
+        return { x1: r.right - box.left, y: r.bottom - box.top - r.height * 0.05 };
+      });
+      const pts = [{ x: -40, y: rows[0].y }];
+      rows.forEach((r, i) => {
+        const next = rows[i + 1];
+        if (!next) { pts.push({ x: box.width + 40, y: r.y }); return; }
+        const x = Math.max(pts[pts.length - 1].x, r.x1 + 20);
+        pts.push({ x, y: r.y }, { x: x + (next.y - r.y) * SLOPE, y: next.y });
+      });
+      band.setAttribute('d', 'M' + pts.map((p) => `${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join('L'));
+      len = band.getTotalLength();
+      band.style.strokeDasharray = `${len}`;
+    };
+
+    let p = 0;
+    const paint = () => {
+      band.style.strokeDashoffset = `${len * (1 - p)}`;
+      // Construye, Escala, Evoluciona se encienden al paso de la banda
+      words.forEach((w, i) => w.classList.toggle('is-lit', p > 0.08 + i * 0.3));
+    };
+    finale.classList.add('is-armed');
+    build();
+    paint();
+    ScrollTrigger.create({
+      trigger: finale,
+      start: 'top 85%',
+      end: 'bottom 45%',
+      scrub: reduced ? true : 0.6,
+      onUpdate: (st) => { p = st.progress; paint(); },
+      onRefresh: (st) => { build(); p = st.progress; paint(); },
+    });
+    new ResizeObserver(() => ScrollTrigger.refresh()).observe(finale);
+  });
+</script>
+
+<style>
+  /* Con JS, el lema arranca apagado y cada palabra se enciende por completo al paso de la banda */
+  .finale-word { transition: color .7s var(--ease-out-expo); }
+  .finale.is-armed .finale-word { color: rgb(201 206 214 / .16); }
+  .finale.is-armed .finale-word.is-lit { color: var(--color-marfil); }
+</style>

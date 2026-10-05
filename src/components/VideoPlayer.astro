@@ -10,7 +10,7 @@ const mmss = `${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).p
 <div class={`video-player relative overflow-hidden bg-carbon ${cls}`} style={`aspect-ratio:${width}/${height}`}>
   <video class="absolute inset-0 h-full w-full object-cover" src={url(src)} poster={url(poster)} preload="none" playsinline width={width} height={height} title={title}></video>
   <button type="button" class="vp-play group/vp absolute inset-0 grid place-items-center bg-gradient-to-t from-black/45 via-transparent to-transparent transition-opacity duration-300" aria-label={`Ver video: ${title} (${mmss})`}>
-    <span class="inline-flex items-center gap-3 rounded-full bg-azul py-2.5 pl-3 pr-5 font-semibold text-white shadow-[0_12px_40px_-10px_rgba(71,102,245,.9)] transition-[transform,background-color] duration-300 group-hover/vp:scale-105 group-hover/vp:bg-azul-prof">
+    <span class="inline-flex items-center gap-3 rounded-full bg-azul py-2.5 pl-3 pr-5 font-semibold text-white shadow-[0_12px_40px_-10px_rgba(71,102,245,.9)] transition-[scale,background-color] duration-300 group-hover/vp:scale-105 group-hover/vp:bg-azul-prof">
       <span class="grid h-9 w-9 place-items-center rounded-full bg-white/15"><Play size={18} fill="currentColor" aria-hidden="true" /></span>
       Ver video
       <span class="font-mono text-sm font-normal text-white/80">{mmss}</span>

@@ -4,29 +4,33 @@ import HexBadge from './HexBadge.astro';
 import { services } from '../data/site';
 const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircuit } as const;
 ---
-<section id="servicios" class="relative bg-noche">
-  <div class="wrap py-16 sm:py-24 md:py-32">
+<!-- La banda del hero se abre hasta convertirse en esta sección: azul de marca de borde a borde -->
+<section id="servicios" class="svc relative isolate overflow-hidden bg-banda text-white">
+  <!-- Panal grabado en el azul, apenas visible -->
+  <div class="hexgrid pointer-events-none absolute inset-0 -z-10 opacity-[.22] mix-blend-soft-light [mask-image:linear-gradient(to_bottom,black,transparent_70%)]" aria-hidden="true"></div>
+
+  <div class="wrap py-20 sm:py-28 md:py-36">
     <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
       <h2 class="h-section lg:col-span-7">Lo que hacemos por tu empresa</h2>
-      <p class="lede max-w-[46ch] lg:col-span-5 lg:justify-self-end">
+      <p class="max-w-[46ch] text-lg leading-relaxed text-white/90 lg:col-span-5 lg:justify-self-end">
         Desde una plataforma completa hasta una integración puntual. Te decimos qué vale la pena construir y qué no.
       </p>
     </div>
 
-    <div class="mt-10 grid border-t sm:mt-16 border-white/10 md:grid-cols-2">
+    <div class="mt-10 grid border-t border-white/25 sm:mt-16 md:grid-cols-2">
       {services.map((s, i) => {
         const Icon = icons[s.icon as keyof typeof icons];
         return (
-          <article class:list={['group flex flex-col gap-5 border-b border-white/10 py-9 sm:flex-row sm:gap-8 md:py-12', i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10']}>
-            <HexBadge size={64} class="sm:hidden" band={i % 2 === 0 ? 'bottom' : 'right'}><Icon /></HexBadge>
-            <HexBadge size={76} band={i % 2 === 0 ? 'bottom' : 'right'} class="max-sm:!hidden transition-transform duration-500 group-hover:-translate-y-1">
+          <article class:list={['svc-item group relative flex flex-col gap-5 border-b border-white/25 py-9 sm:flex-row sm:gap-8 md:py-12', i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10']}>
+            <HexBadge size={64} class="sm:hidden" band="none"><Icon /></HexBadge>
+            <HexBadge size={76} band="none" class="max-sm:!hidden transition-transform duration-500 group-hover:-translate-y-1">
               <Icon />
             </HexBadge>
             <div class="min-w-0">
               <h3 class="wide text-xl font-bold md:text-2xl">{s.title}</h3>
-              <p class="mt-3 max-w-[44ch] text-niebla-2">{s.text}</p>
-              <ul class="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-niebla" aria-label="Tecnologías">
-                {s.tags.map((t) => <li>{t}</li>)}
+              <p class="mt-3 max-w-[44ch] text-white/90">{s.text}</p>
+              <ul class="mt-5 flex flex-wrap gap-2 text-sm" aria-label="Tecnologías">
+                {s.tags.map((t) => <li class="rounded-sm bg-noche/25 px-2 py-0.5 font-mono text-[12.5px] text-white">{t}</li>)}
               </ul>
             </div>
           </article>
@@ -34,4 +38,32 @@ const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircu
       })}
     </div>
   </div>
+
+  <!-- Salida: la sección termina en el mismo escalón a 30° de la banda -->
+  <svg class="absolute inset-x-0 -bottom-px h-[clamp(37px,calc(5vw+1px),73px)] w-full" viewBox="0 0 1440 72" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <path d="M-40 72V44H520L568.5 16H1480V72Z" fill="var(--color-noche)" />
+  </svg>
 </section>
+
+<script>
+  import { gsap, reduced } from '../scripts/motion';
+
+  // La sección nace como una banda delgada con su escalón a 30° y se abre hasta llenar el bloque.
+  // Solo se aplica con JS y lo controla el scroll; sin JS la sección se ve completa.
+  const svc = document.querySelector<HTMLElement>('.svc')!;
+  const band = 'polygon(0% 6%, 46% 6%, 54% 1%, 100% 1%, 100% 5%, 54% 5%, 46% 10%, 0% 10%)';
+  const full = 'polygon(0% 0%, 46% 0%, 54% 0%, 100% 0%, 100% 100%, 54% 100%, 46% 100%, 0% 100%)';
+  gsap.fromTo(svc, { clipPath: band }, {
+    clipPath: full,
+    ease: 'power2.inOut',
+    scrollTrigger: { trigger: svc, start: 'top 95%', end: 'top 20%', scrub: reduced ? true : 0.6 },
+    onComplete: () => { svc.style.clipPath = ''; },
+  });
+  // Los servicios entran detrás de la apertura, en escalera
+  if (!reduced) {
+    gsap.fromTo(svc.querySelectorAll('.svc-item'), { y: 40, opacity: 0 }, {
+      y: 0, opacity: 1, stagger: 0.08, ease: 'power2.out',
+      scrollTrigger: { trigger: svc, start: 'top 60%', end: 'top 25%', scrub: 0.6 },
+    });
+  }
+</script>
