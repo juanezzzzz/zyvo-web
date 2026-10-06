@@ -7,13 +7,13 @@ interface Props { src: string; poster: string; title: string; duration: number; 
 const { src, poster, title, duration, width, height, class: cls = '', eager = false } = Astro.props;
 const mmss = `${Math.floor(duration / 60)}:${String(Math.floor(duration % 60)).padStart(2, '0')}`;
 ---
-<div class={`video-player relative overflow-hidden bg-carbon ${cls}`} style={`aspect-ratio:${width}/${height}`}>
+<div class={`video-player @container relative overflow-hidden bg-carbon ${cls}`} style={`aspect-ratio:${width}/${height}`}>
   <video class="absolute inset-0 h-full w-full object-cover" src={url(src)} poster={url(poster)} preload="none" playsinline width={width} height={height} title={title}></video>
-  <button type="button" class="vp-play group/vp absolute inset-0 grid place-items-center bg-gradient-to-t from-black/45 via-transparent to-transparent transition-opacity duration-300" aria-label={`Ver video: ${title} (${mmss})`}>
-    <span class="inline-flex items-center gap-3 rounded-full bg-azul py-2.5 pl-3 pr-5 font-semibold text-white shadow-[0_12px_40px_-10px_rgba(71,102,245,.9)] transition-[scale,background-color] duration-300 group-hover/vp:scale-105 group-hover/vp:bg-azul-prof">
+  <button type="button" class="vp-play group/vp absolute inset-0 grid place-items-end justify-items-center pb-[6%] bg-gradient-to-t from-black/45 via-transparent to-transparent transition-opacity duration-300" aria-label={`Ver video: ${title} (${mmss})`}>
+    <span class="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-azul py-2 pl-2 pr-4 text-sm font-semibold text-white @[17rem]:gap-3 @[17rem]:py-2.5 @[17rem]:pl-3 @[17rem]:pr-5 @[17rem]:text-base shadow-[0_12px_40px_-10px_rgba(71,102,245,.9)] transition-[scale,background-color] duration-300 group-hover/vp:scale-105 group-hover/vp:bg-azul-prof">
       <span class="grid h-9 w-9 place-items-center rounded-full bg-white/15"><Play size={18} fill="currentColor" aria-hidden="true" /></span>
       Ver video
-      <span class="font-mono text-sm font-normal text-white/80">{mmss}</span>
+      <span class="hidden font-mono text-sm font-normal text-white/80 @[13rem]:inline">{mmss}</span>
     </span>
   </button>
   {eager && <link rel="preload" as="image" href={url(poster)} />}

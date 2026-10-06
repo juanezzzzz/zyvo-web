@@ -17,7 +17,7 @@ const headline = 'Construimos el software que tu empresa necesita.';
         <span class="h-2 w-2 rounded-full bg-senal shadow-[0_0_10px] shadow-senal"></span>
         Equipo de software en Yopal, Casanare
       </p>
-      <h1 class="display text-[clamp(2.5rem,5.6vw,4.6rem)] leading-[1.02]">
+      <h1 class="display text-[clamp(2rem,10.4vw,3.6rem)] leading-[1.02] lg:text-[clamp(2.5rem,5.6vw,4.6rem)]">
         {headline.split(' ').map((w, i) => (<><span class="hero-line inline-block overflow-hidden pb-[0.08em] align-bottom"><span class="inline-block" style={`--i:${i}`}>{w}</span></span>{' '}</>))}
       </h1>
       <p style="--i:1" class="hero-in lede mt-7 max-w-[54ch]">
@@ -45,7 +45,7 @@ const headline = 'Construimos el software que tu empresa necesita.';
       <div class="hero-term absolute -bottom-16 left-0 hidden sm:block w-[min(100%,330px)] rounded-lg border border-white/10 bg-acero/95 font-mono text-[12.5px] shadow-2xl shadow-black/60 sm:-left-6 lg:-left-20" aria-label="Ejemplo de un despliegue">
         <div class="flex items-center gap-1.5 border-b border-white/10 px-3.5 py-2.5">
           <i class="h-2.5 w-2.5 rounded-full bg-grafito"></i><i class="h-2.5 w-2.5 rounded-full bg-grafito"></i><i class="h-2.5 w-2.5 rounded-full bg-grafito"></i>
-          <span class="ml-2 text-[11px] text-niebla">zyvo / deploy</span>
+          <span class="ml-2 text-xs text-niebla">zyvo / deploy</span>
         </div>
         <pre class="overflow-hidden px-3.5 py-3 leading-6 text-marfil"><span class="term-line block" style="--i:0"><span class="text-azul-luz">$</span> zyvo build --sprint 4</span><span class="term-line block" style="--i:1"><span class="text-senal">✓</span> 128 pruebas pasaron</span><span class="term-line block" style="--i:2"><span class="text-azul-luz">$</span> zyvo deploy --prod</span><span class="term-line block" style="--i:3"><span class="text-senal">●</span> en línea, 200 OK<span class="blink">▍</span></span></pre>
       </div>
@@ -80,7 +80,7 @@ const headline = 'Construimos el software que tu empresa necesita.';
   import { gsap, reduced } from '../scripts/motion';
 
   // Profundidad al salir del hero: la imagen sube más rápido que el texto y la banda baja, como capas separadas
-  if (!reduced) {
+  if (!reduced && matchMedia('(min-width: 1024px)').matches) {
     const st = { trigger: '#inicio', start: 'top top', end: 'bottom top', scrub: true };
     gsap.to('.hero-img', { yPercent: -12, ease: 'none', scrollTrigger: st });
     gsap.to('#inicio > svg', { yPercent: 10, ease: 'none', scrollTrigger: st });

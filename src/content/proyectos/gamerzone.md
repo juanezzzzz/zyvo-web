@@ -19,7 +19,7 @@ video:
   width: 1280
   height: 720
 facts:
-  - { k: Cliente, v: GamerZone E-Sports Center }
+  - { k: Cliente, v: "GamerZone E‑Sports Center" }
   - { k: Sector, v: Entretenimiento }
   - { k: Formato, v: "Web, en computador y celular" }
 ---
