@@ -8,14 +8,14 @@ bullets:
   - 344 pruebas automatizadas
   - Desplegado en Render y Vercel
 stack: [Python 3.12, FastAPI, Angular 18, Supabase, Telegram Bot API, Docker]
-highlight: 1.er lugar, Hackathon Regional Casanare
+highlight: 1.er lugar, Hackathon Colombia 5.0
 accent: senal
 order: 1
 featured: true
 facts:
   - { k: Sector, v: Agro }
   - { k: Canal, v: Telegram }
-  - { k: Reconocimiento, v: 1.er lugar regional }
+  - { k: Reconocimiento, v: "1.er lugar, regional Casanare" }
 ---
 
 ## El reto
@@ -32,4 +32,4 @@ Detrás hay una API en FastAPI, una base de datos en Supabase y un panel web en 
 
 - **Pruebas desde el primer día:** 344 pruebas automatizadas cubren el flujo completo, desde la nota de voz hasta la búsqueda.
 - **Despliegue real:** la API corre en Render y el panel en Vercel, empaquetados con Docker.
-- **Validado en competencia:** el proyecto ganó el primer lugar en el Hackathon Regional Casanare.
+- **Validado en competencia:** el proyecto ganó el primer lugar en la Hackathon Colombia 5.0, regional Casanare.

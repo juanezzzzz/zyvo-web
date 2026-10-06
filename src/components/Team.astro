@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets';
-import zy from '../assets/zy-robot.webp';
+import { url } from '../lib/url';
 import { site } from '../data/site';
 const values = [
   { t: 'Hablamos claro', d: 'Propuestas con tiempos y costos concretos, sin letra pequeña ni jerga.' },
@@ -9,20 +8,20 @@ const values = [
   { t: 'Estamos cerca', d: 'Somos de Casanare. Nos puedes ver en persona, no solo en videollamada.' },
 ];
 const proof = [
-  { k: '1.er lugar', v: 'Hackathon Regional Casanare, con AgroIA' },
+  { k: '1.er lugar', v: 'Hackathon Colombia 5.0, regional Casanare, con AgroIA' },
   { k: '344 pruebas', v: 'automatizadas en un solo proyecto' },
   { k: 'Cada 2 semanas', v: 'una entrega que puedes probar' },
 ];
 ---
 <section id="equipo" class="relative isolate overflow-hidden border-t border-white/10 bg-carbon">
   <div class="wrap grid items-center gap-8 sm:gap-14 py-16 sm:py-24 md:py-32 lg:grid-cols-12">
-    <div class="relative mx-auto w-full max-w-[15rem] sm:max-w-[22rem] lg:col-span-5 lg:max-w-none">
-      <div class="hex-clip metal absolute inset-x-[6%] top-[14%] aspect-[1/1.15] opacity-[.07]" aria-hidden="true"></div>
-      <svg class="absolute inset-x-0 bottom-[6%] -z-10 w-full" viewBox="0 0 400 120" aria-hidden="true">
-        <path class="band-path" stroke-width="16" d="M-20 100H120L170 71H260L310 42H420" />
-      </svg>
-      <Image src={zy} alt="Zy, el robot de Zyvo: cabeza hexagonal con el isotipo y la banda azul cruzando el pecho" widths={[320, 520, 733]} sizes="(min-width: 1024px) 30vw, 70vw" class="relative mx-auto h-auto w-[62%] drop-shadow-[0_30px_40px_rgba(0,0,0,.6)]" />
-    </div>
+    <!-- Zy, la mascota 3D oficial (render propio): saludo en bucle, sin sonido. Con «reducir movimiento» queda quieto. -->
+    <figure class="relative mx-auto w-full max-w-[18rem] sm:max-w-[24rem] lg:col-span-5 lg:max-w-none">
+      <div class="relative aspect-square overflow-hidden rounded-[2rem] border border-white/10 bg-[#0B0F15] shadow-[0_40px_80px_-30px_rgba(0,0,0,.8)]">
+        <video id="zy-loop" class="h-full w-full object-cover" src={url('/videos/zy-saludo.mp4')} poster={url('/videos/zy-saludo.webp')} muted loop playsinline preload="metadata" width="720" height="720" aria-hidden="true"></video>
+      </div>
+      <figcaption class="mt-4 text-center text-sm text-niebla">Zy, el agente de Zyvo, saludando</figcaption>
+    </figure>
 
     <div class="min-w-0 lg:col-span-7">
       <h2 class="h-section">Somos {site.team}</h2>
@@ -51,3 +50,11 @@ const proof = [
     </div>
   </div>
 </section>
+
+<script>
+  // Solo se anima si está en pantalla y el usuario no pidió reducir el movimiento
+  const zy = document.getElementById('zy-loop') as HTMLVideoElement | null;
+  if (zy && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    new IntersectionObserver(([e]) => (e.isIntersecting ? zy.play().catch(() => {}) : zy.pause()), { threshold: 0.2 }).observe(zy);
+  }
+</script>

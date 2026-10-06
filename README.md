@@ -34,7 +34,8 @@ Requiere Node 18.20+ (recomendado Node 20 o 22).
 |---|---|
 | Correo, WhatsApp, redes, textos generales | `src/data/site.ts` |
 | Servicios, proceso, tecnologías, públicos y preguntas frecuentes | `src/data/site.ts` |
-| Video de contenido (resina) | `src/components/Content.astro` + `public/videos/` |
+| Videos de contenido (making of 3D, tutorial de resina) | `src/components/Content.astro` + `public/videos/` |
+| Zy 3D animado de la sección Equipo | `public/videos/zy-saludo.mp4` (bucle sin sonido) |
 | Proyectos y sus páginas de caso | `src/content/proyectos/*.md` |
 | Colores y fuentes de marca | `src/styles/global.css` (bloque `@theme`) |
 | Dominio para SEO | Lo pone el workflow de Pages; en local, `astro.config.mjs` → `site` |

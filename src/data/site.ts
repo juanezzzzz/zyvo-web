@@ -56,6 +56,13 @@ export const services = [
     tags: ['Python', 'Telegram Bot API', 'LLMs'],
     icon: 'ai',
   },
+  {
+    title: 'Diseño 3D e impresión en resina',
+    text: 'Modelamos tu idea en 3D, la animamos si hace falta y la imprimimos en resina: desde llaveros con tu logo hasta piezas a la medida.',
+    tags: ['Modelado 3D', 'Animación', 'Laminado', 'Resina'],
+    icon: 'print3d',
+    link: { label: 'Ver el making of', href: '#contenido' },
+  },
 ];
 
 // Para quién trabajamos: cada público enlaza a un caso real (slug de src/content/proyectos)

@@ -1,8 +1,10 @@
 ---
-import { AppWindow, Network, GraduationCap, BrainCircuit } from '@lucide/astro';
+import { AppWindow, Network, GraduationCap, BrainCircuit, Box, ArrowRight } from '@lucide/astro';
 import HexBadge from './HexBadge.astro';
 import { services } from '../data/site';
-const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircuit } as const;
+const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircuit, print3d: Box } as const;
+// Con un número impar de servicios, el último ocupa las dos columnas
+const lastWide = services.length % 2 === 1;
 ---
 <!-- La banda del hero se abre hasta convertirse en esta sección: azul de marca de borde a borde -->
 <section id="servicios" class="svc relative isolate overflow-hidden bg-banda text-white">
@@ -21,7 +23,7 @@ const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircu
       {services.map((s, i) => {
         const Icon = icons[s.icon as keyof typeof icons];
         return (
-          <article class:list={['svc-item group relative flex flex-col gap-5 border-b border-white/25 py-9 sm:flex-row sm:gap-8 md:py-12', i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10']}>
+          <article class:list={['svc-item group relative flex flex-col gap-5 border-b border-white/25 py-9 sm:flex-row sm:gap-8 md:py-12', lastWide && i === services.length - 1 ? 'md:col-span-2' : i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10']}>
             <HexBadge size={64} class="sm:hidden" band="none"><Icon /></HexBadge>
             <HexBadge size={76} band="none" class="max-sm:!hidden transition-transform duration-500 group-hover:-translate-y-1">
               <Icon />
@@ -32,6 +34,11 @@ const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircu
               <ul class="mt-5 flex flex-wrap gap-2 text-sm" aria-label="Tecnologías">
                 {s.tags.map((t) => <li class="rounded-sm bg-noche/25 px-2 py-0.5 font-mono text-[12.5px] text-white">{t}</li>)}
               </ul>
+              {s.link && (
+                <a href={s.link.href} class="mt-5 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-white underline decoration-white/50 underline-offset-4 transition-colors hover:decoration-white">
+                  {s.link.label} <ArrowRight size={16} aria-hidden="true" />
+                </a>
+              )}
             </div>
           </article>
         );

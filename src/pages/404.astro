@@ -1,7 +1,7 @@
 ---
 import { url } from '../lib/url';
 import { Image } from 'astro:assets';
-import zy from '../assets/zy-robot.webp';
+import zy from '../assets/zy-3d-gesto.webp';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 ---
@@ -23,7 +23,7 @@ import Header from '../components/Header.astro';
         </div>
       </div>
       <div class="md:col-span-5">
-        <Image src={zy} alt="" widths={[320, 520]} sizes="(min-width: 768px) 30vw, 50vw" class="mx-auto h-auto w-1/2 -rotate-6 opacity-90 drop-shadow-[0_30px_40px_rgba(0,0,0,.6)] md:w-2/3" />
+        <Image src={zy} alt="Zy, el agente de Zyvo, haciendo un gesto" widths={[360, 720]} sizes="(min-width: 768px) 30vw, 70vw" class="mx-auto h-auto w-2/3 rounded-[2rem] border border-white/10 md:w-full" />
       </div>
     </div>
   </main>
