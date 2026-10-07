@@ -1,18 +1,17 @@
 ---
 name: Zona Segura
-kind: Plataforma educativa en SST
-summary: Plataforma interactiva de seguridad y salud en el trabajo para el SENA. Se aprende jugando, con progreso y puntaje global.
+kind: Plataforma para aprender seguridad en el trabajo
+summary: "Una plataforma interactiva de seguridad y salud en el trabajo para el SENA: se aprende jugando, con avance y puntaje."
 bullets:
-  - Juego de dotación de EPP
-  - Vocal Hero y respiración guiada
-  - Módulo SENA y seguimiento de progreso
-stack: [JavaScript, Phaser 3, GSAP, Web Audio]
+  - "Juego para equipar al trabajador con su protección"
+  - "Ejercicios de voz y respiración guiada"
+  - "Seguimiento del avance de cada aprendiz"
 accent: alerta
 order: 3
 facts:
-  - { k: Sector, v: Educación }
-  - { k: Para, v: SENA }
-  - { k: Formato, v: Web interactiva }
+  - { k: Sector, v: "Educación" }
+  - { k: Para, v: "SENA" }
+  - { k: Formato, v: "Web, sin instalar nada" }
 ---
 
 ## El reto
@@ -21,14 +20,14 @@ Las capacitaciones en seguridad y salud en el trabajo suelen ser presentaciones 
 
 ## Lo que construimos
 
-Una plataforma web con minijuegos que enseñan haciendo:
+Una plataforma con minijuegos que enseñan haciendo:
 
-- **Dotación de EPP:** el aprendiz equipa al trabajador con los elementos de protección correctos para cada tarea.
-- **Vocal Hero:** ejercicios de voz que usan el micrófono del navegador.
+- **Elementos de protección:** el aprendiz equipa al trabajador con lo que necesita para cada tarea.
+- **Ejercicios de voz:** actividades que usan el micrófono del computador o del celular.
 - **Respiración guiada:** pausas activas con ritmo visual y sonoro.
 
-Cada actividad suma a un puntaje global, y el módulo SENA permite seguir el progreso.
+Cada actividad suma a un puntaje, y se puede seguir el avance de cada aprendiz.
 
 ## Cómo lo hicimos
 
-Los juegos están hechos con Phaser 3, las animaciones de la interfaz con GSAP y el audio con la Web Audio API. Todo corre en el navegador, sin instalar nada.
+Todo funciona desde el navegador, sin instalar nada, con animaciones y sonidos que hacen que aprender sea más entretenido.

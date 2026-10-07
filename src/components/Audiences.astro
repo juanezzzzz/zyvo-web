@@ -35,14 +35,14 @@ import { audiences } from '../data/site';
     transition: clip-path .55s var(--ease-out-expo);
   }
   @media (hover: hover) {
-    .aud:hover .aud-sweep, .aud:focus-within .aud-sweep {
+    .aud:hover .aud-sweep {
       clip-path: polygon(0 0, calc(100% + 4rem) 0, 100% 100%, -4rem 100%);
     }
   }
-  .aud:focus-within .aud-sweep { clip-path: polygon(0 0, calc(100% + 4rem) 0, 100% 100%, -4rem 100%); }
-  .aud:hover + .aud, .aud:focus-within + .aud { border-top-color: transparent; }
+  .aud:has(:focus-visible) .aud-sweep { clip-path: polygon(0 0, calc(100% + 4rem) 0, 100% 100%, -4rem 100%); }
+  .aud:hover + .aud, .aud:has(:focus-visible) + .aud { border-top-color: transparent; }
   @media (prefers-reduced-motion: reduce) {
     .aud-sweep { transition: opacity .25s; clip-path: none; opacity: 0; }
-    .aud:hover .aud-sweep, .aud:focus-within .aud-sweep { opacity: 1; }
+    .aud:hover .aud-sweep, .aud:has(:focus-visible) .aud-sweep { opacity: 1; }
   }
 </style>

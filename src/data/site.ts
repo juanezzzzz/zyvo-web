@@ -6,7 +6,7 @@ export const site = {
   team: 'Control Z Team',
   tagline: 'Construye. Escala. Evoluciona.',
   description:
-    'Zyvo Solutions desarrolla software a la medida, APIs y plataformas interactivas desde Yopal, Casanare. Construimos soluciones y enseñamos cómo se hacen.',
+    'Zyvo Solutions crea páginas y sistemas web a la medida, plataformas educativas, asistentes automáticos y diseño 3D desde Yopal, Casanare. Construimos soluciones y enseñamos cómo se hacen.',
   city: 'Yopal, Casanare · Colombia',
   email: 'hola@zyvosolutions.com',
   // Número en formato internacional, sin + ni espacios (se usa para wa.me)
@@ -33,35 +33,30 @@ export const nav = [
 
 export const services = [
   {
-    title: 'Desarrollo web a la medida',
-    text: 'Aplicaciones web y plataformas internas que se ajustan a cómo trabaja tu empresa, no al revés.',
-    tags: ['React', 'Angular', 'Astro', 'Next.js'],
+    title: 'Páginas y sistemas web a la medida',
+    text: 'Herramientas para tu negocio que se ajustan a cómo trabajas, no al revés: ventas, inventario, turnos, reservas y más.',
     icon: 'web',
   },
   {
-    title: 'APIs y backend',
-    text: 'Servicios robustos, documentados y probados: microservicios, autenticación, bases de datos e integraciones.',
-    tags: ['Go', 'NestJS', 'Django', 'FastAPI'],
+    title: 'Conectamos tus herramientas',
+    text: 'Hacemos que los programas que ya usas se hablen entre sí, para que no tengas que pasar la misma información a mano dos veces.',
     icon: 'api',
   },
   {
     title: 'Plataformas educativas interactivas',
-    text: 'Juegos, simuladores y módulos de aprendizaje para capacitar personas de forma que de verdad recuerden.',
-    tags: ['Phaser 3', 'GSAP', 'Canvas', 'Web Audio'],
+    text: 'Juegos, simuladores y módulos de aprendizaje para capacitar a las personas de forma que de verdad recuerden.',
     icon: 'edu',
   },
   {
-    title: 'Automatización e IA aplicada',
-    text: 'Bots y agentes que ahorran trabajo real: atención por Telegram o WhatsApp, búsqueda en lenguaje natural, flujos automáticos.',
-    tags: ['Python', 'Telegram Bot API', 'LLMs'],
+    title: 'Asistentes y tareas automáticas',
+    text: 'Asistentes que responden por WhatsApp o Telegram y procesos que se hacen solos, para que tu equipo dedique el tiempo a lo importante.',
     icon: 'ai',
   },
   {
     title: 'Diseño 3D e impresión en resina',
     text: 'Modelamos tu idea en 3D, la animamos si hace falta y la imprimimos en resina: desde llaveros con tu logo hasta piezas a la medida.',
-    tags: ['Modelado 3D', 'Animación', 'Laminado', 'Resina'],
     icon: 'print3d',
-    link: { label: 'Ver el making of', href: '#contenido' },
+    link: { label: 'Ver cómo lo hacemos', href: '#contenido' },
   },
 ];
 
@@ -84,7 +79,7 @@ export const audiences = [
   },
   {
     who: 'Empresas y comercios',
-    what: 'Sistemas internos, APIs e integraciones entre las herramientas que ya usan: ventas, inventario, suscripciones.',
+    what: 'Sistemas para manejar el día a día del negocio y conectar las herramientas que ya usan: ventas, inventario, caja, clientes.',
     case: { label: 'GamerZone', slug: 'gamerzone' },
   },
 ];
@@ -97,36 +92,29 @@ export const faq = [
   },
   {
     q: '¿Cuánto tiempo toma?',
-    a: 'El diagnóstico toma una semana y el diseño entre una y dos. El desarrollo depende del alcance, pero cada dos semanas recibes una entrega que puedes probar.',
+    a: 'Depende del tamaño del proyecto. Después de la primera reunión te damos un cronograma claro, y durante el desarrollo te mostramos avances que puedes probar.',
   },
   {
     q: '¿El código queda a mi nombre?',
-    a: 'Sí. Te entregamos el repositorio, la documentación y una explicación de cada decisión técnica. El proyecto es tuyo.',
+    a: 'Sí. Te entregamos todo lo construido, con su documentación, y te explicamos cómo funciona. El proyecto es tuyo.',
   },
   {
     q: '¿Qué pasa después de la entrega?',
-    a: 'Desplegamos el sistema, capacitamos a tu equipo y te acompañamos después de salir a producción.',
+    a: 'Dejamos el sistema funcionando, capacitamos a tu equipo y te acompañamos después de que empiecen a usarlo.',
   },
   {
     q: '¿Pueden mejorar un sistema que ya tengo?',
-    a: 'Sí. Revisamos lo que ya usas y te decimos qué conviene mejorar, integrar o reemplazar, desde una integración puntual hasta una plataforma completa.',
+    a: 'Sí. Revisamos lo que ya usas y te decimos qué conviene mejorar, conectar o cambiar, desde un ajuste puntual hasta un sistema completo.',
   },
   {
     q: '¿Solo trabajan con empresas de Casanare?',
-    a: 'Estamos en Yopal y podemos reunirnos en persona. Si estás en otra ciudad, trabajamos por videollamada con las mismas entregas cada dos semanas.',
+    a: 'Estamos en Yopal y podemos reunirnos en persona. Si estás en otra ciudad, trabajamos por videollamada de la misma forma.',
   },
 ];
 
 export const process = [
-  { title: 'Diagnóstico', text: 'Entendemos el problema contigo, levantamos requisitos y definimos qué sí y qué no entra.', time: '1 semana' },
-  { title: 'Diseño', text: 'Prototipo navegable y arquitectura técnica. Lo validas antes de escribir la primera línea.', time: '1–2 semanas' },
-  { title: 'Desarrollo', text: 'Entregas cada dos semanas para que veas avances reales y ajustes a tiempo.', time: 'según alcance' },
-  { title: 'Entrega y soporte', text: 'Despliegue, capacitación y acompañamiento después de salir a producción.', time: 'continuo' },
-];
-
-export const stack = [
-  { layer: 'Interfaces', items: ['React', 'Angular', 'Astro', 'Next.js', 'TypeScript'] },
-  { layer: 'Backend y APIs', items: ['Go', 'NestJS', 'Django', 'FastAPI', 'Python'] },
-  { layer: 'Datos e infraestructura', items: ['PostgreSQL', 'MongoDB', 'Supabase', 'Docker'] },
-  { layer: 'Interactivo e IA', items: ['Phaser 3', 'GSAP', 'Web Audio', 'LLMs', 'Telegram Bot API'] },
+  { title: 'Diagnóstico', text: 'Entendemos el problema contigo y definimos juntos qué se va a construir y qué no.' },
+  { title: 'Diseño', text: 'Te mostramos cómo se va a ver y funcionar antes de construirlo, para que lo apruebes.' },
+  { title: 'Desarrollo', text: 'Construimos y te mostramos avances que puedes probar, para ajustar a tiempo.' },
+  { title: 'Entrega y soporte', text: 'Lo dejamos funcionando, capacitamos a tu equipo y te acompañamos después.' },
 ];

@@ -7,7 +7,7 @@ export const projectSchema = z.object({
   kind: z.string(),
   summary: z.string(),
   bullets: z.array(z.string()),
-  stack: z.array(z.string()),
+  stack: z.array(z.string()).optional(), // no se muestra en la web
   accent: z.enum(['azul', 'senal', 'alerta', 'luz']),
   order: z.number(),
   featured: z.boolean().optional(),

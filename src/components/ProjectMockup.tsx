@@ -187,35 +187,40 @@ function Vial({ c, id }: { c: string; id: string }) {
 
 function Api({ c }: { c: string }) {
   const rows = [
-    { m: 'GET', col: C.green, p: '/stores', d: 'Lista de tiendas' },
-    { m: 'POST', col: C.blue, p: '/subscriptions', d: 'Crea una suscripción' },
-    { m: 'GET', col: C.green, p: '/users/{id}', d: 'Detalle de usuario' },
-    { m: 'PUT', col: C.amber, p: '/plans/{id}', d: 'Actualiza un plan' },
-    { m: 'DELETE', col: C.red, p: '/sessions', d: 'Cierra la sesión' },
+    { t: 'Pedido #1042', d: 'Camiseta talla M', st: 'Pagado', col: C.green },
+    { t: 'Suscripción', d: 'Plan mensual', st: 'Activa', col: c },
+    { t: 'Pedido #1041', d: 'Gorra negra', st: 'Enviado', col: C.amber },
+    { t: 'Nuevo usuario', d: 'Registro completo', st: 'Listo', col: C.green },
   ];
   return (
     <g>
-      <Win x={300} y={40} w={440} h={310} title="jobsy-api / docs">
-        <T x={324} y={96} s={14} w={800}>Jobsy API</T>
-        <rect x={404} y={84} width={34} height={16} rx={8} fill={c} opacity={0.2} />
-        <T x={421} y={95.5} s={8} c={c} w={700} f={mono} a="middle">v1</T>
+      <Win x={300} y={40} w={440} h={310} title="jobsy / panel de la tienda">
+        <T x={324} y={96} s={14} w={800}>Hoy en la tienda</T>
+        {[['Pedidos', '24'], ['Suscripciones', '138'], ['Clientes', '512']].map(([k, v], i) => (
+          <g key={k} transform={`translate(${324 + i * 132} 110)`}>
+            <rect width={122} height={52} rx={10} fill={C.card} />
+            <T x={12} y={20} s={9} c={C.mute}>{k}</T>
+            <T x={12} y={41} s={17} w={800}>{v}</T>
+          </g>
+        ))}
         {rows.map((r, i) => (
-          <g key={i} transform={`translate(324 ${114 + i * 44})`}>
-            <rect width={392} height={36} rx={8} fill={C.card} />
-            <rect x={8} y={8} width={58} height={20} rx={5} fill={r.col} />
-            <T x={37} y={21.5} s={9} c={C.dark} w={800} f={mono} a="middle">{r.m}</T>
-            <T x={78} y={22} s={10.5} f={mono}>{r.p}</T>
-            <T x={380} y={22} s={9} c={C.mute} a="end">{r.d}</T>
+          <g key={i} transform={`translate(324 ${176 + i * 40})`}>
+            <rect width={392} height={32} rx={8} fill={C.card} />
+            <T x={14} y={20} s={10.5} w={700}>{r.t}</T>
+            <T x={120} y={20} s={9.5} c={C.mute}>{r.d}</T>
+            <rect x={300} y={7} width={80} height={18} rx={9} fill={r.col} opacity={0.18} />
+            <T x={340} y={19.5} s={9} c={r.col} w={700} a="middle">{r.st}</T>
           </g>
         ))}
       </Win>
-      <g transform="translate(60 196)">
-        <rect width={250} height={124} rx={14} fill={C.dark} stroke={C.line} />
-        <T x={18} y={28} s={9.5} f={mono} c={C.mute}>GET /stores/42</T>
-        <T x={18} y={48} s={9.5} f={mono} c={c} w={700}>200 OK</T>
-        <T x={18} y={68} s={9.5} f={mono} c={C.text}>{'{ "id": 42,'}</T>
-        <T x={18} y={84} s={9.5} f={mono} c={C.text}>{'  "plan": "pro",'}</T>
-        <T x={18} y={100} s={9.5} f={mono} c={C.text}>{'  "activa": true }'}</T>
+      <g transform="translate(70 200)">
+        <rect width={220} height={104} rx={14} fill={C.panel} stroke={C.line} />
+        <circle cx={34} cy={36} r={14} fill={c} opacity={0.25} />
+        <path d="M27 36l5 5 9-10" stroke={c} strokeWidth={2.6} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        <T x={58} y={33} s={11.5} w={700}>Nueva suscripción</T>
+        <T x={58} y={50} s={9.5} c={C.mute}>Plan mensual · activa</T>
+        <rect x={18} y={70} width={184} height={8} rx={4} fill={C.card} />
+        <rect x={18} y={70} width={132} height={8} rx={4} fill={c} />
       </g>
     </g>
   );
@@ -247,7 +252,7 @@ export default function ProjectMockup({ p }: { p: Project }) {
       {/* Banda de integración en el color del proyecto */}
       <path d="M-20 352H230L290 317H520L600 271H820" fill="none" stroke={c} strokeWidth="20" strokeLinejoin="round" opacity=".85" />
       <path d="M-20 374H240L300 339H530L610 293H820" fill="none" stroke={c} strokeWidth="4" opacity=".3" />
-      <g className="transition-transform duration-700 ease-out group-hover/cover:translate-y-[-4px]">{scene}</g>
+      <g>{scene}</g>
     </svg>
   );
 }

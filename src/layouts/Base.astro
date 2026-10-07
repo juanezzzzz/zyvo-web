@@ -3,6 +3,7 @@ import { url } from '../lib/url';
 import '../styles/global.css';
 import { site } from '../data/site';
 import WhatsAppFab from '../components/WhatsAppFab.astro';
+import BackToTop from '../components/BackToTop.astro';
 import archivo from '@fontsource-variable/archivo/files/archivo-latin-standard-normal.woff2?url';
 interface Props { title?: string; description?: string; image?: string }
 const { title = `${site.name} | Software a la medida desde Casanare`, description = site.description, image = 'og/inicio.png' } = Astro.props;
@@ -49,6 +50,7 @@ const jsonLd = {
   <body>
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-azul focus:px-4 focus:py-2 focus:text-white">Saltar al contenido</a>
     <slot />
+    <BackToTop />
     <WhatsAppFab />
     <script>
       import '../scripts/motion';

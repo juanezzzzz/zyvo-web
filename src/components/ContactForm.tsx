@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 import { CheckCircle2, Loader2, Send } from 'lucide-react';
 
-const types = ['Aplicación web', 'API / backend', 'Plataforma educativa', 'Automatización / IA', 'Otro'] as const;
+const types = ['Página o sistema web', 'Conectar herramientas', 'Plataforma educativa', 'Asistente o automatización', 'Diseño 3D', 'Otro'] as const;
 
 const schema = z.object({
   nombre: z.string().trim().min(2, 'Escribe tu nombre.'),

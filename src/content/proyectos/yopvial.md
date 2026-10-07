@@ -1,18 +1,17 @@
 ---
 name: YopVial
-kind: Plataforma educativa en seguridad vial
-summary: Educación en seguridad vial para Yopal, con minijuegos y un mapa de zonas de riesgo reportadas por la comunidad.
+kind: Plataforma para aprender seguridad vial
+summary: "Educación en seguridad vial para Yopal, con minijuegos y un mapa de zonas de riesgo reportadas por la comunidad."
 bullets:
   - "Minijuegos: Ruta Segura, Reflejos del semáforo, Parquea bien"
-  - Mapa con Leaflet y OpenStreetMap
-  - Controles táctiles y de teclado
-stack: [JavaScript, Phaser 3, Leaflet, Supabase]
+  - "Mapa de Yopal con las zonas de riesgo"
+  - "Se juega con el dedo o con el teclado"
 accent: luz
 order: 4
 facts:
-  - { k: Sector, v: Movilidad }
-  - { k: Ciudad, v: Yopal }
-  - { k: Formato, v: Web y móvil }
+  - { k: Sector, v: "Movilidad" }
+  - { k: Ciudad, v: "Yopal" }
+  - { k: Funciona en, v: "Computador y celular" }
 ---
 
 ## El reto
@@ -22,7 +21,7 @@ Enseñar normas de tránsito funciona mejor cuando se conecta con las calles que
 ## Lo que construimos
 
 - **Tres minijuegos** sobre situaciones reales: elegir la ruta segura, reaccionar al semáforo y parquear bien.
-- **Un mapa de Yopal** donde la comunidad reporta zonas de riesgo, construido con Leaflet y OpenStreetMap y guardado en Supabase.
+- **Un mapa de Yopal** donde la comunidad reporta las zonas de riesgo.
 
 ## Cómo lo hicimos
 

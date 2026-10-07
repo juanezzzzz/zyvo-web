@@ -8,7 +8,7 @@ import { nav } from '../data/site';
 const home = isHome(Astro.url.pathname);
 const to = (h: string) => (home ? h : url(`/${h}`));
 ---
-<header id="top-bar" style="view-transition-name: top-bar; padding-top: env(safe-area-inset-top, 0px)" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 border-b border-transparent data-[scrolled=true]:border-white/10 data-[scrolled=true]:bg-noche/95">
+<header id="top-bar" style="view-transition-name: top-bar; padding-top: env(safe-area-inset-top, 0px)" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 border-b border-transparent data-[scrolled=true]:border-white/10 data-[scrolled=true]:bg-noche/95 data-[menu=true]:!border-transparent data-[menu=true]:!bg-transparent">
   <div class="wrap flex h-[4.5rem] items-center justify-between gap-4">
     <a href={home ? '#inicio' : url()} class="text-marfil" aria-label="Zyvo Solutions, inicio"><Logo size={34} /></a>
     <nav aria-label="Principal" class="hidden items-center gap-1 text-sm md:flex">
@@ -30,22 +30,23 @@ const to = (h: string) => (home ? h : url(`/${h}`));
   </div>
 </header>
 
-<!-- Menú móvil a pantalla completa. Va fuera del <header> porque su backdrop-filter
-     convertiría al header en el contenedor de los elementos fixed. -->
-<nav id="menu" aria-label="Menú móvil" hidden class="menu-panel fixed inset-0 z-40 flex flex-col overflow-y-auto overscroll-contain bg-carbon pt-[calc(4.5rem+env(safe-area-inset-top))] md:hidden">
-  <ul class="wrap mt-4 grid">
+<!-- Menú móvil: panel de vidrio que baja hasta la mitad de la pantalla; la página queda visible detrás,
+     desenfocada, y tocarla cierra el menú. Va fuera del <header> para que el desenfoque no afecte a los elementos fixed. -->
+<div id="menu-scrim" hidden class="menu-scrim fixed inset-0 z-40 bg-carbon/45 backdrop-blur-[3px] md:hidden" aria-hidden="true"></div>
+<nav id="menu" aria-label="Menú móvil" hidden class="menu-panel fixed inset-x-0 top-0 z-40 max-h-[min(34rem,72svh)] overflow-y-auto overscroll-contain rounded-b-[1.75rem] border-b border-white/15 bg-noche/70 pt-[calc(4.5rem+env(safe-area-inset-top))] shadow-[0_30px_60px_-20px_rgba(0,0,0,.7)] backdrop-blur-2xl backdrop-saturate-150 md:hidden">
+  <ul class="wrap grid pt-1">
     {nav.map((n, i) => (
-      <li class="menu-item border-b border-white/10" style={`--i:${i}`}>
-        <a href={to(n.href)} class="display flex min-h-16 items-center justify-between text-[1.9rem] text-marfil active:text-azul-luz">
+      <li class="menu-item border-b border-white/10 last:border-0" style={`--i:${i}`}>
+        <a href={to(n.href)} class="wide flex min-h-[3.25rem] items-center justify-between text-xl font-bold text-marfil active:text-azul-luz">
           {n.label}
-          <span class="h-5 w-1.5 -skew-y-[30deg] bg-banda opacity-70" aria-hidden="true"></span>
+          <span class="h-4 w-1 -skew-y-[30deg] bg-banda opacity-80" aria-hidden="true"></span>
         </a>
       </li>
     ))}
   </ul>
-  <div class="wrap mt-auto grid gap-3 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-8">
-    <a href={to('#contacto')} class="btn-primary !py-4 text-base">Cotiza tu proyecto</a>
-    <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" class="btn-ghost !py-4 text-base"><MessageCircle size={18} aria-hidden="true" /> Escríbenos por WhatsApp</a>
+  <div class="wrap grid grid-cols-2 gap-2.5 pb-5 pt-3">
+    <a href={to('#contacto')} class="btn-primary !px-3 !py-3.5">Cotiza tu proyecto</a>
+    <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" class="btn-ghost !px-3 !py-3.5"><MessageCircle size={17} aria-hidden="true" /> WhatsApp</a>
   </div>
 </nav>
 
@@ -58,9 +59,11 @@ const to = (h: string) => (home ? h : url(`/${h}`));
   [aria-expanded='true'] .menu-icon .l2 { opacity: 0; }
   [aria-expanded='true'] .menu-icon .l3 { transform: translateY(-4px) rotate(-45deg); }
 
-  /* El panel siempre entra con un fundido; los enlaces suben solo si no se pidió reducir movimiento */
-  .menu-panel:not([hidden]) { animation: menu-in .35s var(--ease-out-expo); }
-  @keyframes menu-in { from { opacity: 0; } }
+  /* El panel baja con un fundido y el fondo se oscurece; los enlaces suben solo si no se pidió reducir movimiento */
+  .menu-panel:not([hidden]) { animation: menu-in .4s var(--ease-out-expo); }
+  .menu-scrim:not([hidden]) { animation: scrim-in .3s ease-out; }
+  @keyframes menu-in { from { opacity: 0; transform: translateY(-12px); } }
+  @keyframes scrim-in { from { opacity: 0; } }
   @media (prefers-reduced-motion: no-preference) {
     .menu-panel:not([hidden]) .menu-item { animation: item-in .5s var(--ease-out-expo) both; animation-delay: calc(var(--i) * 40ms + 60ms); }
     @keyframes item-in { from { opacity: 0; transform: translateY(14px); } }
@@ -72,20 +75,24 @@ const to = (h: string) => (home ? h : url(`/${h}`));
   const bar = document.getElementById('top-bar')!;
   const btn = document.getElementById('menu-btn')!;
   const menu = document.getElementById('menu')!;
+  const scrim = document.getElementById('menu-scrim')!;
 
   const isOpen = () => btn.getAttribute('aria-expanded') === 'true';
   const setMenu = (open: boolean, restoreFocus = false) => {
     btn.setAttribute('aria-expanded', String(open));
     btn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
     menu.hidden = !open;
+    scrim.hidden = !open;
     // La página de fondo no se desplaza con el menú abierto
     document.documentElement.style.overflow = open ? 'hidden' : '';
     if (open) lenis?.stop(); else lenis?.start();
     bar.dataset.scrolled = String(open || window.scrollY > 8);
+    bar.dataset.menu = String(open);
     if (open) menu.querySelector<HTMLElement>('a')?.focus({ preventScroll: true });
     else if (restoreFocus) btn.focus();
   };
   btn.addEventListener('click', () => setMenu(!isOpen()));
+  scrim.addEventListener('click', () => setMenu(false));
   menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && isOpen()) setMenu(false, true); });
   // Si se agranda la ventana con el menú abierto, ciérralo

@@ -67,6 +67,6 @@ export const GET: APIRoute = async ({ props }) => {
       { name: 'Archivo', data: await font(800), weight: 800, style: 'normal' },
     ],
   });
-  const png = await sharp(Buffer.from(svg)).png().toBuffer();
+  const png = await sharp(Buffer.from(svg)).png({ palette: true, quality: 90, compressionLevel: 9, effort: 10 }).toBuffer();
   return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png' } });
 };

@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import datacenter from '../assets/datacenter.webp';
 const headline = 'Construimos el software que tu empresa necesita.';
 ---
@@ -21,7 +21,7 @@ const headline = 'Construimos el software que tu empresa necesita.';
         {headline.split(' ').map((w, i) => (<><span class="hero-line inline-block overflow-hidden pb-[0.08em] align-bottom"><span class="inline-block" style={`--i:${i}`}>{w}</span></span>{' '}</>))}
       </h1>
       <p style="--i:1" class="hero-in lede mt-7 max-w-[54ch]">
-        Aplicaciones web, APIs, plataformas educativas e IA aplicada. Entregamos avances cada dos semanas y te explicamos cada decisión, para que el proyecto sea tuyo de verdad.
+        Páginas y sistemas web, plataformas educativas, asistentes automáticos y diseño 3D. Te explicamos cada paso en palabras sencillas, para que el proyecto sea tuyo de verdad.
       </p>
       <div style="--i:2" class="hero-in mt-8 grid gap-3 sm:mt-9 sm:flex sm:flex-wrap">
         <a href="#contacto" class="btn-primary !px-6 !py-3.5 text-base">Cotiza tu proyecto</a>
@@ -31,8 +31,10 @@ const headline = 'Construimos el software que tu empresa necesita.';
 
     <div class="relative min-w-0 lg:col-span-5">
       <div class="hero-img relative mx-auto w-full max-w-[560px] lg:-mr-16 lg:max-w-none">
-        <Image
+        <Picture
           src={datacenter}
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
           alt="Insignias hexagonales de seguridad, acceso y arquitectura conectadas por la banda azul de Zyvo frente a un centro de datos"
           widths={[480, 800, 1200, 1600]}
           sizes="(min-width: 1024px) 46vw, 92vw"
@@ -42,12 +44,17 @@ const headline = 'Construimos el software que tu empresa necesita.';
         />
       </div>
 
-      <div class="hero-term absolute -bottom-16 left-0 hidden sm:block w-[min(100%,330px)] rounded-lg border border-white/10 bg-acero/95 font-mono text-[12.5px] shadow-2xl shadow-black/60 sm:-left-6 lg:-left-20" aria-label="Ejemplo de un despliegue">
-        <div class="flex items-center gap-1.5 border-b border-white/10 px-3.5 py-2.5">
-          <i class="h-2.5 w-2.5 rounded-full bg-grafito"></i><i class="h-2.5 w-2.5 rounded-full bg-grafito"></i><i class="h-2.5 w-2.5 rounded-full bg-grafito"></i>
-          <span class="ml-2 text-xs text-niebla">zyvo / deploy</span>
+      <div class="hero-term absolute -bottom-16 left-0 hidden w-[min(100%,300px)] rounded-xl border border-white/10 bg-acero/95 text-sm shadow-2xl shadow-black/60 sm:-left-6 sm:block lg:-left-20" aria-label="Ejemplo del avance de un proyecto">
+        <div class="flex items-center justify-between border-b border-white/10 px-4 py-3">
+          <span class="font-semibold text-marfil">Tu proyecto</span>
+          <span class="text-xs text-niebla">Avance</span>
         </div>
-        <pre class="overflow-hidden px-3.5 py-3 leading-6 text-marfil"><span class="term-line block" style="--i:0"><span class="text-azul-luz">$</span> zyvo build --sprint 4</span><span class="term-line block" style="--i:1"><span class="text-senal">✓</span> 128 pruebas pasaron</span><span class="term-line block" style="--i:2"><span class="text-azul-luz">$</span> zyvo deploy --prod</span><span class="term-line block" style="--i:3"><span class="text-senal">●</span> en línea, 200 OK<span class="blink">▍</span></span></pre>
+        <ul class="grid gap-2.5 px-4 py-3.5">
+          <li class="term-line flex items-center gap-2.5 text-niebla-2" style="--i:0"><span class="grid h-5 w-5 place-items-center rounded-full bg-senal/15 text-[11px] text-senal">✓</span>Diagnóstico</li>
+          <li class="term-line flex items-center gap-2.5 text-niebla-2" style="--i:1"><span class="grid h-5 w-5 place-items-center rounded-full bg-senal/15 text-[11px] text-senal">✓</span>Diseño aprobado</li>
+          <li class="term-line flex items-center gap-2.5 text-marfil" style="--i:2"><span class="grid h-5 w-5 place-items-center rounded-full bg-azul/20"><span class="h-2 w-2 rounded-full bg-azul-luz blink"></span></span>Construyendo tu sistema</li>
+          <li class="term-line flex items-center gap-2.5 text-niebla" style="--i:3"><span class="h-5 w-5 rounded-full border border-white/15"></span>Listo para usar</li>
+        </ul>
       </div>
     </div>
   </div>

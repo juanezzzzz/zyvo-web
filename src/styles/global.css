@@ -65,13 +65,13 @@
 }
 
 @utility btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-semibold transition-[background-color,border-color,color,scale] duration-200 active:scale-[0.98];
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-semibold transition-[background-color,border-color,color,box-shadow,scale] duration-200 active:scale-[0.98];
 }
 @utility btn-primary {
-  @apply btn bg-azul text-white hover:bg-azul-prof;
+  @apply btn bg-azul text-white hover:bg-[#5C7BFF] hover:shadow-[0_10px_28px_-10px_rgba(71,102,245,.95)];
 }
 @utility btn-ghost {
-  @apply btn border border-white/20 text-marfil hover:border-metal hover:text-white;
+  @apply btn border border-white/25 text-marfil hover:border-white/60 hover:bg-white/10 hover:text-white;
 }
 
 /* Transiciones entre páginas (nativas del navegador, sin JS). La portada del proyecto viaja entre páginas. */

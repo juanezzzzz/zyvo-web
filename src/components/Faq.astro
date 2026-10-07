@@ -17,8 +17,8 @@ const jsonLd = {
       {faq.map((f, i) => (
         <details class="faq group border-b border-white/10" open={i === 0}>
           <summary class="flex min-h-16 cursor-pointer list-none items-center justify-between gap-6 py-5 text-left [&::-webkit-details-marker]:hidden">
-            <span class="wide text-lg font-bold leading-snug sm:text-xl">{f.q}</span>
-            <span class="faq-icon grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-niebla-2 transition-[rotate,background-color,color,border-color] duration-300 group-open:rotate-45 group-open:border-azul group-open:bg-azul group-open:text-white" aria-hidden="true">
+            <span class="wide text-lg font-bold leading-snug transition-colors duration-200 group-hover:text-azul-luz sm:text-xl">{f.q}</span>
+            <span class="faq-icon grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/15 text-niebla-2 transition-[rotate,background-color,color,border-color] duration-300 group-hover:border-azul-luz group-hover:text-marfil group-open:rotate-45 group-open:border-azul group-open:bg-azul group-open:text-white" aria-hidden="true">
               <Plus size={18} />
             </span>
           </summary>

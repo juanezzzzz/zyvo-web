@@ -94,7 +94,7 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
                 tabIndex={on ? 0 : -1}
                 onClick={() => setActive(i)}
                 className={`group relative min-h-11 shrink-0 snap-start rounded-md border px-4 py-3 text-left transition-colors lg:rounded-none lg:border-0 lg:border-b lg:border-white/10 lg:py-6 lg:pl-7 ${
-                  on ? 'border-azul bg-azul/10 lg:bg-transparent' : 'border-white/10 hover:bg-white/[.03]'
+                  on ? 'border-azul bg-azul/10 lg:bg-transparent' : 'border-white/10 hover:border-white/25 hover:bg-white/[.06]'
                 }`}
               >
                 {on && (
@@ -169,12 +169,6 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
                         <span className="mt-[0.55em] h-1.5 w-3 shrink-0 -skew-y-[30deg]" style={{ background: accents[p.accent] }} />
                         {b}
                       </li>
-                    ))}
-                  </ul>
-                  <h4 className="mt-6 text-sm font-semibold text-marfil">Con qué</h4>
-                  <ul className="mt-3 flex flex-wrap gap-1.5" aria-label="Tecnologías">
-                    {p.stack.map((t) => (
-                      <li key={t} className="rounded bg-noche px-2 py-1 font-mono text-[13px] text-niebla-2 sm:text-xs">{t}</li>
                     ))}
                   </ul>
                 </div>

@@ -10,7 +10,6 @@ const videos = [
     src: '/videos/making-of-3d.mp4',
     poster: '/videos/making-of-3d.webp',
     alt: 'Making of: de la pantalla a tus manos, diseño e impresión 3D',
-    duration: 29,
   },
   {
     kicker: 'Tutorial',
@@ -19,7 +18,6 @@ const videos = [
     src: '/videos/resina-paso-a-paso.mp4',
     poster: '/videos/resina-paso-a-paso.webp',
     alt: 'Imprimir en resina, del modelo a la pieza, en 6 pasos',
-    duration: 22.5,
   },
 ];
 ---
@@ -39,7 +37,7 @@ const videos = [
         <li class="w-[72%] shrink-0 snap-start sm:w-auto">
           <div class="rounded-[2.4rem] border border-white/15 bg-[#151B24] p-2 shadow-[0_40px_80px_-30px_rgba(0,0,0,.8)]">
             <div class="overflow-hidden rounded-[2rem]">
-              <VideoPlayer src={v.src} poster={v.poster} title={v.alt} duration={v.duration} width={720} height={1280} />
+              <VideoPlayer src={v.src} poster={v.poster} title={v.alt} width={720} height={1280} />
             </div>
           </div>
           <p class="mt-5 text-sm font-semibold text-azul-luz">{v.kicker}</p>

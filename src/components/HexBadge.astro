@@ -1,15 +1,15 @@
 ---
 // Insignia hexagonal de marca: marco de metal, núcleo negro, icono blanco y un tramo de banda.
 // Pasa el icono como slot (ej. <Shield /> de @lucide/astro).
-interface Props { size?: number; band?: 'bottom' | 'right' | 'none'; class?: string; lit?: boolean }
-const { size = 88, band = 'bottom', class: cls = '', lit = true } = Astro.props;
+interface Props { size?: number; band?: 'bottom' | 'right' | 'none'; class?: string; lit?: boolean; flat?: boolean }
+const { size = 88, band = 'bottom', class: cls = '', lit = true, flat = false } = Astro.props;
 const id = 'hx' + Math.random().toString(36).slice(2, 8);
 // Hexágono punta arriba con esquinas suaves, en un viewBox de 100x115
 const outer = 'M50 2.5 94 27.9v59.2L50 112.5 6 87.1V27.9Z';
 const inner = 'M50 15.5 82.7 34.4v46.2L50 99.5 17.3 80.6V34.4Z';
 ---
 <span class={`hex-badge relative inline-grid shrink-0 place-items-center ${cls}`} style={`width:${size}px;height:${size * 1.15}px`} data-lit={lit ? 'true' : 'false'}>
-  <svg viewBox="0 0 100 115" class="absolute inset-0 h-full w-full drop-shadow-[0_10px_18px_rgba(0,0,0,.45)]" aria-hidden="true">
+  <svg viewBox="0 0 100 115" class:list={['absolute inset-0 h-full w-full', !flat && 'drop-shadow-[0_10px_18px_rgba(0,0,0,.45)]']} aria-hidden="true">
     <defs>
       <linearGradient id={`${id}m`} x1="0" y1="0" x2="1" y2="1">
         <stop offset="0" stop-color="#F1F3F6" />
