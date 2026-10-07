@@ -71,7 +71,7 @@ export default function ContactForm({ endpoint, whatsapp }: Props) {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="relative min-w-0 overflow-hidden rounded-xl bg-white p-6 shadow-[0_30px_60px_-30px_rgba(14,18,24,.35)] ring-1 ring-noche/10 md:p-9">
+      <div className="glass-light relative min-w-0 overflow-hidden rounded-2xl p-6 md:p-9">
         <AnimatePresence mode="wait" initial={false}>
           {sent ? (
             <motion.div

@@ -94,7 +94,7 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
                 tabIndex={on ? 0 : -1}
                 onClick={() => setActive(i)}
                 className={`group relative min-h-11 shrink-0 snap-start rounded-md border px-4 py-3 text-left transition-colors lg:rounded-none lg:border-0 lg:border-b lg:border-white/10 lg:py-6 lg:pl-7 ${
-                  on ? 'border-azul bg-azul/10 lg:bg-transparent' : 'border-white/10 hover:border-white/25 hover:bg-white/[.06]'
+                  on ? 'border-azul bg-azul/15 backdrop-blur-md lg:bg-transparent lg:backdrop-blur-none' : 'border-white/10 hover:border-white/25 hover:bg-white/[.06]'
                 }`}
               >
                 {on && (
@@ -134,9 +134,9 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
                 if (info.offset.x < -60 || info.velocity.x < -400) go(active + 1);
                 else if (info.offset.x > 60 || info.velocity.x > 400) go(active - 1);
               }}
-              className="overflow-hidden rounded-xl border border-white/10 bg-acero"
+              className="glass overflow-hidden rounded-2xl"
             >
-              <a href={url(`/proyectos/${p.slug}/`)} className="group/cover relative block aspect-[16/8] overflow-hidden" style={{ viewTransitionName: `cover-${p.slug}` }} aria-label={`Ver el caso de ${p.name}`}>
+              <a href={url(`/proyectos/${p.slug}/`)} className="group/cover relative block aspect-[16/8] overflow-hidden" style={{ viewTransitionName: `cover-${p.slug}` }} aria-label={`Ver el caso de ${p.name}${p.highlight ? `. ${p.highlight}` : ""}`}>
                 <ProjectCover p={p} />
                 {p.highlight && (
                   <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-md bg-senal px-2.5 py-1 text-xs font-semibold text-carbon sm:bottom-4 sm:left-4 sm:gap-2 sm:px-3 sm:py-1.5 sm:text-sm">

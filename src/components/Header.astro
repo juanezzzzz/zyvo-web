@@ -8,7 +8,7 @@ import { nav } from '../data/site';
 const home = isHome(Astro.url.pathname);
 const to = (h: string) => (home ? h : url(`/${h}`));
 ---
-<header id="top-bar" style="view-transition-name: top-bar; padding-top: env(safe-area-inset-top, 0px)" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 border-b border-transparent data-[scrolled=true]:border-white/10 data-[scrolled=true]:bg-noche/95 data-[menu=true]:!border-transparent data-[menu=true]:!bg-transparent">
+<header id="top-bar" style="view-transition-name: top-bar; padding-top: env(safe-area-inset-top, 0px)" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 border-b border-transparent data-[scrolled=true]:border-white/10 data-[scrolled=true]:bg-noche/75 data-[scrolled=true]:backdrop-blur-xl data-[scrolled=true]:backdrop-saturate-150 data-[menu=true]:!border-transparent data-[menu=true]:!bg-transparent">
   <div class="wrap flex h-[4.5rem] items-center justify-between gap-4">
     <a href={home ? '#inicio' : url()} class="text-marfil" aria-label="Zyvo Solutions, inicio"><Logo size={34} /></a>
     <nav aria-label="Principal" class="hidden items-center gap-1 text-sm md:flex">
