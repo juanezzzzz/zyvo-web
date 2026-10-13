@@ -15,7 +15,6 @@ const jsonLd = {
   '@type': 'Organization',
   name: site.name,
   url: Astro.site?.toString(),
-  email: site.email,
   description,
   address: { '@type': 'PostalAddress', addressLocality: 'Yopal', addressRegion: 'Casanare', addressCountry: 'CO' },
 };
@@ -54,6 +53,8 @@ const jsonLd = {
     <WhatsAppFab />
     <script>
       import '../scripts/motion';
+      import { armContactLinks } from '../lib/contact';
+      armContactLinks();
     </script>
   </body>
 </html>

@@ -1,7 +1,6 @@
 ---
 import { MessageCircle } from '@lucide/astro';
 import { url, isHome } from '../lib/url';
-import { site } from '../data/site';
 import Logo from './Logo.astro';
 import { nav } from '../data/site';
 // En el inicio los enlaces son anclas; desde otras páginas vuelven al inicio
@@ -46,7 +45,7 @@ const to = (h: string) => (home ? h : url(`/${h}`));
   </ul>
   <div class="wrap grid grid-cols-2 gap-2.5 pb-5 pt-3">
     <a href={to('#contacto')} class="btn-primary !px-3 !py-3.5">Cotiza tu proyecto</a>
-    <a href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" class="btn-ghost !px-3 !py-3.5"><MessageCircle size={17} aria-hidden="true" /> WhatsApp</a>
+    <a href={to('#contacto')} data-contact="wa" data-contact-text="Hola Zyvo, quiero hablar de un proyecto." target="_blank" rel="noopener" class="btn-ghost !px-3 !py-3.5"><MessageCircle size={17} aria-hidden="true" /> WhatsApp</a>
   </div>
 </nav>
 

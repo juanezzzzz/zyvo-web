@@ -1,3 +1,4 @@
+import { contactHref } from '../lib/contact';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,12 +23,12 @@ const schema = z.object({
 });
 type Values = z.infer<typeof schema>;
 
-type Props = { endpoint: string; whatsapp: string };
+type Props = { endpoint: string };
 
 const field =
   'w-full rounded-md border bg-white px-3.5 py-3 text-base text-noche outline-none transition-[border-color,box-shadow] placeholder:text-tinta-2/60 focus:border-azul focus:ring-4 focus:ring-azul/15';
 
-export default function ContactForm({ endpoint, whatsapp }: Props) {
+export default function ContactForm({ endpoint }: Props) {
   const [sent, setSent] = useState<null | 'mail' | 'wa'>(null);
   const [failed, setFailed] = useState(false);
   const {
@@ -56,7 +57,7 @@ export default function ContactForm({ endpoint, whatsapp }: Props) {
     }
     // Sin endpoint configurado: abre WhatsApp con el mensaje armado
     const text = `Hola Zyvo, soy ${data.nombre}${data.empresa ? ` de ${data.empresa}` : ''}.\nProyecto: ${data.tipo}\n${data.mensaje}\nContacto: ${data.contacto}`;
-    window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    window.open(contactHref('wa', text), '_blank', 'noopener');
     setSent('wa');
   };
 
@@ -151,7 +152,7 @@ export default function ContactForm({ endpoint, whatsapp }: Props) {
               </button>
               {failed && (
                 <p role="alert" className="text-sm text-[#C4372D]">
-                  No se pudo enviar. Escríbenos por WhatsApp o al correo de la izquierda.
+                  No se pudo enviar. Usa los botones de WhatsApp o correo de la izquierda.
                 </p>
               )}
             </motion.form>

@@ -1,11 +1,12 @@
 ---
 import { MessageCircle } from '@lucide/astro';
-import { site } from '../data/site';
 ---
 <!-- Atajo a WhatsApp: siempre visible, fijo en la esquina inferior derecha -->
 <a
   id="wa-fab"
-  href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Hola Zyvo, quiero hablar de un proyecto.')}`}
+  href="#contacto"
+  data-contact="wa"
+  data-contact-text="Hola Zyvo, quiero hablar de un proyecto."
   target="_blank"
   rel="noopener"
   class="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex h-14 items-center gap-2.5 rounded-full bg-[#1FAF5A] pl-4 pr-5 font-semibold text-white shadow-[0_12px_30px_-8px_rgba(0,0,0,.6)] transition-[background-color,scale] duration-300 hover:scale-[1.04] hover:bg-[#178F49] sm:right-6"

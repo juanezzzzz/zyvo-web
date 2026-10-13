@@ -1,5 +1,5 @@
 // Datos generales del sitio. Edita aquí y se actualiza en toda la página.
-// ⚠️ Los datos de contacto son de ejemplo hasta tener dominio y líneas oficiales.
+// El WhatsApp y el correo NO van aquí: están protegidos en src/lib/contact.ts (contra scraping).
 
 export const site = {
   name: 'Zyvo Solutions',
@@ -8,10 +8,6 @@ export const site = {
   description:
     'Zyvo Solutions crea páginas y sistemas web a la medida, plataformas educativas, asistentes automáticos y diseño 3D desde Yopal, Casanare. Construimos soluciones y enseñamos cómo se hacen.',
   city: 'Yopal, Casanare · Colombia',
-  email: 'hola@zyvosolutions.com',
-  // Número en formato internacional, sin + ni espacios (se usa para wa.me)
-  whatsapp: '573000000000',
-  whatsappLabel: '+57 300 000 0000',
   // Si creas un formulario en https://formspree.io pega aquí el endpoint (ej. https://formspree.io/f/abcdwxyz).
   // Si queda vacío, el formulario abre WhatsApp con el mensaje ya escrito.
   formEndpoint: '',

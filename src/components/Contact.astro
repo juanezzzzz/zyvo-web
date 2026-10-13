@@ -2,11 +2,7 @@
 import { MessageCircle, Mail, MapPin } from '@lucide/astro';
 import ContactForm from './ContactForm';
 import { site } from '../data/site';
-const channels = [
-  { label: 'WhatsApp', value: site.whatsappLabel, href: `https://wa.me/${site.whatsapp}`, icon: MessageCircle, external: true },
-  { label: 'Correo', value: site.email, href: `mailto:${site.email}`, icon: Mail },
-  { label: 'Ubicación', value: site.city, icon: MapPin },
-];
+
 ---
 <section id="contacto" class="relative isolate overflow-hidden bg-marfil text-noche [color-scheme:light]">
   <div class="wrap relative z-10 grid gap-14 py-16 sm:py-24 md:py-32 lg:grid-cols-12">
@@ -14,24 +10,22 @@ const channels = [
       <h2 class="h-section">Cuéntanos qué quieres construir</h2>
       <p class="mt-6 max-w-[44ch] text-lg text-tinta-2">Te respondemos en menos de 24 horas hábiles con preguntas concretas o una propuesta inicial.</p>
 
-      <ul class="mt-10 grid gap-4 sm:mt-12 sm:gap-6">
-        {channels.map((c) => (
-          <li class="flex items-center gap-4">
-            <span class="hex-clip grid h-12 w-[2.6rem] shrink-0 place-items-center bg-noche text-marfil" aria-hidden="true"><c.icon size={18} /></span>
-            <span class="min-w-0">
-              <span class="block text-sm text-noche/75">{c.label}</span>
-              {c.href ? (
-                <a class="inline-flex min-h-11 items-center font-semibold underline-offset-4 hover:text-azul-prof hover:underline" href={c.href} target={c.external ? '_blank' : undefined} rel={c.external ? 'noopener' : undefined}>{c.value}</a>
-              ) : (
-                <span class="font-semibold">{c.value}</span>
-              )}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <!-- WhatsApp y correo como botones: el número y la dirección no aparecen escritos en la página (anti-scraping) -->
+      <div class="mt-10 grid gap-3 sm:mt-12 sm:max-w-md sm:grid-cols-2">
+        <a href="#contacto" data-contact="wa" data-contact-text="Hola Zyvo, quiero hablar de un proyecto." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" class="btn !justify-start gap-3 bg-[#1FAF5A] !px-4 !py-3.5 text-base text-white hover:bg-[#178F49] hover:shadow-[0_10px_28px_-10px_rgba(31,175,90,.9)]">
+          <MessageCircle size={20} aria-hidden="true" /> WhatsApp
+        </a>
+        <a href="#contacto" data-contact="mail" data-contact-text="Quiero hablar de un proyecto" aria-label="Envíanos un correo" class="btn !justify-start gap-3 bg-noche !px-4 !py-3.5 text-base text-marfil hover:bg-acero hover:shadow-[0_10px_28px_-12px_rgba(14,18,24,.7)]">
+          <Mail size={20} aria-hidden="true" /> Correo
+        </a>
+      </div>
+      <p class="mt-8 flex items-center gap-3 text-noche/75">
+        <span class="hex-clip grid h-10 w-[2.2rem] shrink-0 place-items-center bg-noche text-marfil" aria-hidden="true"><MapPin size={16} /></span>
+        <span><span class="sr-only">Ubicación: </span><span class="font-semibold text-noche">{site.city}</span></span>
+      </p>
     </div>
     <div class="min-w-0 lg:col-span-7">
-      <ContactForm client:visible endpoint={site.formEndpoint} whatsapp={site.whatsapp} />
+      <ContactForm client:visible endpoint={site.formEndpoint} />
     </div>
   </div>
 </section>
