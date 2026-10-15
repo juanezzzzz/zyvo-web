@@ -8,6 +8,7 @@ bullets:
   - "Se juega con el dedo o con el teclado"
 accent: luz
 order: 5
+draft: true  # oculto por ahora: el caso no está completo
 facts:
   - { k: Sector, v: "Movilidad" }
   - { k: Ciudad, v: "Yopal" }

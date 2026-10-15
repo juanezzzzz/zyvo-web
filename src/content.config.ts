@@ -11,6 +11,8 @@ export const projectSchema = z.object({
   accent: z.enum(['azul', 'senal', 'alerta', 'luz']),
   order: z.number(),
   featured: z.boolean().optional(),
+  // true = no se publica (no aparece en la lista ni tiene página). Para publicarlo, quítalo o pon false.
+  draft: z.boolean().default(false),
   highlight: z.string().optional(),
   // Ruta a una captura en /public, ej. '/projects/agroia.webp'
   image: z.string().optional(),

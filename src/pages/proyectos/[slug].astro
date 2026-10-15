@@ -12,7 +12,7 @@ import { accents } from '../../lib/projects';
 import { site } from '../../data/site';
 
 export async function getStaticPaths() {
-  const entries = await getCollection('proyectos');
+  const entries = (await getCollection('proyectos')).filter((e) => !e.data.draft);
   return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
 }
 

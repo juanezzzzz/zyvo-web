@@ -8,6 +8,7 @@ bullets:
   - "Seguimiento del avance de cada aprendiz"
 accent: alerta
 order: 4
+draft: true  # oculto por ahora: el caso no está completo
 facts:
   - { k: Sector, v: "Educación" }
   - { k: Para, v: "SENA" }

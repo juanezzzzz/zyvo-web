@@ -51,6 +51,8 @@ Cada proyecto es un archivo Markdown en `src/content/proyectos/`. El nombre del 
 5. (Opcional) Agrega enlaces: `links: [{ label: Ver demo, href: "https://…" }]`.
 6. Marca uno con `featured: true` para que aparezca seleccionado al cargar el inicio.
 
+**Ocultar un caso sin borrarlo:** pon `draft: true` en su `.md` (no aparece en la lista, no tiene página y en «Para quién trabajamos» se quita su enlace). Para publicarlo de nuevo, borra esa línea. Hoy están ocultos AgroIA, Zona Segura, YopVial y Jobsy.
+
 Cada proyecto tiene enlace directo desde el inicio: `/?proyecto=agroia`.
 
 **Video del caso (opcional):** pon el MP4 y su portada en `public/videos/` y agrega `video:` al `.md` (ver `gamerzone.md`). Recomendado: H.264 a 720p con `-movflags +faststart` y una portada WebP, por ejemplo:

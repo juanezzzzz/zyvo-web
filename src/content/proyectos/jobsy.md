@@ -8,6 +8,7 @@ bullets:
   - "Documentado para que otros equipos se conecten fácil"
 accent: azul
 order: 6
+draft: true  # oculto por ahora: el caso no está completo
 facts:
   - { k: Tipo, v: "Sistemas internos" }
   - { k: Para, v: "Tiendas y comunidades en línea" }

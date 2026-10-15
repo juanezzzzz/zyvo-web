@@ -10,6 +10,7 @@ bullets:
 highlight: 1.er lugar, Hackathon Colombia 5.0
 accent: senal
 order: 1
+draft: true  # oculto por ahora: el caso no está completo
 featured: true
 facts:
   - { k: Sector, v: "Agro" }
