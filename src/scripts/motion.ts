@@ -13,7 +13,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 let lenis: Lenis | null = null;
 if (!reduced) {
-  lenis = new Lenis({ lerp: 0.11, anchors: { offset: -72 } });
+  // Sin offset: el espacio de la barra fija ya lo da scroll-padding-top en global.css (Lenis lo respeta)
+  lenis = new Lenis({ lerp: 0.11, anchors: true });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((t) => lenis?.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);

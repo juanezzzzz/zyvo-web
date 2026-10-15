@@ -1,0 +1,69 @@
+---
+// Política de tratamiento de datos personales. Cubre lo que pide el art. 13 del Decreto 1377 de 2013
+// (compilado en el Decreto 1074 de 2015) y los derechos del art. 8 de la Ley 1581 de 2012.
+// Los datos del responsable se editan en src/data/site.ts (legal).
+import Legal from '../layouts/Legal.astro';
+import { legal, site } from '../data/site';
+---
+<Legal
+  title="Política de privacidad"
+  description="Cómo Zyvo Solutions recoge, usa y protege tus datos personales, y cómo puedes consultarlos, corregirlos o pedir que los borremos."
+  lead="Cómo tratamos los datos que nos compartes, para qué los usamos y cómo puedes consultarlos, corregirlos o pedir que los borremos."
+>
+  <p>Esta es la política de tratamiento de datos personales de {site.name}. La escribimos en cumplimiento de la Ley 1581 de 2012 y el Decreto 1377 de 2013, compilado en el Decreto 1074 de 2015.</p>
+
+  <h2>Quién es el responsable</h2>
+  <dl>
+    <dt>Responsable</dt><dd>{legal.responsable}</dd>
+    {legal.documento && <><dt>Identificación</dt><dd>{legal.documento}</dd></>}
+    {legal.direccion && <><dt>Dirección</dt><dd>{legal.direccion}</dd></>}
+    <dt>Domicilio</dt><dd>{legal.ciudad}</dd>
+    <dt>Correo</dt><dd><a href="#contacto-legal" data-contact="mail" data-contact-text="Datos personales" data-contact-reveal="mail">Correo de contacto (activa JavaScript para verlo)</a></dd>
+    <dt>Teléfono</dt><dd><span data-contact-reveal="wa">Teléfono (activa JavaScript para verlo)</span></dd>
+  </dl>
+
+  <h2>Qué datos recogemos</h2>
+  <p>Solo los que tú nos das cuando nos escribes por el formulario, WhatsApp o correo: <strong>tu nombre, tu correo o número de WhatsApp, el nombre de tu empresa (si lo escribes) y lo que nos cuentas de tu proyecto</strong>.</p>
+  <p>No pedimos datos sensibles, como salud, origen étnico, creencias u orientación política, ni datos de niñas, niños o adolescentes. Por favor no los incluyas en tu mensaje.</p>
+  <p>Esta página no usa cookies propias, herramientas de analítica ni publicidad que te sigan.</p>
+
+  <h2>Para qué los usamos</h2>
+  <ul>
+    <li>Responder tu mensaje y entender lo que necesitas.</li>
+    <li>Preparar y enviarte una propuesta o cotización.</li>
+    <li>Si trabajamos juntos, coordinar el proyecto, la entrega y el soporte.</li>
+  </ul>
+  <p>No vendemos ni alquilamos tus datos, y no los usamos para enviarte publicidad sin tu permiso.</p>
+
+  <h2>Con quién se comparten</h2>
+  <p>Para comunicarnos contigo usamos servicios de terceros que guardan la información en servidores que pueden estar fuera de Colombia: <strong>WhatsApp</strong> (Meta) cuando nos escribes por ese medio, <strong>Gmail</strong> (Google) cuando nos escribes por correo y <strong>GitHub</strong>, donde está alojada esta página. Cada uno trata los datos según su propia política de privacidad. Al escribirnos, autorizas este envío.</p>
+  <p>Solo entregaremos tus datos a una autoridad si la ley lo exige.</p>
+
+  <h2>Cuánto tiempo los guardamos</h2>
+  <p>Mientras dure la conversación o el proyecto. Si no llegamos a trabajar juntos, los borramos a más tardar dos años después del último contacto. Si trabajamos juntos, guardamos lo necesario durante el tiempo que exigen las normas contables y comerciales.</p>
+
+  <h2>Tus derechos</h2>
+  <p>Como titular de tus datos puedes:</p>
+  <ul>
+    <li>Conocer, actualizar y corregir tus datos.</li>
+    <li>Pedir prueba de la autorización que nos diste.</li>
+    <li>Saber qué uso le hemos dado a tus datos.</li>
+    <li>Retirar tu autorización o pedir que borremos tus datos, siempre que no tengamos un deber legal o contractual de conservarlos.</li>
+    <li>Consultar tus datos gratis.</li>
+    <li>Presentar quejas ante la Superintendencia de Industria y Comercio (SIC), después de haber hecho tu consulta o reclamo con nosotros.</li>
+  </ul>
+
+  <h2 id="contacto-legal">Cómo ejercerlos</h2>
+  <p>Escríbenos al correo de arriba con el asunto «Datos personales». Indica tu nombre, cómo te contactamos y qué quieres: consultar, corregir, borrar o retirar la autorización. La persona encargada de atender estas solicitudes es el equipo de {legal.responsable}.</p>
+  <ul>
+    <li><strong>Consultas:</strong> te respondemos en máximo 10 días hábiles. Si no alcanzamos, te avisamos el motivo y respondemos en máximo 5 días hábiles más.</li>
+    <li><strong>Reclamos</strong> (corregir, actualizar, borrar o retirar la autorización): te respondemos en máximo 15 días hábiles. Si no alcanzamos, te avisamos el motivo y respondemos en máximo 8 días hábiles más. Si al reclamo le falta información, te la pedimos dentro de los 5 días siguientes; si pasan dos meses sin que la envíes, entenderemos que desististe.</li>
+  </ul>
+
+  <h2>Seguridad</h2>
+  <p>Cuidamos tus datos con medidas razonables: solo el equipo que atiende tu solicitud tiene acceso a ellos y nunca los publicamos.</p>
+
+  <h2>Cambios a esta política</h2>
+  <p>Si la cambiamos, publicaremos la nueva versión en esta página con su fecha. Si el cambio afecta para qué usamos tus datos, te lo avisaremos antes por el medio por el que nos contactaste.</p>
+  <p>Esta política rige desde el {legal.vigencia} y la base de datos estará vigente mientras {site.name} siga en funcionamiento.</p>
+</Legal>

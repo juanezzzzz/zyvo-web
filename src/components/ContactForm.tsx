@@ -1,4 +1,5 @@
 import { contactHref } from '../lib/contact';
+import { url } from '../lib/url';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -20,6 +21,8 @@ const schema = z.object({
   empresa: z.string().trim().optional(),
   tipo: z.enum(types),
   mensaje: z.string().trim().min(10, 'Cuéntanos un poco más: al menos una frase.'),
+  // Autorización previa y expresa para tratar los datos (Ley 1581 de 2012)
+  acepta: z.boolean().refine((v) => v, 'Para responderte necesitamos tu autorización.'),
 });
 type Values = z.infer<typeof schema>;
 
@@ -36,7 +39,7 @@ export default function ContactForm({ endpoint }: Props) {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<Values>({ resolver: zodResolver(schema), defaultValues: { tipo: types[0] } });
+  } = useForm<Values>({ resolver: zodResolver(schema), defaultValues: { tipo: types[0], acepta: false } });
 
   const onSubmit = async (data: Values) => {
     setFailed(false);
@@ -56,7 +59,7 @@ export default function ContactForm({ endpoint }: Props) {
       return;
     }
     // Sin endpoint configurado: abre WhatsApp con el mensaje armado
-    const text = `Hola Zyvo, soy ${data.nombre}${data.empresa ? ` de ${data.empresa}` : ''}.\nProyecto: ${data.tipo}\n${data.mensaje}\nContacto: ${data.contacto}`;
+    const text = `Hola Zyvo, soy ${data.nombre}${data.empresa ? ` de ${data.empresa}` : ''}.\nProyecto: ${data.tipo}\n${data.mensaje}\nContacto: ${data.contacto}\n\nAutorizo el tratamiento de mis datos según la política de privacidad de Zyvo.`;
     window.open(contactHref('wa', text), '_blank', 'noopener');
     setSent('wa');
   };
@@ -146,6 +149,19 @@ export default function ContactForm({ endpoint }: Props) {
                 />
                 {err('mensaje')}
               </label>
+              <div className="grid gap-1.5">
+                <label className="flex cursor-pointer items-start gap-3 text-sm text-tinta-2">
+                  <input type="checkbox" {...register('acepta')} {...aria('acepta')} className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-azul" />
+                  <span>
+                    Autorizo a Zyvo Solutions a usar mis datos para responder mi mensaje, según su{' '}
+                    <a href={url('/privacidad/')} target="_blank" rel="noopener" className="font-semibold text-noche underline decoration-azul decoration-2 underline-offset-2 hover:text-azul">
+                      política de privacidad
+                    </a>
+                    .
+                  </span>
+                </label>
+                {err('acepta')}
+              </div>
               <button type="submit" disabled={isSubmitting} className="btn-primary mt-1 w-full !py-4 text-base disabled:opacity-70">
                 {isSubmitting ? <Loader2 size={18} className="animate-spin" aria-hidden="true" /> : <Send size={18} aria-hidden="true" />}
                 {isSubmitting ? 'Enviando…' : endpoint ? 'Enviar mensaje' : 'Enviar por WhatsApp'}

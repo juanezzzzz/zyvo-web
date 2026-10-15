@@ -11,12 +11,23 @@ export const site = {
   // Si creas un formulario en https://formspree.io pega aquí el endpoint (ej. https://formspree.io/f/abcdwxyz).
   // Si queda vacío, el formulario abre WhatsApp con el mensaje ya escrito.
   formEndpoint: '',
+  // Pega aquí la dirección de cada perfil. Las que queden vacías no se muestran en el pie de página.
   social: [
-    { label: 'GitHub', href: 'https://github.com/' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/' },
-    { label: 'Instagram', href: 'https://www.instagram.com/' },
-    { label: 'YouTube', href: 'https://www.youtube.com/' },
+    { label: 'Instagram', href: '' },
+    { label: 'LinkedIn', href: '' },
+    { label: 'YouTube', href: '' },
+    { label: 'GitHub', href: '' },
   ],
+};
+
+// Datos del responsable de los datos personales (Ley 1581 de 2012 y Decreto 1377 de 2013).
+// Se usan en la política de privacidad, los términos y el pie de página. Los campos vacíos no se muestran.
+export const legal = {
+  responsable: 'Zyvo Solutions (Control Z Team)',
+  documento: '', // NIT de la empresa o cédula de la persona responsable, ej. 'NIT 901.234.567-8'
+  direccion: '', // dirección física para notificaciones, ej. 'Calle 10 # 20-30'
+  ciudad: 'Yopal, Casanare, Colombia',
+  vigencia: '15 de octubre de 2026', // fecha desde la que rige la política; cámbiala si la actualizas
 };
 
 export const nav = [

@@ -1,0 +1,33 @@
+---
+// Términos de uso del sitio. Los datos del responsable se editan en src/data/site.ts (legal).
+import Legal from '../layouts/Legal.astro';
+import { url } from '../lib/url';
+import { legal, site } from '../data/site';
+---
+<Legal
+  title="Términos de uso"
+  description="Condiciones para usar la página de Zyvo Solutions: qué información encuentras aquí, de quién es el contenido y qué ley aplica."
+  lead="Las reglas para usar esta página: qué puedes esperar de la información que encuentras aquí y de quién es el contenido."
+>
+  <p>Esta página pertenece a {legal.responsable}{legal.documento && `, ${legal.documento}`}, con domicilio en {legal.ciudad}. Al usarla aceptas estos términos.</p>
+
+  <h2>La información de esta página</h2>
+  <p>Aquí contamos qué hacemos y mostramos proyectos que hemos construido. Esta información es orientativa: <strong>no es una oferta ni una cotización</strong>. El alcance, los tiempos y el precio de cada proyecto se acuerdan por escrito en una propuesta para ti.</p>
+  <p>Los proyectos que mostramos son reales y aparecen con permiso de cada cliente. Algunos aparecen sin el nombre del cliente porque así lo pidió.</p>
+
+  <h2>Contenido y marcas</h2>
+  <p>El nombre y el logo de {site.name}, la mascota Zy, los textos, las ilustraciones y los videos de esta página son nuestros o los usamos con permiso. Puedes compartir enlaces a la página, pero no copiar ni reutilizar su contenido sin nuestra autorización escrita.</p>
+  <p>Los nombres y logos de los clientes pertenecen a cada cliente. Los usamos solo para mostrar el trabajo que hicimos para ellos.</p>
+
+  <h2>Enlaces a otros sitios</h2>
+  <p>Algunos botones te llevan a servicios de terceros, como WhatsApp o tu aplicación de correo. No controlamos esos servicios, y cada uno tiene sus propias condiciones.</p>
+
+  <h2>Tus datos</h2>
+  <p>Cuando nos escribes, tratamos tus datos según nuestra <a href={url('/privacidad/')}>política de privacidad</a>.</p>
+
+  <h2>Disponibilidad</h2>
+  <p>Hacemos lo posible para que la página funcione siempre y esté al día, pero puede tener pausas o errores. Si encuentras uno, cuéntanos y lo arreglamos.</p>
+
+  <h2>Ley aplicable</h2>
+  <p>Estos términos se rigen por las leyes de Colombia. Si los cambiamos, publicaremos la nueva versión en esta página con su fecha.</p>
+</Legal>

@@ -1,17 +1,22 @@
 ---
 import { url, isHome } from '../lib/url';
-import { ArrowUpRight } from '@lucide/astro';
+import { ArrowUpRight, Mail, MapPin, MessageCircle } from '@lucide/astro';
 import Logo from './Logo.astro';
-import { site, nav } from '../data/site';
+import { site, nav, services, legal } from '../data/site';
 const year = new Date().getFullYear();
 const home = isHome(Astro.url.pathname);
+const to = (h: string) => (home ? h : url(`/${h}`));
 const [a, b, c] = site.tagline.split(' ');
+// Solo las redes con dirección real
+const social = site.social.filter((s) => s.href);
+const linkCls = 'inline-flex min-h-11 items-center gap-1 text-niebla-2 transition-colors hover:text-marfil';
 ---
 <footer class="relative overflow-hidden bg-carbon">
   <svg class="absolute inset-x-0 top-0 h-6 w-full" viewBox="0 0 1440 24" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0 0h1440v8H900l-14 16H0Z" fill="#2456E8" />
   </svg>
-  <div class="wrap pb-24 pt-16 sm:pb-10 sm:pt-24">
+  <!-- Espacio abajo para que los botones flotantes (WhatsApp, volver arriba) no tapen la última línea -->
+  <div class="wrap pb-24 pt-16 sm:pt-24">
     <!-- Cierre: la banda cruza el lema y cada palabra se enciende cuando la banda pasa por ella -->
     <div class="finale relative isolate">
       <svg class="finale-svg pointer-events-none absolute -inset-x-4 inset-y-0 -z-10 h-full w-[calc(100%+2rem)] overflow-visible sm:-inset-x-6 sm:w-[calc(100%+3rem)]" aria-hidden="true">
@@ -22,27 +27,50 @@ const [a, b, c] = site.tagline.split(' ');
       </p>
     </div>
 
-    <div class="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t sm:mt-20 border-white/10 pt-12 md:grid-cols-12">
-      <div class="col-span-2 md:col-span-6">
+    <div class="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-white/10 pt-12 sm:mt-20 md:grid-cols-12 md:gap-x-8">
+      <!-- Marca y contacto (el número y el correo no van escritos: los botones se arman al tocarlos) -->
+      <div class="col-span-2 md:col-span-5">
         <Logo size={40} class="text-marfil" />
-        <p class="mt-4 max-w-[38ch] text-niebla-2">Software a la medida y contenido para desarrolladores, hecho en {site.city}.</p>
+        <p class="mt-4 max-w-[38ch] text-niebla-2">Software a la medida, plataformas educativas y diseño 3D, hecho en Casanare.</p>
+        <div class="mt-6 flex flex-wrap gap-2.5">
+          <a href={to('#contacto')} data-contact="wa" data-contact-text="Hola Zyvo, quiero hablar de un proyecto." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" class="btn-ghost !py-2.5"><MessageCircle size={17} aria-hidden="true" /> WhatsApp</a>
+          <a href={to('#contacto')} data-contact="mail" data-contact-text="Quiero hablar de un proyecto" aria-label="Envíanos un correo" class="btn-ghost !py-2.5"><Mail size={17} aria-hidden="true" /> Correo</a>
+        </div>
+        <p class="mt-6 flex items-center gap-2 text-sm text-niebla-2"><MapPin size={16} aria-hidden="true" class="shrink-0 text-azul-luz" /> {site.city}</p>
       </div>
-      <nav aria-label="Pie de página" class="col-span-1 md:col-span-3">
+
+      <nav aria-label="Pie de página" class="col-span-1 md:order-2 md:col-span-2">
         <h2 class="text-sm text-niebla">Navegación</h2>
-        <ul class="mt-2 grid">{nav.map((n) => <li><a href={home ? n.href : url(`/${n.href}`)} class="inline-flex min-h-11 items-center text-niebla-2 transition-colors hover:text-marfil">{n.label}</a></li>)}</ul>
+        <ul class="mt-2 grid">{nav.map((n) => <li><a href={to(n.href)} class={linkCls}>{n.label}</a></li>)}</ul>
       </nav>
-      <div class="col-span-1 md:col-span-3">
-        <h2 class="text-sm text-niebla">Redes</h2>
+
+      <div class="col-span-1 md:order-4 md:col-span-2">
+        <h2 class="text-sm text-niebla">Legal</h2>
         <ul class="mt-2 grid">
-          {site.social.map((s) => (
-            <li><a href={s.href} target="_blank" rel="noopener" class="inline-flex min-h-11 items-center gap-1 text-niebla-2 transition-colors hover:text-marfil">{s.label}<ArrowUpRight size={14} aria-hidden="true" /></a></li>
-          ))}
+          <li><a href={url('/privacidad/')} class={linkCls}>Política de privacidad</a></li>
+          <li><a href={url('/terminos/')} class={linkCls}>Términos de uso</a></li>
         </ul>
+        {social.length > 0 && (
+          <>
+            <h2 class="mt-8 text-sm text-niebla">Redes</h2>
+            <ul class="mt-2 grid">
+              {social.map((s) => (
+                <li><a href={s.href} target="_blank" rel="noopener" class={linkCls}>{s.label}<ArrowUpRight size={14} aria-hidden="true" /></a></li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+
+      <div class="col-span-2 md:order-3 md:col-span-3">
+        <h2 class="text-sm text-niebla">Servicios</h2>
+        <ul class="mt-2 grid">{services.map((s) => <li><a href={to('#servicios')} class={`${linkCls} py-1 leading-snug`}>{s.title}</a></li>)}</ul>
       </div>
     </div>
-    <div class="mt-12 flex flex-wrap justify-between gap-3 text-sm text-niebla">
-      <span>© {year} {site.name}, {site.team}</span>
-      <span>Hecho en Casanare</span>
+
+    <div class="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-sm text-niebla sm:flex-row sm:flex-wrap sm:justify-between">
+      <span>© {year} {site.name} · {site.team}{legal.documento && ` · ${legal.documento}`}</span>
+      <span>Hecho en Yopal, Casanare</span>
     </div>
   </div>
 </footer>

@@ -5,3 +5,7 @@ dist/
 
 # Referencias de marca (pesadas). Las imágenes que usa la web están en src/assets/
 visuales/
+
+# Exportes de video sueltos (los originales están en Desktop/animaciones). La web usa public/videos/
+src/assets/*.mp4
+src/assets/*.zip

@@ -27,4 +27,9 @@ export function armContactLinks() {
   for (const type of ['pointerover', 'pointerdown', 'touchstart', 'focusin', 'click']) {
     document.addEventListener(type, arm, { capture: true, passive: true });
   }
+  // Donde la ley pide mostrar el dato (política de privacidad), se escribe en el navegador, nunca en el HTML
+  document.querySelectorAll<HTMLElement>('[data-contact-reveal]').forEach((el) => {
+    const v = decode(ENC[el.dataset.contactReveal as ContactKind]);
+    el.textContent = el.dataset.contactReveal === 'wa' ? `+${v.slice(0, 2)} ${v.slice(2, 5)} ${v.slice(5, 8)} ${v.slice(8)}` : v;
+  });
 }

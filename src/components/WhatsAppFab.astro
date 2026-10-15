@@ -1,15 +1,17 @@
 ---
 import { MessageCircle } from '@lucide/astro';
+import { url } from '../lib/url';
 ---
-<!-- Atajo a WhatsApp: siempre visible, fijo en la esquina inferior derecha -->
+<!-- Atajo a WhatsApp: siempre visible, fijo en la esquina inferior derecha.
+     Sin JS lleva a Contacto del inicio (también desde las páginas de caso y la 404). -->
 <a
   id="wa-fab"
-  href="#contacto"
+  href={url('/#contacto')}
   data-contact="wa"
   data-contact-text="Hola Zyvo, quiero hablar de un proyecto."
   target="_blank"
   rel="noopener"
-  class="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex h-14 items-center gap-2.5 rounded-full bg-[#1FAF5A] pl-4 pr-5 font-semibold text-white shadow-[0_12px_30px_-8px_rgba(0,0,0,.6)] transition-[background-color,scale] duration-300 hover:scale-[1.04] hover:bg-[#178F49] sm:right-6"
+  class="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex h-14 items-center gap-2.5 rounded-full bg-[#0F8545] pl-4 pr-5 font-semibold text-white shadow-[0_12px_30px_-8px_rgba(0,0,0,.6)] transition-[background-color,scale] duration-300 hover:scale-[1.04] hover:bg-[#0B6B38] sm:right-6"
   aria-label="Escríbenos por WhatsApp"
 >
   <MessageCircle size={22} aria-hidden="true" />
