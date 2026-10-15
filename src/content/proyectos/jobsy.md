@@ -7,7 +7,7 @@ bullets:
   - "Usuarios con contraseñas protegidas"
   - "Documentado para que otros equipos se conecten fácil"
 accent: azul
-order: 5
+order: 6
 facts:
   - { k: Tipo, v: "Sistemas internos" }
   - { k: Para, v: "Tiendas y comunidades en línea" }

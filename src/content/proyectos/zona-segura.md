@@ -7,7 +7,7 @@ bullets:
   - "Ejercicios de voz y respiración guiada"
   - "Seguimiento del avance de cada aprendiz"
 accent: alerta
-order: 3
+order: 4
 facts:
   - { k: Sector, v: "Educación" }
   - { k: Para, v: "SENA" }

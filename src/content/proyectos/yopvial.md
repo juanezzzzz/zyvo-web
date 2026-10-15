@@ -7,7 +7,7 @@ bullets:
   - "Mapa de Yopal con las zonas de riesgo"
   - "Se juega con el dedo o con el teclado"
 accent: luz
-order: 4
+order: 5
 facts:
   - { k: Sector, v: "Movilidad" }
   - { k: Ciudad, v: "Yopal" }
