@@ -31,28 +31,27 @@ const videos = [
 ---
 <section id="contenido" class="relative isolate overflow-hidden bg-noche" aria-labelledby="contenido-title">
   <span class="glow right-[8%] top-1/4 h-[26rem] w-[34rem] bg-azul/30" aria-hidden="true"></span>
-  <div class="wrap relative z-10 py-16 sm:py-24 md:py-32">
-    <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
-      <h2 id="contenido-title" class="h-section lg:col-span-7">Del diseño 3D a la pieza en tus manos</h2>
-      <div class="lg:col-span-5 lg:justify-self-end">
-        <p class="lede max-w-[46ch]">
-          Diseñamos, imprimimos en resina y lo contamos en videos cortos para que veas cómo trabajamos, de la pantalla a la pieza.
-        </p>
-        <a href="#contacto" class="btn-primary mt-7 !px-6 !py-3.5 text-base">Cotiza tu pieza</a>
-      </div>
+  <div class="wrap relative z-10 grid gap-10 py-16 sm:py-24 md:py-32 xl:grid-cols-12 xl:items-center xl:gap-10">
+    <div class="min-w-0 xl:col-span-4">
+      <h2 id="contenido-title" class="h-section">Del diseño 3D a la pieza en tus manos</h2>
+      <p class="lede mt-6 max-w-[46ch]">
+        Diseñamos, imprimimos en resina y lo contamos en videos cortos para que veas cómo trabajamos, de la pantalla a la pieza.
+      </p>
+      <a href="#contacto" class="btn-primary mt-8 !px-6 !py-3.5 text-base">Cotiza tu pieza</a>
     </div>
 
-    <!-- En móvil: fila deslizable; desde tablet: tres teléfonos lado a lado -->
-    <ul class="-mx-4 mt-12 flex snap-x snap-mandatory scroll-px-4 gap-5 overflow-x-auto px-4 pb-4 [scrollbar-width:none] md:mx-0 md:mt-16 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 lg:gap-10" aria-label="Videos">
+    <!-- Tamaño contenido: cada teléfono cabe entero en pantalla junto a su texto.
+         En móvil: fila deslizable que deja ver el siguiente; desde tablet: tres en fila (desde 1280 px, a la derecha del texto). -->
+    <ul class="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-4 [scrollbar-width:none] md:mx-0 md:grid md:max-w-3xl md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0 xl:col-span-8 xl:max-w-none" aria-label="Videos">
       {videos.map((v) => (
-        <li class="w-[72%] shrink-0 snap-start sm:w-[44%] md:w-auto">
-          <div class="glass rounded-[2.4rem] p-2">
-            <div class="overflow-hidden rounded-[2rem]">
+        <li class="w-[min(58%,15rem)] shrink-0 snap-start md:w-auto">
+          <div class="glass rounded-[1.9rem] p-1.5">
+            <div class="overflow-hidden rounded-[1.5rem]">
               <VideoPlayer src={v.src} poster={v.poster} title={v.alt} width={720} height={1280} />
             </div>
           </div>
-          <p class="mt-5 text-sm font-semibold text-azul-luz">{v.kicker}</p>
-          <h3 class="wide mt-1.5 text-lg font-bold leading-snug">{v.title}</h3>
+          <p class="mt-4 text-sm font-semibold text-azul-luz">{v.kicker}</p>
+          <h3 class="wide mt-1 text-base font-bold leading-snug lg:text-lg">{v.title}</h3>
           <p class="mt-2 text-sm text-niebla-2">{v.text}</p>
         </li>
       ))}
