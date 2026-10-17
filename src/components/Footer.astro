@@ -1,6 +1,7 @@
 ---
 import { url, isHome } from '../lib/url';
-import { ArrowUpRight, Mail, MapPin, MessageCircle } from '@lucide/astro';
+import { ArrowUpRight, Mail, MapPin } from '@lucide/astro';
+import WhatsAppIcon from './WhatsAppIcon.astro';
 import Logo from './Logo.astro';
 import { site, nav, services, legal } from '../data/site';
 const year = new Date().getFullYear();
@@ -33,7 +34,7 @@ const linkCls = 'inline-flex min-h-11 items-center gap-1 text-niebla-2 transitio
         <Logo size={40} class="text-marfil" />
         <p class="mt-4 max-w-[38ch] text-niebla-2">Software a la medida, plataformas educativas y diseño 3D, hecho en Casanare.</p>
         <div class="mt-6 flex flex-wrap gap-2.5">
-          <a href={to('#contacto')} data-contact="wa" data-contact-text="Hola Zyvo, quiero hablar de un proyecto." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" class="btn-ghost !py-2.5"><MessageCircle size={17} aria-hidden="true" /> WhatsApp</a>
+          <a href={to('#contacto')} data-contact="wa" data-contact-text="Hola Zyvo, quiero hablar de un proyecto." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" class="btn-ghost !py-2.5"><WhatsAppIcon size={17} /> WhatsApp</a>
           <a href={to('#contacto')} data-contact="mail" data-contact-text="Quiero hablar de un proyecto" aria-label="Envíanos un correo" class="btn-ghost !py-2.5"><Mail size={17} aria-hidden="true" /> Correo</a>
         </div>
         <p class="mt-6 flex items-center gap-2 text-sm text-niebla-2"><MapPin size={16} aria-hidden="true" class="shrink-0 text-azul-luz" /> {site.city}</p>

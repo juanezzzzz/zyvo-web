@@ -1,34 +1,46 @@
 ---
 name: Zona Segura
-kind: Plataforma para aprender seguridad en el trabajo
-summary: "Una plataforma interactiva de seguridad y salud en el trabajo para el SENA: se aprende jugando, con avance y puntaje."
+kind: Juegos interactivos para capacitar
+summary: "Una capacitación en seguridad y salud en el trabajo convertida en juego: cada participante arma su carnet, supera seis tipos de retos, suma puntos y al final se lleva su certificado."
 bullets:
-  - "Juego para equipar al trabajador con su protección"
-  - "Ejercicios de voz y respiración guiada"
-  - "Seguimiento del avance de cada aprendiz"
-accent: alerta
+  - "Seis tipos de juego: vestir al trabajador, clasificar, parejas, ruleta, voz y respiración"
+  - "Cada error muestra lo correcto y por qué"
+  - "Puntaje sobre 1000, niveles, logros y un ranking del grupo"
+  - "Certificado para imprimir al terminar"
+  - "Funciona en computador, tableta o celular, sin instalar nada"
+accent: senal
 order: 4
-draft: true  # oculto por ahora: el caso no está completo
+video:
+  src: /videos/zona-segura.mp4
+  poster: /videos/zona-segura.webp
+  title: Zona Segura, juegos interactivos para capacitar
+  duration: 72
+  width: 1280
+  height: 720
 facts:
-  - { k: Sector, v: "Educación" }
-  - { k: Para, v: "SENA" }
-  - { k: Formato, v: "Web, sin instalar nada" }
+  - { k: Sector, v: "Formación" }
+  - { k: Tema, v: "Seguridad y salud en el trabajo" }
+  - { k: Funciona en, v: "Computador, tableta y celular" }
 ---
 
 ## El reto
 
-Las capacitaciones en seguridad y salud en el trabajo suelen ser presentaciones largas que se olvidan rápido. El SENA necesitaba una forma de que los aprendices practicaran, no solo leyeran.
+Muchas capacitaciones se quedan en diapositivas: se pasan una tras otra y al día siguiente casi nada se recuerda. En seguridad y salud en el trabajo eso pesa más, porque lo que no se aprende bien se puede pagar con un accidente.
 
 ## Lo que construimos
 
-Una plataforma con minijuegos que enseñan haciendo:
+Un recorrido de juegos cortos donde se aprende haciendo. Antes de empezar, cada participante arma su carnet con su nombre, que lo acompaña en cada etapa.
 
-- **Elementos de protección:** el aprendiz equipa al trabajador con lo que necesita para cada tarea.
-- **Ejercicios de voz:** actividades que usan el micrófono del computador o del celular.
-- **Respiración guiada:** pausas activas con ritmo visual y sonoro.
+- **Vestir al trabajador:** se elige la protección correcta para cada parte del cuerpo según el oficio.
+- **Clasificar contra el reloj:** cada situación se lleva a su grupo antes de que se acabe el tiempo.
+- **Encontrar las parejas:** conceptos y elementos de protección, a pura memoria.
+- **Pregunta o reto en vivo:** una ruleta que decide qué sigue.
+- **La voz como control:** ejercicios que solo avanzan cuando te escuchan.
+- **Una pausa guiada:** respiración con el ritmo en pantalla.
 
-Cada actividad suma a un puntaje, y se puede seguir el avance de cada aprendiz.
+Cuando alguien se equivoca, el juego muestra lo correcto y explica por qué, en ese mismo momento. Al final hay un resumen con puntaje, nivel y logros, un ranking del grupo y un certificado para imprimir.
 
 ## Cómo lo hicimos
 
-Todo funciona desde el navegador, sin instalar nada, con animaciones y sonidos que hacen que aprender sea más entretenido.
+- **Sin instalar nada:** se abre en el navegador del computador, la tableta o el celular.
+- **El contenido va aparte del juego:** las preguntas, oficios y retos se pueden cambiar sin rehacer los juegos. La misma idea sirve para inducciones, seguridad vial, manipulación de alimentos, atención al cliente o protocolos internos.

@@ -69,27 +69,23 @@ export const services = [
   },
 ];
 
-// Para quién trabajamos: cada público enlaza a un caso real (slug de src/content/proyectos)
+// Para quién trabajamos (sin enlaces a casos: la lista de proyectos va cambiando)
 export const audiences = [
   {
     who: 'Productores y cooperativas',
     what: 'Canales para vender sin intermediarios, inventario de cosecha y asistentes por Telegram o WhatsApp que entienden notas de voz.',
-    case: { label: 'AgroIA Casanare', slug: 'agroia' },
   },
   {
     who: 'Instituciones de formación',
     what: 'Plataformas de capacitación con juegos, simuladores y seguimiento de progreso por aprendiz.',
-    case: { label: 'Zona Segura', slug: 'zona-segura' },
   },
   {
     who: 'Alcaldías y entidades',
     what: 'Herramientas ciudadanas: mapas con reportes de la comunidad, pedagogía, formularios y tableros.',
-    case: { label: 'YopVial', slug: 'yopvial' },
   },
   {
     who: 'Empresas y comercios',
     what: 'Sistemas para manejar el día a día del negocio y conectar las herramientas que ya usan: ventas, inventario, caja, clientes.',
-    case: { label: 'GamerZone', slug: 'gamerzone' },
   },
 ];
 

@@ -1,5 +1,5 @@
 ---
-import { MessageCircle } from '@lucide/astro';
+import WhatsAppIcon from './WhatsAppIcon.astro';
 import { url } from '../lib/url';
 ---
 <!-- Atajo a WhatsApp: siempre visible, fijo en la esquina inferior derecha.
@@ -11,9 +11,9 @@ import { url } from '../lib/url';
   data-contact-text="Hola Zyvo, quiero hablar de un proyecto."
   target="_blank"
   rel="noopener"
-  class="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex h-14 items-center gap-2.5 rounded-full bg-[#0F8545] pl-4 pr-5 font-semibold text-white shadow-[0_12px_30px_-8px_rgba(0,0,0,.6)] transition-[background-color,scale] duration-300 hover:scale-[1.04] hover:bg-[#0B6B38] sm:right-6"
+  class="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-40 inline-flex h-14 w-14 items-center justify-center gap-2.5 rounded-full bg-[#0F8545] font-semibold text-white shadow-[0_12px_30px_-8px_rgba(0,0,0,.6)] transition-[background-color,scale] duration-300 hover:scale-[1.04] hover:bg-[#0B6B38] sm:right-6 sm:w-auto sm:pl-4 sm:pr-5"
   aria-label="Escríbenos por WhatsApp"
 >
-  <MessageCircle size={22} aria-hidden="true" />
+  <WhatsAppIcon size={22} />
   <span class="hidden sm:inline">Escríbenos</span>
 </a>
