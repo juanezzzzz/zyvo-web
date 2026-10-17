@@ -1,41 +1,51 @@
 ---
 import VideoPlayer from './VideoPlayer.astro';
-// Piezas de contenido propias (animaciones/zyvo/videos): making of del Zy 3D y tutorial de resina.
-// Ojo con el making of: la figura de Zy está laminada, no impresa; lo impreso son los llaveros del isotipo.
+// Videos propios (animaciones/zyvo/videos): reel de resina, espacio de trabajo y showreel de pantallas.
+// Originales en Desktop/videos pagina zyvo; aquí van a 720p (public/videos).
 const videos = [
   {
-    kicker: 'Making of',
-    title: 'De la pantalla a tus manos',
-    text: 'Modelamos y animamos a Zy en 3D, lo preparamos para imprimir e imprimimos en resina llaveros con el logo de Zyvo.',
-    src: '/videos/making-of-3d.mp4',
-    poster: '/videos/making-of-3d.webp',
-    alt: 'Making of: de la pantalla a tus manos, diseño e impresión 3D',
+    kicker: 'Impresión 3D',
+    title: 'De la idea a la pieza',
+    text: 'Diseñamos tu idea en 3D, la imprimimos en resina y la terminamos a mano. Así nacen los llaveros con el logo de Zyvo.',
+    src: '/videos/resina-reel.mp4',
+    poster: '/videos/resina-reel.webp',
+    alt: 'De la idea a la pieza: diseño e impresión 3D en resina',
   },
   {
-    kicker: 'Tutorial',
-    title: 'Imprimir en resina en 6 pasos',
-    text: 'Ajusta el modelo, genera los soportes, lamina por capas, agita la resina, viértela en la cubeta e imprime.',
-    src: '/videos/resina-paso-a-paso.mp4',
-    poster: '/videos/resina-paso-a-paso.webp',
-    alt: 'Imprimir en resina, del modelo a la pieza, en 6 pasos',
+    kicker: 'Detrás de cámaras',
+    title: 'Detrás de cada proyecto',
+    text: 'Las pantallas donde construimos el software y la impresora donde nacen las piezas, paso a paso.',
+    src: '/videos/espacio-trabajo.mp4',
+    poster: '/videos/espacio-trabajo.webp',
+    alt: 'Detrás de cada proyecto: del código a la pieza impresa',
+  },
+  {
+    kicker: 'Lo que hacemos',
+    title: 'Software, video y 3D',
+    text: 'Sistemas para negocios, videos para marcas y figuras impresas en 3D. Todo hecho a la medida.',
+    src: '/videos/showreel.mp4',
+    poster: '/videos/showreel.webp',
+    alt: 'Todo empieza en una pantalla: software, video y 3D hechos a la medida',
   },
 ];
 ---
 <section id="contenido" class="relative isolate overflow-hidden bg-noche" aria-labelledby="contenido-title">
   <span class="glow right-[8%] top-1/4 h-[26rem] w-[34rem] bg-azul/30" aria-hidden="true"></span>
-  <div class="wrap relative z-10 grid gap-10 py-16 sm:py-24 md:py-32 lg:grid-cols-12 lg:items-center lg:gap-6">
-    <div class="min-w-0 lg:col-span-5">
-      <h2 id="contenido-title" class="h-section">Del diseño 3D a la pieza en tus manos</h2>
-      <p class="lede mt-6 max-w-[46ch]">
-        Modelamos, animamos e imprimimos en resina. Y lo contamos en videos cortos para que veas cómo se hace.
-      </p>
-      <a href="#contacto" class="btn-primary mt-8 !px-6 !py-3.5 text-base">Cotiza tu pieza</a>
+  <div class="wrap relative z-10 py-16 sm:py-24 md:py-32">
+    <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+      <h2 id="contenido-title" class="h-section lg:col-span-7">Del diseño 3D a la pieza en tus manos</h2>
+      <div class="lg:col-span-5 lg:justify-self-end">
+        <p class="lede max-w-[46ch]">
+          Diseñamos, imprimimos en resina y lo contamos en videos cortos para que veas cómo trabajamos, de la pantalla a la pieza.
+        </p>
+        <a href="#contacto" class="btn-primary mt-7 !px-6 !py-3.5 text-base">Cotiza tu pieza</a>
+      </div>
     </div>
 
-    <!-- En móvil: fila deslizable; en escritorio: dos teléfonos lado a lado -->
-    <ul class="-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-5 overflow-x-auto px-4 pb-4 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:col-span-7 lg:col-start-6" aria-label="Videos">
+    <!-- En móvil: fila deslizable; desde tablet: tres teléfonos lado a lado -->
+    <ul class="-mx-4 mt-12 flex snap-x snap-mandatory scroll-px-4 gap-5 overflow-x-auto px-4 pb-4 [scrollbar-width:none] md:mx-0 md:mt-16 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 lg:gap-10" aria-label="Videos">
       {videos.map((v) => (
-        <li class="w-[72%] shrink-0 snap-start sm:w-auto">
+        <li class="w-[72%] shrink-0 snap-start sm:w-[44%] md:w-auto">
           <div class="glass rounded-[2.4rem] p-2">
             <div class="overflow-hidden rounded-[2rem]">
               <VideoPlayer src={v.src} poster={v.poster} title={v.alt} width={720} height={1280} />
