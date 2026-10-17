@@ -38,7 +38,7 @@ Requiere Node 18.20+ (recomendado Node 20 o 22).
 | Zy 3D animado de la sección Equipo | `public/videos/zy-saludo.mp4` (bucle sin sonido) |
 | Proyectos y sus páginas de caso | `src/content/proyectos/*.md` |
 | Colores y fuentes de marca | `src/styles/global.css` (bloque `@theme`) |
-| Dominio para SEO | Lo pone el workflow de Pages; en local, `astro.config.mjs` → `site` |
+| Dominio oficial (canonical, imagen al compartir, robots.txt) | `src/data/site.ts` → `domain` y `astro.config.mjs` → `site` |
 
 ### Agregar un proyecto
 
@@ -73,19 +73,16 @@ La imagen para compartir en redes (`/og/<proyecto>.png`) se genera sola al compi
 
 ## Desplegar
 
-### GitHub Pages (configurado)
+### Vercel (producción): https://www.zyvolabs.website
 
-El workflow `.github/workflows/deploy.yml` compila y publica la web en cada push a `main`. También se puede lanzar a mano desde la pestaña **Actions**.
+Vercel está conectado al repo y publica solo en cada push a `main`. El dominio `zyvolabs.website` usa los DNS de Vercel y redirige a `www`.
 
-- URL: https://juanezzzzz.github.io/zyvo-web/
-- Requisito (una sola vez): **Settings → Pages → Source: GitHub Actions**.
-- El dominio y la subcarpeta (`/zyvo-web`) los pone el workflow. En el código, usa siempre `url('/ruta')` de `src/lib/url.ts` para enlaces internos, nunca `href="/ruta"` directo, o se romperán en Pages.
+- Si cambias de dominio, actualiza `domain` en `src/data/site.ts` y `site` en `astro.config.mjs`.
+- Todas las páginas dicen a Google que su versión oficial está en ese dominio, aunque se abran desde otra copia.
 
-**Dominio propio:** en Settings → Pages → Custom domain escribe el dominio (ej. `zyvosolutions.com`) y configura el DNS como indica GitHub. El siguiente despliegue usa el dominio y quita la subcarpeta solo, sin cambiar código.
+### GitHub Pages (copia): https://juanezzzzz.github.io/zyvo-web/
 
-### Otros hostings
-
-Es un sitio estático (`npm run build` → carpeta `dist`). Vercel y Netlify detectan Astro solos.
+El workflow `.github/workflows/deploy.yml` publica también una copia en Pages, en la subcarpeta `/zyvo-web`. Por eso, en el código usa siempre `url('/ruta')` de `src/lib/url.ts` para enlaces internos, nunca `href="/ruta"` directo.
 
 ## Estructura
 
@@ -106,5 +103,5 @@ public/         favicon.svg, /projects (capturas)
 ## Pendientes antes de publicar
 
 - [ ] Reemplazar correo, WhatsApp y redes de ejemplo en `src/data/site.ts`.
-- [ ] (Opcional) Conectar un dominio propio en Settings → Pages.
+- [x] Dominio propio: www.zyvolabs.website (Vercel).
 - [ ] Agregar capturas reales de los proyectos y enlaces a demos o repos.

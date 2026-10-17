@@ -8,6 +8,8 @@ export const site = {
   description:
     'Zyvo Solutions crea páginas y sistemas web a la medida, plataformas educativas, asistentes automáticos y diseño 3D desde Yopal, Casanare. Construimos soluciones y enseñamos cómo se hacen.',
   city: 'Yopal, Casanare · Colombia',
+  // Dirección oficial. Las copias en otros servidores (GitHub Pages) apuntan aquí como versión principal.
+  domain: 'https://www.zyvolabs.website',
   // Si creas un formulario en https://formspree.io pega aquí el endpoint (ej. https://formspree.io/f/abcdwxyz).
   // Si queda vacío, el formulario abre WhatsApp con el mensaje ya escrito.
   formEndpoint: '',

@@ -8,7 +8,8 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   // En GitHub Actions estos valores llegan del workflow (dominio y subcarpeta de GitHub Pages).
   // En local: dominio de producción y raíz. Con dominio propio en Pages, BASE_PATH queda vacío.
-  site: process.env.SITE_URL || 'https://zyvosolutions.com',
+  // Producción real: Vercel con el dominio www.zyvolabs.website (allí no hay SITE_URL, se usa este valor).
+  site: process.env.SITE_URL || 'https://www.zyvolabs.website',
   base: process.env.BASE_PATH || '/',
 
   build: { inlineStylesheets: 'auto' },
