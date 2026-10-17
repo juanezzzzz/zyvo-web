@@ -1,7 +1,8 @@
 ---
 import PhoneVideos, { type PhoneVideo } from './PhoneVideos.astro';
 // Reels de Zy (originales en Desktop/Videos Zyvo; aquí a 720p en public/videos).
-// Fuera a propósito: los dos «gancho» (repiten «Conoce a Zy») y «Caso real» (AgroIA está oculto y nombra tecnologías).
+// Fuera a propósito: los dos «gancho» (repiten «Conoce a Zy»), «Caso real» (AgroIA está oculto y nombra tecnologías)
+// y «Antes y después» (pocos videos: que no se abuse).
 const videos: PhoneVideo[] = [
   {
     kicker: 'Zy responde',
@@ -10,14 +11,6 @@ const videos: PhoneVideo[] = [
     src: '/videos/zy-mitos.mp4',
     poster: '/videos/zy-mitos.webp',
     alt: '¿Mito o realidad? Zy responde lo que te dijeron sobre crear una app',
-  },
-  {
-    kicker: 'Antes y después',
-    title: 'Tu negocio, con y sin sistema',
-    text: 'Pedidos por todos lados y anotados en un cuaderno, contra una app que los recibe, los ordena y te avisa.',
-    src: '/videos/zy-antes-despues.mp4',
-    poster: '/videos/zy-antes-despues.webp',
-    alt: 'POV: tu negocio hoy y tu negocio después, con Zy',
   },
   {
     kicker: 'Detrás de cámaras',
@@ -37,6 +30,6 @@ const videos: PhoneVideo[] = [
         Videos cortos donde Zy, nuestro agente, explica cómo trabajamos y aclara lo que casi nadie te dice sobre crear software.
       </p>
     </div>
-    <PhoneVideos videos={videos} class="xl:col-span-8 xl:max-w-none" />
+    <PhoneVideos videos={videos} class="xl:col-span-8 xl:justify-self-center" />
   </div>
 </section>
