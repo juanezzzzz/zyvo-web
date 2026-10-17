@@ -1,5 +1,5 @@
 ---
-import { url } from '../lib/url';
+import VideoPlayer from './VideoPlayer.astro';
 import { site } from '../data/site';
 const values = [
   { t: 'Hablamos claro', d: 'Propuestas con tiempos y costos concretos, sin letra pequeña ni jerga.' },
@@ -15,12 +15,15 @@ const proof = [
 ---
 <section id="equipo" class="relative isolate overflow-hidden border-t border-white/10 bg-carbon">
   <div class="wrap grid items-center gap-8 sm:gap-14 py-16 sm:py-24 md:py-32 lg:grid-cols-12">
-    <!-- Zy, la mascota 3D oficial (render propio): saludo en bucle, sin sonido. Con «reducir movimiento» queda quieto. -->
-    <figure class="relative mx-auto w-full max-w-[18rem] sm:max-w-[24rem] lg:col-span-5 lg:max-w-none">
-      <div class="relative aspect-square overflow-hidden rounded-[2rem] border border-white/10 bg-[#0B0F15] shadow-[0_40px_80px_-30px_rgba(0,0,0,.8)]">
-        <video id="zy-loop" class="h-full w-full object-cover" src={url('/videos/zy-saludo.mp4')} poster={url('/videos/zy-saludo.webp')} muted loop playsinline preload="metadata" width="720" height="720" aria-hidden="true"></video>
+    <!-- Zy, la mascota 3D oficial: saluda en bucle (sin sonido; quieto con «reducir movimiento»)
+         y al pulsar el botón el mismo cuadro pasa al reel «Conoce a Zy», con voz. -->
+    <figure class="relative mx-auto w-full max-w-[15rem] sm:max-w-[17rem] lg:col-span-5 lg:max-w-[19rem]">
+      <div class="glass rounded-[1.9rem] p-1.5 shadow-[0_40px_80px_-30px_rgba(0,0,0,.8)]">
+        <div class="overflow-hidden rounded-[1.5rem]">
+          <VideoPlayer src="/videos/zy-conoce.mp4" preview="/videos/zy-saludo.mp4" poster="/videos/zy-saludo.webp" title="Conoce a Zy, el agente de Zyvo" width={720} height={1280} label="Conoce a Zy" />
+        </div>
       </div>
-      <figcaption class="mt-4 text-center text-sm text-niebla">Zy, el agente de Zyvo, saludando</figcaption>
+      <figcaption class="mt-4 text-center text-sm text-niebla">Zy, el agente de Zyvo. Dale play y se presenta.</figcaption>
     </figure>
 
     <div class="min-w-0 lg:col-span-7">
@@ -50,11 +53,3 @@ const proof = [
     </div>
   </div>
 </section>
-
-<script>
-  // Solo se anima si está en pantalla y el usuario no pidió reducir el movimiento
-  const zy = document.getElementById('zy-loop') as HTMLVideoElement | null;
-  if (zy && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    new IntersectionObserver(([e]) => (e.isIntersecting ? zy.play().catch(() => {}) : zy.pause()), { threshold: 0.2 }).observe(zy);
-  }
-</script>

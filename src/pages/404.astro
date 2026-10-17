@@ -1,7 +1,7 @@
 ---
 import { url } from '../lib/url';
 import { Picture } from 'astro:assets';
-import zy from '../assets/zy-3d-gesto.webp';
+import zy from '../assets/zy-sorpresa.png';
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 ---
@@ -23,7 +23,7 @@ import Header from '../components/Header.astro';
         </div>
       </div>
       <div class="md:col-span-5">
-        <Picture src={zy} formats={['avif', 'webp']} fallbackFormat="webp" alt="Zy, el agente de Zyvo, haciendo un gesto" widths={[360, 720]} sizes="(min-width: 768px) 30vw, 70vw" class="mx-auto h-auto w-2/3 rounded-[2rem] border border-white/10 md:w-full" />
+        <Picture src={zy} formats={['avif', 'webp']} fallbackFormat="webp" alt="Zy, el agente de Zyvo, sorprendido con los brazos abiertos" widths={[360, 720]} sizes="(min-width: 768px) 30vw, 60vw" class="mx-auto h-auto w-3/5 md:w-full" />
       </div>
     </div>
   </main>

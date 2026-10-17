@@ -26,12 +26,12 @@ const schema = z.object({
 });
 type Values = z.infer<typeof schema>;
 
-type Props = { endpoint: string };
+type Props = { endpoint: string; successImg?: string };
 
 const field =
   'w-full rounded-md border bg-white px-3.5 py-3 text-base text-noche outline-none transition-[border-color,box-shadow] placeholder:text-tinta-2/60 focus:border-azul focus:ring-4 focus:ring-azul/15';
 
-export default function ContactForm({ endpoint }: Props) {
+export default function ContactForm({ endpoint, successImg }: Props) {
   const [sent, setSent] = useState<null | 'mail' | 'wa'>(null);
   const [failed, setFailed] = useState(false);
   const {
@@ -86,7 +86,20 @@ export default function ContactForm({ endpoint }: Props) {
               className="grid min-h-[420px] place-content-center justify-items-center gap-4 text-center"
               role="status"
             >
-              <CheckCircle2 size={52} className="text-senal" aria-hidden="true" />
+              {successImg ? (
+                <motion.img
+                  src={successImg}
+                  alt=""
+                  width={320}
+                  height={373}
+                  className="h-40 w-auto"
+                  initial={{ y: 16, rotate: -4 }}
+                  animate={{ y: 0, rotate: 0 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 14 }}
+                />
+              ) : (
+                <CheckCircle2 size={52} className="text-senal" aria-hidden="true" />
+              )}
               <h3 className="display text-2xl text-noche">{sent === 'mail' ? 'Mensaje enviado' : 'WhatsApp abierto'}</h3>
               <p className="max-w-[36ch] text-tinta-2">
                 {sent === 'mail'

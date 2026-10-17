@@ -1,0 +1,42 @@
+---
+import PhoneVideos, { type PhoneVideo } from './PhoneVideos.astro';
+// Reels de Zy (originales en Desktop/Videos Zyvo; aquí a 720p en public/videos).
+// Fuera a propósito: los dos «gancho» (repiten «Conoce a Zy») y «Caso real» (AgroIA está oculto y nombra tecnologías).
+const videos: PhoneVideo[] = [
+  {
+    kicker: 'Zy responde',
+    title: '¿Mito o realidad?',
+    text: 'Tres cosas que te dijeron sobre crear una app para tu negocio, y lo que pasa de verdad.',
+    src: '/videos/zy-mitos.mp4',
+    poster: '/videos/zy-mitos.webp',
+    alt: '¿Mito o realidad? Zy responde lo que te dijeron sobre crear una app',
+  },
+  {
+    kicker: 'Antes y después',
+    title: 'Tu negocio, con y sin sistema',
+    text: 'Pedidos por todos lados y anotados en un cuaderno, contra una app que los recibe, los ordena y te avisa.',
+    src: '/videos/zy-antes-despues.mp4',
+    poster: '/videos/zy-antes-despues.webp',
+    alt: 'POV: tu negocio hoy y tu negocio después, con Zy',
+  },
+  {
+    kicker: 'Detrás de cámaras',
+    title: '¿Cómo se hace este video?',
+    text: 'Del guion a la voz, la animación 3D y la edición. También lo hacemos para tu marca.',
+    src: '/videos/zy-detras-camaras.mp4',
+    poster: '/videos/zy-detras-camaras.webp',
+    alt: '¿Cómo se hace este video? Zy muestra el proceso',
+  },
+];
+---
+<section id="zy" class="relative isolate overflow-hidden border-t border-white/10 bg-carbon" aria-labelledby="zy-title">
+  <div class="wrap relative z-10 grid gap-10 py-16 sm:py-24 md:py-32 xl:grid-cols-12 xl:items-center xl:gap-10">
+    <div class="min-w-0 xl:col-span-4">
+      <h2 id="zy-title" class="h-section">Zy te lo cuenta</h2>
+      <p class="lede mt-6 max-w-[46ch]">
+        Videos cortos donde Zy, nuestro agente, explica cómo trabajamos y aclara lo que casi nadie te dice sobre crear software.
+      </p>
+    </div>
+    <PhoneVideos videos={videos} class="xl:col-span-8 xl:max-w-none" />
+  </div>
+</section>

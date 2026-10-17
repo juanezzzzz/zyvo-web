@@ -4,6 +4,10 @@ import WhatsAppIcon from './WhatsAppIcon.astro';
 import ContactForm from './ContactForm';
 import { site } from '../data/site';
 import { url } from '../lib/url';
+import { getImage } from 'astro:assets';
+import zyCelebra from '../assets/zy-celebra.png';
+// Zy celebrando, para cuando el mensaje sale (optimizado aquí: la isla de React solo recibe la ruta)
+const zy = await getImage({ src: zyCelebra, width: 320, format: 'webp' });
 
 ---
 <section id="contacto" class="relative isolate overflow-hidden bg-marfil text-noche [color-scheme:light]">
@@ -28,7 +32,7 @@ import { url } from '../lib/url';
       </p>
     </div>
     <div class="min-w-0 lg:col-span-7">
-      <ContactForm client:visible endpoint={site.formEndpoint} />
+      <ContactForm client:visible endpoint={site.formEndpoint} successImg={zy.src} />
     </div>
   </div>
 </section>

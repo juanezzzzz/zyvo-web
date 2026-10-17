@@ -1,5 +1,6 @@
 ---
 import { Plus } from '@lucide/astro';
+import VideoPlayer from './VideoPlayer.astro';
 import { faq } from '../data/site';
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -13,6 +14,15 @@ const jsonLd = {
     <div class="lg:col-span-4">
       <h2 id="faq-title" class="h-section">Preguntas frecuentes</h2>
       <p class="lede mt-5 max-w-[34ch]">Lo que casi todos nos preguntan antes de empezar. ¿Tienes otra duda? <a href="#contacto" class="text-marfil underline decoration-azul decoration-2 underline-offset-4 hover:text-azul-luz">Escríbenos</a>.</p>
+      <!-- La pregunta que más llega, respondida por Zy -->
+      <figure class="mt-8 w-full max-w-[13rem] sm:max-w-[14rem]">
+        <div class="glass rounded-[1.9rem] p-1.5">
+          <div class="overflow-hidden rounded-[1.5rem]">
+            <VideoPlayer src="/videos/zy-cuanto-cuesta.mp4" poster="/videos/zy-cuanto-cuesta.webp" title="¿Cuánto cuesta una app para mi negocio? Zy responde" width={720} height={1280} label="Zy responde" />
+          </div>
+        </div>
+        <figcaption class="mt-3 text-sm text-niebla">¿Cuánto cuesta una app? Zy te lo explica en 37 segundos.</figcaption>
+      </figure>
     </div>
     <div class="glass rounded-2xl px-5 sm:px-7 lg:col-span-7 lg:col-start-6 [&>details:last-child]:border-b-0">
       {faq.map((f, i) => (

@@ -1,0 +1,23 @@
+---
+// Fila de videos verticales en marco de teléfono, con su texto debajo.
+// Tamaño contenido: cada teléfono cabe entero en pantalla junto a su texto.
+// En móvil: fila deslizable que deja ver el siguiente; desde tablet: tres en fila.
+import VideoPlayer from './VideoPlayer.astro';
+export interface PhoneVideo { kicker: string; title: string; text: string; src: string; poster: string; alt: string }
+interface Props { videos: PhoneVideo[]; class?: string }
+const { videos, class: cls = '' } = Astro.props;
+---
+<ul class={`-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-4 overflow-x-auto px-4 pb-4 [scrollbar-width:none] md:mx-0 md:grid md:max-w-3xl md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0 ${cls}`} aria-label="Videos">
+  {videos.map((v) => (
+    <li class="w-[min(58%,15rem)] shrink-0 snap-start md:w-auto">
+      <div class="glass rounded-[1.9rem] p-1.5">
+        <div class="overflow-hidden rounded-[1.5rem]">
+          <VideoPlayer src={v.src} poster={v.poster} title={v.alt} width={720} height={1280} />
+        </div>
+      </div>
+      <p class="mt-4 text-sm font-semibold text-azul-luz">{v.kicker}</p>
+      <h3 class="wide mt-1 text-base font-bold leading-snug lg:text-lg">{v.title}</h3>
+      <p class="mt-2 text-sm text-niebla-2">{v.text}</p>
+    </li>
+  ))}
+</ul>
