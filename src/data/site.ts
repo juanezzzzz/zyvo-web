@@ -10,6 +10,11 @@ export const site = {
   city: 'Yopal, Casanare · Colombia',
   // Dirección oficial. Las copias en otros servidores (GitHub Pages) apuntan aquí como versión principal.
   domain: 'https://www.zyvolabs.website',
+  // Otros nombres con los que te pueden buscar; Google los usa para reconocer la marca.
+  alternateNames: ['Zyvo', 'Zyvo Labs', 'Control Z Team'],
+  // Código de Google Search Console (método «Etiqueta HTML»): pega solo el valor de content="…".
+  // No hace falta si verificaste el dominio por DNS.
+  googleVerification: '',
   // Si creas un formulario en https://formspree.io pega aquí el endpoint (ej. https://formspree.io/f/abcdwxyz).
   // Si queda vacío, el formulario abre WhatsApp con el mensaje ya escrito.
   formEndpoint: '',
