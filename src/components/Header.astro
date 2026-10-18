@@ -7,7 +7,7 @@ import { nav } from '../data/site';
 const home = isHome(Astro.url.pathname);
 const to = (h: string) => (home ? h : url(`/${h}`));
 ---
-<header id="top-bar" style="view-transition-name: top-bar; padding-top: env(safe-area-inset-top, 0px)" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 border-b border-transparent data-[scrolled=true]:border-white/10 data-[scrolled=true]:bg-noche/75 data-[scrolled=true]:backdrop-blur-xl data-[scrolled=true]:backdrop-saturate-150 data-[menu=true]:!border-transparent data-[menu=true]:!bg-transparent">
+<header id="top-bar" style="view-transition-name: top-bar; padding-top: env(safe-area-inset-top, 0px)" class="fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 border-b border-transparent data-[scrolled=true]:border-white/10 data-[scrolled=true]:bg-noche/95 data-[menu=true]:!border-transparent data-[menu=true]:!bg-transparent">
   <div class="wrap flex h-[4.5rem] items-center justify-between gap-4">
     <a href={home ? '#inicio' : url()} class="text-marfil" aria-label="Zyvo Solutions, inicio"><Logo size={34} /></a>
     <nav aria-label="Principal" class="hidden items-center gap-1 text-sm md:flex">
@@ -87,6 +87,15 @@ const to = (h: string) => (home ? h : url(`/${h}`));
     if (open) lenis?.stop(); else lenis?.start();
     bar.dataset.scrolled = String(open || window.scrollY > 8);
     bar.dataset.menu = String(open);
+    // Con el menú abierto, la página de fondo no recibe foco ni clics (Tab no se escapa del menú)
+    for (const el of [document.getElementById('main'), document.querySelector('footer')]) el?.toggleAttribute('inert', open);
+    // Los botones flotantes (WhatsApp, volver arriba) no quedan encima del menú abierto
+    for (const id of ['wa-fab', 'to-top']) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      el.toggleAttribute('inert', open);
+      el.classList.toggle('menu-hide', open);
+    }
     if (open) menu.querySelector<HTMLElement>('a')?.focus({ preventScroll: true });
     else if (restoreFocus) btn.focus();
   };
@@ -113,4 +122,7 @@ const to = (h: string) => (home ? h : url(`/${h}`));
     { rootMargin: '-45% 0px -50% 0px' },
   );
   links.forEach((l) => { const s = document.getElementById(l.dataset.spy!); if (s) io.observe(s); });
+  // El hero no está en el menú: al volver arriba ninguna sección queda marcada
+  const hero = document.getElementById('inicio');
+  if (hero && links.length) io.observe(hero);
 </script>

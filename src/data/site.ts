@@ -35,7 +35,7 @@ export const legal = {
 export const nav = [
   { label: 'Servicios', href: '#servicios' },
   { label: 'Proyectos', href: '#proyectos' },
-  { label: 'Proceso', href: '#proceso' },
+  { label: 'Estudio', href: '#estudio' },
   { label: 'Equipo', href: '#equipo' },
   { label: 'Contacto', href: '#contacto' },
 ];
@@ -45,31 +45,45 @@ export const services = [
     title: 'Páginas y sistemas web a la medida',
     text: 'Herramientas para tu negocio que se ajustan a cómo trabajas, no al revés: ventas, inventario, turnos, reservas y más.',
     icon: 'web',
+    line: 'software',
   },
   {
     title: 'Conectamos tus herramientas',
     text: 'Hacemos que los programas que ya usas se hablen entre sí, para que no tengas que pasar la misma información a mano dos veces.',
     icon: 'api',
+    line: 'software',
   },
   {
     title: 'Plataformas educativas interactivas',
     text: 'Juegos, simuladores y módulos de aprendizaje para capacitar a las personas de forma que de verdad recuerden.',
     icon: 'edu',
+    line: 'software',
   },
   {
     title: 'Asistentes y tareas automáticas',
     text: 'Asistentes que responden por WhatsApp o Telegram y procesos que se hacen solos, para que tu equipo dedique el tiempo a lo importante.',
     icon: 'ai',
+    line: 'software',
+  },
+  {
+    title: 'Videos con Zy para tu marca',
+    text: 'Del guion a la voz, la animación 3D y la edición: videos cortos con Zy o para tu propia marca, listos para redes.',
+    icon: 'video',
+    line: 'creativo',
   },
   {
     title: 'Diseño 3D e impresión en resina',
     text: 'Modelamos tu idea en 3D, la animamos si hace falta y la imprimimos en resina: desde llaveros con tu logo hasta piezas a la medida.',
     icon: 'print3d',
-    link: { label: 'Ver cómo lo hacemos', href: '#contenido' },
+    line: 'creativo',
   },
 ];
 
-// Para quién trabajamos (sin enlaces a casos: la lista de proyectos va cambiando)
+// Para quién trabajamos: se resume en una línea dentro de «Lo que hacemos»
+export const audiencesLine =
+  'Trabajamos con productores y cooperativas, instituciones de formación, alcaldías y entidades, y empresas y comercios.';
+
+// Detalle por público (ya no se muestra en el inicio; se conserva como referencia de textos)
 export const audiences = [
   {
     who: 'Productores y cooperativas',
@@ -93,11 +107,11 @@ export const audiences = [
 export const faq = [
   {
     q: '¿Cuánto cuesta un proyecto?',
-    a: 'Depende de lo que haya que construir. Después del diagnóstico te entregamos una propuesta con tiempos y costos concretos, sin letra pequeña, y decides si seguimos.',
+    a: 'Depende de lo que haya que construir. Después del diagnóstico te entregamos una propuesta con tiempos y costos concretos, en palabras sencillas y sin letra pequeña, y decides si seguimos.',
   },
   {
     q: '¿Cuánto tiempo toma?',
-    a: 'Depende del tamaño del proyecto. Después de la primera reunión te damos un cronograma claro, y durante el desarrollo te mostramos avances que puedes probar.',
+    a: 'Depende del tamaño del proyecto. Después de la primera reunión te damos un cronograma claro, y durante el desarrollo te mostramos avances que puedes probar. Revisamos que todo funcione mientras construimos, no al final.',
   },
   {
     q: '¿El código queda a mi nombre?',
@@ -113,7 +127,7 @@ export const faq = [
   },
   {
     q: '¿Solo trabajan con empresas de Casanare?',
-    a: 'Estamos en Yopal y podemos reunirnos en persona. Si estás en otra ciudad, trabajamos por videollamada de la misma forma.',
+    a: 'Somos de Yopal y nos puedes ver en persona, no solo en videollamada. Si estás en otra ciudad, trabajamos por videollamada de la misma forma.',
   },
 ];
 

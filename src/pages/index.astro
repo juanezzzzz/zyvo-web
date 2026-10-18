@@ -3,32 +3,29 @@ import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Services from '../components/Services.astro';
-import Audiences from '../components/Audiences.astro';
 import Projects from '../components/Projects.astro';
+import Studio from '../components/Studio.astro';
 import Process from '../components/Process.astro';
 import Team from '../components/Team.astro';
-import Content from '../components/Content.astro';
-import ZyReels from '../components/ZyReels.astro';
 import Faq from '../components/Faq.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import BandLink from '../components/BandLink.astro';
 ---
+<!-- Dos líneas hermanas: lo que hacemos (software | creativo) → prueba de software (proyectos)
+     → prueba creativa (estudio) → cómo, quiénes, dudas → contacto. -->
 <Base>
   <Header />
   <main id="main">
     <Hero />
     <Services />
-    <Audiences />
-    <BandLink top="var(--color-noche)" bottom="var(--color-carbon)" dir="ltr" />
     <Projects />
+    <BandLink top="var(--color-noche)" bottom="var(--color-carbon)" dir="ltr" />
+    <Studio />
     <Process />
     <Team />
-    <ZyReels />
-    <BandLink top="var(--color-carbon)" bottom="var(--color-noche)" dir="rtl" />
-    <Content />
     <Faq />
-    <BandLink top="var(--color-carbon)" bottom="var(--color-marfil)" dir="ltr" />
+    <BandLink top="var(--color-carbon)" bottom="var(--color-marfil)" dir="rtl" />
     <Contact />
   </main>
   <Footer />

@@ -7,7 +7,8 @@ import { z } from 'zod';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 import { CheckCircle2, Loader2, Send } from 'lucide-react';
 
-const types = ['Página o sistema web', 'Conectar herramientas', 'Plataforma educativa', 'Asistente o automatización', 'Diseño 3D', 'Otro'] as const;
+// Alineado con las dos líneas: software (sistema, plataforma, asistente) y estudio creativo (video, 3D)
+const types = ['Sistema web o integración', 'Plataforma educativa', 'Asistente o automatización', 'Video con Zy', 'Diseño o impresión 3D', 'Otro'] as const;
 
 const schema = z.object({
   nombre: z.string().trim().min(2, 'Escribe tu nombre.'),
@@ -29,7 +30,7 @@ type Values = z.infer<typeof schema>;
 type Props = { endpoint: string; successImg?: string };
 
 const field =
-  'w-full rounded-md border bg-white px-3.5 py-3 text-base text-noche outline-none transition-[border-color,box-shadow] placeholder:text-tinta-2/60 focus:border-azul focus:ring-4 focus:ring-azul/15';
+  'w-full rounded-md border bg-white px-3.5 py-3 text-base text-noche outline-none transition-[border-color,box-shadow] placeholder:text-tinta-2 focus:border-azul focus:ring-4 focus:ring-azul/15';
 
 export default function ContactForm({ endpoint, successImg }: Props) {
   const [sent, setSent] = useState<null | 'mail' | 'wa'>(null);
@@ -66,16 +67,16 @@ export default function ContactForm({ endpoint, successImg }: Props) {
 
   const err = (k: keyof Values) =>
     errors[k] ? (
-      <span id={`err-${k}`} className="text-sm font-normal text-[#C4372D]">
+      <span id={`err-${k}`} className="text-sm font-normal text-error-tinta">
         {errors[k]?.message}
       </span>
     ) : null;
   const aria = (k: keyof Values) => ({ 'aria-invalid': !!errors[k], 'aria-describedby': errors[k] ? `err-${k}` : undefined });
-  const border = (k: keyof Values) => (errors[k] ? 'border-[#C4372D]' : 'border-noche/15');
+  const border = (k: keyof Values) => (errors[k] ? 'border-error-tinta' : 'border-noche/15');
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="glass-light relative min-w-0 overflow-hidden rounded-2xl p-6 md:p-9">
+      <div className="surface-light relative min-w-0 overflow-hidden rounded-2xl p-6 md:p-9">
         <AnimatePresence mode="wait" initial={false}>
           {sent ? (
             <motion.div
@@ -95,7 +96,7 @@ export default function ContactForm({ endpoint, successImg }: Props) {
                   className="h-40 w-auto"
                   initial={{ y: 16, rotate: -4 }}
                   animate={{ y: 0, rotate: 0 }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 14 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 />
               ) : (
                 <CheckCircle2 size={52} className="text-senal" aria-hidden="true" />
@@ -140,9 +141,9 @@ export default function ContactForm({ endpoint, successImg }: Props) {
               </label>
               <fieldset className="grid gap-2">
                 <legend className="mb-2 text-sm font-medium text-noche">Tipo de proyecto</legend>
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
                   {types.map((t) => (
-                    <label key={t} className="cursor-pointer">
+                    <label key={t} className="cursor-pointer [&>span]:w-full sm:[&>span]:w-auto">
                       <input type="radio" value={t} {...register('tipo')} className="peer sr-only" />
                       <span className="inline-flex min-h-11 items-center rounded-md border border-noche/15 px-3.5 text-sm text-noche transition-colors peer-checked:border-azul peer-checked:bg-azul peer-checked:text-white peer-focus-visible:ring-4 peer-focus-visible:ring-azul/25 hover:border-noche/40">
                         {t}
@@ -180,7 +181,7 @@ export default function ContactForm({ endpoint, successImg }: Props) {
                 {isSubmitting ? 'Enviando…' : endpoint ? 'Enviar mensaje' : 'Enviar por WhatsApp'}
               </button>
               {failed && (
-                <p role="alert" className="text-sm text-[#C4372D]">
+                <p role="alert" className="text-sm text-error-tinta">
                   No se pudo enviar. Usa los botones de WhatsApp o correo de la izquierda.
                 </p>
               )}

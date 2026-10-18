@@ -1,9 +1,8 @@
 ---
 import { url, isHome } from '../lib/url';
-import { ArrowUpRight, Mail, MapPin } from '@lucide/astro';
-import WhatsAppIcon from './WhatsAppIcon.astro';
+import { ArrowUpRight, MapPin } from '@lucide/astro';
 import Logo from './Logo.astro';
-import { site, nav, services, legal } from '../data/site';
+import { site, nav, legal } from '../data/site';
 const year = new Date().getFullYear();
 const home = isHome(Astro.url.pathname);
 const to = (h: string) => (home ? h : url(`/${h}`));
@@ -23,29 +22,25 @@ const linkCls = 'inline-flex min-h-11 items-center gap-1 text-niebla-2 transitio
       <svg class="finale-svg pointer-events-none absolute -inset-x-4 inset-y-0 -z-10 h-full w-[calc(100%+2rem)] overflow-visible sm:-inset-x-6 sm:w-[calc(100%+3rem)]" aria-hidden="true">
         <path class="band-path finale-band" stroke-width="22" />
       </svg>
-      <p class="display text-[clamp(2.6rem,9vw,6rem)] leading-[0.98] text-marfil">
+      <p class="display text-[clamp(2.4rem,7vw,4.5rem)] leading-[0.98] text-marfil">
         <span class="finale-word block w-fit">{a}</span><span class="finale-word block w-fit text-metal/80">{b}</span><span class="finale-word block w-fit text-metal/50">{c}</span>
       </p>
     </div>
 
     <div class="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-white/10 pt-12 sm:mt-20 md:grid-cols-12 md:gap-x-8">
-      <!-- Marca y contacto (el número y el correo no van escritos: los botones se arman al tocarlos) -->
-      <div class="col-span-2 md:col-span-5">
+      <!-- Marca (el contacto está en la sección Contacto y en el botón flotante de WhatsApp) -->
+      <div class="col-span-2 md:col-span-6">
         <Logo size={40} class="text-marfil" />
-        <p class="mt-4 max-w-[38ch] text-niebla-2">Software a la medida, plataformas educativas y diseño 3D, hecho en Casanare.</p>
-        <div class="mt-6 flex flex-wrap gap-2.5">
-          <a href={to('#contacto')} data-contact="wa" data-contact-text="Hola Zyvo, quiero hablar de un proyecto." target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp" class="btn-ghost !py-2.5"><WhatsAppIcon size={17} /> WhatsApp</a>
-          <a href={to('#contacto')} data-contact="mail" data-contact-text="Quiero hablar de un proyecto" aria-label="Envíanos un correo" class="btn-ghost !py-2.5"><Mail size={17} aria-hidden="true" /> Correo</a>
-        </div>
+        <p class="mt-4 max-w-[38ch] text-niebla-2">Software a la medida y estudio creativo, hecho en Casanare.</p>
         <p class="mt-6 flex items-center gap-2 text-sm text-niebla-2"><MapPin size={16} aria-hidden="true" class="shrink-0 text-azul-luz" /> {site.city}</p>
       </div>
 
-      <nav aria-label="Pie de página" class="col-span-1 md:order-2 md:col-span-2">
+      <nav aria-label="Pie de página" class="col-span-1 md:col-span-3">
         <h2 class="text-sm text-niebla">Navegación</h2>
         <ul class="mt-2 grid">{nav.map((n) => <li><a href={to(n.href)} class={linkCls}>{n.label}</a></li>)}</ul>
       </nav>
 
-      <div class="col-span-1 md:order-4 md:col-span-2">
+      <div class="col-span-1 md:col-span-3">
         <h2 class="text-sm text-niebla">Legal</h2>
         <ul class="mt-2 grid">
           <li><a href={url('/privacidad/')} class={linkCls}>Política de privacidad</a></li>
@@ -63,10 +58,6 @@ const linkCls = 'inline-flex min-h-11 items-center gap-1 text-niebla-2 transitio
         )}
       </div>
 
-      <div class="col-span-2 md:order-3 md:col-span-3">
-        <h2 class="text-sm text-niebla">Servicios</h2>
-        <ul class="mt-2 grid">{services.map((s) => <li><a href={to('#servicios')} class={`${linkCls} py-1 leading-snug`}>{s.title}</a></li>)}</ul>
-      </div>
     </div>
 
     <div class="mt-12 flex flex-col gap-2 border-t border-white/10 pt-6 text-sm text-niebla sm:flex-row sm:flex-wrap sm:justify-between">

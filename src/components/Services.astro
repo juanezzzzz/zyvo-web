@@ -1,45 +1,73 @@
 ---
-import { AppWindow, Network, GraduationCap, BrainCircuit, Box, ArrowRight } from '@lucide/astro';
+import { AppWindow, Network, GraduationCap, BrainCircuit, Box, Clapperboard, ArrowRight } from '@lucide/astro';
 import HexBadge from './HexBadge.astro';
-import { services } from '../data/site';
-const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircuit, print3d: Box } as const;
-// Con un número impar de servicios, el último ocupa las dos columnas
-const lastWide = services.length % 2 === 1;
+import { services, audiencesLine } from '../data/site';
+const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircuit, print3d: Box, video: Clapperboard } as const;
+const software = services.filter((s) => s.line === 'software');
+const creativo = services.filter((s) => s.line === 'creativo');
 ---
-<!-- La banda del hero se abre hasta convertirse en esta sección: azul de marca de borde a borde -->
-<section id="servicios" class="svc relative isolate overflow-hidden bg-banda text-white">
+<!-- La banda del hero se abre hasta convertirse en esta sección: azul de marca de borde a borde.
+     Dos líneas hermanas: software a la medida y estudio creativo (video con Zy y 3D). -->
+<section id="servicios" class="svc relative isolate overflow-hidden bg-banda text-white" aria-labelledby="svc-title">
   <!-- Panal grabado en el azul, apenas visible -->
   <div class="hexgrid pointer-events-none absolute inset-0 -z-10 opacity-[.22] mix-blend-soft-light [mask-image:linear-gradient(to_bottom,black,transparent_70%)]" aria-hidden="true"></div>
 
-  <div class="wrap py-20 sm:py-28 md:py-36">
+  <div class="wrap sec-major">
     <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
-      <h2 class="h-section lg:col-span-7">Lo que hacemos por tu empresa</h2>
+      <h2 id="svc-title" class="h-chapter lg:col-span-7">Lo que hacemos</h2>
       <p class="max-w-[46ch] text-lg leading-relaxed text-white/90 lg:col-span-5 lg:justify-self-end">
-        Desde un sistema completo hasta un ajuste puntual. Te decimos con sinceridad qué vale la pena hacer y qué no.
+        Software a la medida para tu negocio y un estudio creativo para contarlo. Te decimos con sinceridad qué vale la pena hacer y qué no.
       </p>
     </div>
+    <div class="mt-8 border-t border-white/25 pt-6"><p class="max-w-[70ch] text-white/85">{audiencesLine}</p></div>
 
-    <div class="mt-10 grid border-t border-white/25 sm:mt-16 md:grid-cols-2">
-      {services.map((s, i) => {
-        const Icon = icons[s.icon as keyof typeof icons];
-        return (
-          <article class:list={['svc-item group relative flex flex-col gap-5 border-b border-white/25 py-9 sm:flex-row sm:gap-8 md:py-12', lastWide && i === services.length - 1 ? 'md:col-span-2' : i % 2 === 0 ? 'md:border-r md:pr-10' : 'md:pl-10']}>
-            <HexBadge size={64} class="sm:hidden" band="none" flat><Icon /></HexBadge>
-            <HexBadge size={76} band="none" flat class="max-sm:!hidden">
-              <Icon />
-            </HexBadge>
-            <div class="min-w-0">
-              <h3 class="wide text-xl font-bold md:text-2xl">{s.title}</h3>
-              <p class="mt-3 max-w-[44ch] text-white/90">{s.text}</p>
-              {s.link && (
-                <a href={s.link.href} class="mt-5 inline-flex min-h-11 items-center gap-1.5 text-sm font-semibold text-white underline decoration-white/50 underline-offset-4 transition-colors hover:decoration-white">
-                  {s.link.label} <ArrowRight size={16} aria-hidden="true" />
-                </a>
-              )}
-            </div>
-          </article>
-        );
-      })}
+    <div class="sec-body grid gap-12 lg:grid-cols-12 lg:gap-10">
+      <!-- Software: la línea principal, en lista con reglas -->
+      <div class="min-w-0 lg:col-span-7">
+        <h3 class="wide flex items-center gap-3 text-xl font-bold">
+          <span class="h-4 w-1.5 -skew-y-[30deg] bg-white" aria-hidden="true"></span>Software a la medida
+        </h3>
+        <ul class="mt-5 border-t border-white/25">
+          {software.map((s) => {
+            const Icon = icons[s.icon as keyof typeof icons];
+            return (
+              <li class="svc-item flex gap-5 border-b border-white/25 py-7 sm:gap-6">
+                <HexBadge size={56} band="none" flat><Icon /></HexBadge>
+                <div class="min-w-0">
+                  <h4 class="wide text-lg font-bold sm:text-xl">{s.title}</h4>
+                  <p class="mt-2 max-w-[52ch] text-white/90">{s.text}</p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <!-- Creativo: la segunda línea, en su propio panel -->
+      <div class="min-w-0 lg:col-span-5">
+        <div class="svc-item rounded-2xl bg-azul-prof p-6 ring-1 ring-white/15 sm:p-8">
+          <h3 class="wide flex items-center gap-3 text-xl font-bold">
+            <span class="h-4 w-1.5 -skew-y-[30deg] bg-white" aria-hidden="true"></span>Estudio creativo
+          </h3>
+          <ul class="mt-5 grid gap-7">
+            {creativo.map((s) => {
+              const Icon = icons[s.icon as keyof typeof icons];
+              return (
+                <li class="flex gap-5 sm:gap-6">
+                  <HexBadge size={56} band="none" flat><Icon /></HexBadge>
+                  <div class="min-w-0">
+                    <h4 class="wide text-lg font-bold sm:text-xl">{s.title}</h4>
+                    <p class="mt-2 text-white/90">{s.text}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+          <a href="#estudio" class="mt-7 inline-flex min-h-11 items-center gap-1.5 font-semibold text-white underline decoration-white/50 underline-offset-4 transition-colors hover:decoration-white">
+            Ver el estudio <ArrowRight size={16} aria-hidden="true" />
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 

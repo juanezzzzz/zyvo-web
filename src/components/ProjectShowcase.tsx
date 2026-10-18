@@ -71,7 +71,7 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
 
   return (
     <MotionConfig reducedMotion="user">
-      <div className="mt-14 grid gap-8 lg:grid-cols-12 lg:gap-10">
+      <div className="sec-body grid gap-8 lg:grid-cols-12 lg:gap-10">
         <div
           role="tablist"
           aria-label="Proyectos"
@@ -79,7 +79,7 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
           onKeyDown={onKey}
           ref={list}
           onScroll={onListScroll}
-          className={`-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] lg:[mask-image:none] ${atEnd ? '' : '[mask-image:linear-gradient(to_right,black_78%,transparent)]'} lg:col-span-4 lg:mx-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:border-t lg:border-white/10 lg:px-0`}
+          className={`-mx-4 flex snap-x snap-mandatory scroll-px-4 gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] lg:[mask-image:none] ${atEnd ? '' : '[mask-image:linear-gradient(to_right,black_78%,transparent)]'} lg:col-span-4 lg:row-start-1 lg:self-start lg:mx-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:border-t lg:border-white/10 lg:px-0`}
         >
           {projects.map((proj, i) => {
             const on = i === active;
@@ -94,7 +94,7 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
                 tabIndex={on ? 0 : -1}
                 onClick={() => setActive(i)}
                 className={`group relative min-h-11 shrink-0 snap-start rounded-md border px-4 py-3 text-left transition-colors lg:rounded-none lg:border-0 lg:border-b lg:border-white/10 lg:py-6 lg:pl-7 ${
-                  on ? 'border-azul bg-azul/15 backdrop-blur-md lg:bg-transparent lg:backdrop-blur-none' : 'border-white/10 hover:border-white/25 hover:bg-white/[.06]'
+                  on ? 'border-azul bg-azul/15 lg:bg-transparent' : 'border-white/10 hover:border-white/25 hover:bg-white/[.06]'
                 }`}
               >
                 {on && (
@@ -113,11 +113,20 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
           })}
         </div>
 
+        {/* Escritorio: bajo las pestañas, una invitación breve en vez de un hueco */}
+        <aside className="hidden self-end lg:col-span-4 lg:row-start-2 lg:block">
+          <p className="wide text-xl font-bold leading-snug text-marfil">¿Tu negocio necesita algo así?</p>
+          <p className="mt-2 max-w-[32ch] text-niebla-2">Cuéntanos cómo trabajas hoy y te decimos qué conviene construir.</p>
+          <a href="#contacto" className="mt-5 inline-flex min-h-11 items-center gap-1.5 font-semibold text-azul-luz underline decoration-azul-luz/40 underline-offset-4 transition-colors hover:text-marfil hover:decoration-marfil">
+            Cotiza tu proyecto <ArrowRight size={16} aria-hidden="true" />
+          </a>
+        </aside>
+
         <div
           role="tabpanel"
           id={`${uid}-panel`}
           aria-labelledby={`${uid}-tab-${active}`}
-          className="relative min-w-0 lg:col-span-8"
+          className="relative min-w-0 lg:col-span-8 lg:col-start-5 lg:row-span-2 lg:row-start-1"
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.article
@@ -134,9 +143,9 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
                 if (info.offset.x < -60 || info.velocity.x < -400) go(active + 1);
                 else if (info.offset.x > 60 || info.velocity.x > 400) go(active - 1);
               }}
-              className="glass overflow-hidden rounded-2xl"
+              className="surface overflow-hidden rounded-2xl"
             >
-              <a href={url(`/proyectos/${p.slug}/`)} className="group/cover relative block aspect-[16/8] overflow-hidden" style={{ viewTransitionName: `cover-${p.slug}` }} aria-label={`Ver el caso de ${p.name}${p.highlight ? `. ${p.highlight}` : ""}`}>
+              <a href={url(`/proyectos/${p.slug}/`)} className="group/cover relative block aspect-[16/8] overflow-hidden" style={{ viewTransitionName: `cover-${p.slug}` }} tabIndex={-1} aria-hidden="true">
                 <ProjectCover p={p} />
                 {p.highlight && (
                   <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-md bg-senal px-2.5 py-1 text-xs font-semibold text-carbon sm:bottom-4 sm:left-4 sm:gap-2 sm:px-3 sm:py-1.5 sm:text-sm">
@@ -145,11 +154,25 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
                   </span>
                 )}
               </a>
-              <div className="grid gap-8 p-6 sm:p-8 md:grid-cols-[1.2fr_1fr] md:p-10">
+              <div className="grid gap-6 p-6 sm:p-8 md:grid-cols-[1.2fr_1fr] md:gap-8 md:p-10">
                 <div className="min-w-0">
-                  <p className="text-sm text-niebla">{p.kind}</p>
-                  <h3 className="display mt-2 text-3xl md:text-4xl" translate="no">{p.name}</h3>
+                  <h3 className="display text-3xl md:text-4xl" translate="no">{p.name}</h3>
                   <p className="mt-4 text-niebla-2">{p.summary}</p>
+                  {p.testimonial && (
+                    <figure className="mt-6 border-t border-white/10 pt-5">
+                      <blockquote className="flex gap-3 text-marfil">
+                        <span className="mt-[0.5em] h-3 w-1.5 shrink-0 -skew-y-[30deg]" style={{ background: accents[p.accent] }} aria-hidden="true" />
+                        <p className="font-semibold leading-snug">
+                          {p.testimonial.reported ? p.testimonial.short ?? p.testimonial.quote : `“${p.testimonial.short ?? p.testimonial.quote}”`}
+                        </p>
+                      </blockquote>
+                      {!p.testimonial.reported && (
+                        <figcaption className="mt-2 pl-[1.125rem] text-sm text-niebla-2">
+                          {p.testimonial.author}, {p.testimonial.role.charAt(0).toLowerCase() + p.testimonial.role.slice(1)}
+                        </figcaption>
+                      )}
+                    </figure>
+                  )}
                   <div className="mt-6 flex flex-wrap gap-3">
                     <a href={url(`/proyectos/${p.slug}/`)} className="btn-primary">
                       Ver el caso completo <ArrowRight size={16} aria-hidden="true" />
@@ -164,7 +187,7 @@ export default function ProjectShowcase({ projects }: { projects: Project[] }) {
                 <div className="min-w-0">
                   <h4 className="text-sm font-semibold text-marfil">Qué resolvimos</h4>
                   <ul className="mt-3 grid gap-2.5 text-sm text-niebla-2">
-                    {p.bullets.map((b) => (
+                    {p.bullets.slice(0, 3).map((b) => (
                       <li key={b} className="flex gap-3">
                         <span className="mt-[0.55em] h-1.5 w-3 shrink-0 -skew-y-[30deg]" style={{ background: accents[p.accent] }} />
                         {b}

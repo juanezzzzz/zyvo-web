@@ -21,6 +21,11 @@ facts:
   - { k: Cliente, v: "GamerZone E‑Sports Center" }
   - { k: Sector, v: "Entretenimiento" }
   - { k: Funciona en, v: "Computador y celular" }
+testimonial:
+  quote: "Quedé muy contento con el sistema. Me ahorra mucho tiempo: lo que antes me tocaba revisar y cuadrar a mano ahora lo tengo organizado en un solo lugar. La experiencia en general fue muy buena."
+  short: "Me ahorra mucho tiempo. La experiencia en general fue muy buena."
+  author: Alejandro
+  role: Dueño de GamerZone E‑Sports Center y de la papelería
 ---
 
 ## El reto

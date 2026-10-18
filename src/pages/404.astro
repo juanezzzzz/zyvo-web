@@ -7,7 +7,7 @@ import Header from '../components/Header.astro';
 ---
 <Base title="Página no encontrada | Zyvo Solutions" noindex>
   <Header />
-  <main id="main" class="relative isolate overflow-hidden bg-carbon pt-[4.5rem]">
+  <main id="main" class="relative isolate overflow-hidden bg-carbon pt-[calc(4.5rem+env(safe-area-inset-top))]">
     <svg class="pointer-events-none absolute inset-0 -z-10 h-full w-full" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <path class="band-path" stroke-width="30" d="M-40 842H420L560 761H700" />
       <path class="band-path opacity-40" stroke-width="30" d="M820 692L1080 542H1500" />

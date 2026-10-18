@@ -30,6 +30,17 @@ export const projectSchema = z.object({
     .optional(),
   // Datos cortos que se muestran al lado del caso (cliente, sector, rol…)
   facts: z.array(z.object({ k: z.string(), v: z.string() })).default([]),
+  // Lo que dijo el cliente. `short` va en la tarjeta del inicio; `quote`, en la página del caso.
+  // `reported: true` cuando es la opinión de un grupo contada por nosotros (se muestra sin comillas).
+  testimonial: z
+    .object({
+      quote: z.string(),
+      short: z.string().optional(),
+      author: z.string(),
+      role: z.string(),
+      reported: z.boolean().default(false),
+    })
+    .optional(),
 });
 
 export const collections = {

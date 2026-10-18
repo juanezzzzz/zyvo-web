@@ -18,9 +18,14 @@ video:
   width: 1280
   height: 720
 facts:
-  - { k: Cliente, v: "Papelería (uso interno)" }
+  - { k: Cliente, v: "Papelería de Alejandro" }
   - { k: Sector, v: "Comercio" }
   - { k: Funciona en, v: "Computador y celular" }
+testimonial:
+  quote: "Con la papelería pasó lo mismo: el sistema me gustó mucho y me ahorra bastante tiempo en cada turno. Fue una buena experiencia de principio a fin."
+  short: "El sistema me gustó mucho y me ahorra bastante tiempo en cada turno."
+  author: Alejandro
+  role: Dueño de la papelería y de GamerZone E‑Sports Center
 ---
 
 ## El reto

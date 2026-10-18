@@ -1,0 +1,42 @@
+---
+import PhoneVideos, { type PhoneVideo } from './PhoneVideos.astro';
+// Estudio creativo: la segunda línea de Zyvo (video con Zy, diseño e impresión 3D), en un solo capítulo.
+// Reúne lo que antes estaba en «Zy te lo cuenta» y «Del diseño 3D a la pieza». Tres videos como máximo;
+// los demás reels siguen en public/videos por si se quieren rotar. Sin bucle de vista previa: portada fija hasta el clic.
+const videos: PhoneVideo[] = [
+  {
+    kicker: 'Video con Zy',
+    title: 'Conoce a Zy',
+    src: '/videos/zy-conoce.mp4',
+    poster: '/videos/zy-saludo.webp',
+    label: 'Conoce a Zy',
+    alt: 'Conoce a Zy, el personaje 3D de Zyvo',
+  },
+  {
+    kicker: 'Impresión 3D',
+    title: 'De la idea a la pieza',
+    src: '/videos/resina-reel.mp4',
+    poster: '/videos/resina-reel.webp',
+    alt: 'De la idea a la pieza: diseño e impresión 3D en resina',
+  },
+  {
+    kicker: 'Lo que hacemos',
+    title: 'Software, video y 3D',
+    src: '/videos/showreel.mp4',
+    poster: '/videos/showreel.webp',
+    alt: 'Todo empieza en una pantalla: software, video y 3D hechos a la medida',
+  },
+];
+---
+<section id="estudio" class="relative isolate overflow-hidden bg-carbon" aria-labelledby="estudio-title">
+  <div class="wrap sec-major grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-10">
+    <div class="min-w-0 lg:col-span-4">
+      <h2 id="estudio-title" class="h-chapter">Estudio creativo</h2>
+      <p class="lede mt-6 max-w-[44ch]">
+        Zy es el personaje 3D de Zyvo. Con él hacemos videos cortos para explicar, vender y enseñar, y en el taller diseñamos e imprimimos piezas en resina, de la pantalla a tus manos.
+      </p>
+      <a href="#contacto" class="btn-primary mt-8 !px-6 !py-3.5 text-base">Cotiza tu video o pieza</a>
+    </div>
+    <PhoneVideos videos={videos} listLabel="Videos del estudio creativo" class="md:mx-auto lg:col-span-8 lg:mx-0 lg:justify-self-end" />
+  </div>
+</section>

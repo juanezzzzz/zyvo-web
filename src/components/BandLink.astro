@@ -21,7 +21,7 @@ const dThin = dir === 'ltr'
   ? `M-40 ${y1 + off}H${(+xa + off / Math.sqrt(3)).toFixed(1)}L${(+xb + off / Math.sqrt(3)).toFixed(1)} ${y2 + off}H1480`
   : `M1480 ${y1 + off}H${(+xb - off / Math.sqrt(3)).toFixed(1)}L${(+xa - off / Math.sqrt(3)).toFixed(1)} ${y2 + off}H-40`;
 ---
-<div class={`band-link relative h-[clamp(110px,14vw,210px)] ${cls}`} style={`background:${top}`} aria-hidden="true">
+<div class={`band-link relative h-[clamp(80px,9vw,150px)] ${cls}`} style={`background:${top}`} aria-hidden="true">
   <svg class="absolute inset-x-0 top-0 -bottom-px w-full" style="height:calc(100% + 1px)" viewBox="0 0 1440 220" preserveAspectRatio="xMidYMid slice">
     <path d={fill} fill={bottom} />
     <path class="band-path bl-thin" d={dThin} stroke-width="5" style="opacity:.35" />

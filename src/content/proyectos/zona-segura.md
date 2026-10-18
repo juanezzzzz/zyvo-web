@@ -21,6 +21,13 @@ facts:
   - { k: Sector, v: "Formación" }
   - { k: Tema, v: "Seguridad y salud en el trabajo" }
   - { k: Funciona en, v: "Computador, tableta y celular" }
+  - { k: Lo usaron, v: "Funcionarios del SENA" }
+testimonial:
+  quote: "Varios funcionarios del SENA usaron Zona Segura y les gustó mucho: la encontraron muy didáctica y educativa, una forma distinta de aprender seguridad y salud en el trabajo."
+  short: "Muy didáctica y educativa: así la describieron los funcionarios del SENA que la usaron."
+  author: Funcionarios del SENA
+  role: Usaron la capacitación
+  reported: true
 ---
 
 ## El reto
