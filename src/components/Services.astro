@@ -6,96 +6,96 @@ const icons = { web: AppWindow, api: Network, edu: GraduationCap, ai: BrainCircu
 const software = services.filter((s) => s.line === 'software');
 const creativo = services.filter((s) => s.line === 'creativo');
 ---
-<!-- La banda del hero se abre hasta convertirse en esta sección: azul de marca de borde a borde.
-     Dos líneas hermanas: software a la medida y estudio creativo (video con Zy y 3D). -->
-<section id="servicios" class="svc relative isolate overflow-hidden bg-banda text-white" aria-labelledby="svc-title">
-  <!-- Panal grabado en el azul, apenas visible -->
-  <div class="hexgrid pointer-events-none absolute inset-0 -z-10 opacity-[.22] mix-blend-soft-light [mask-image:linear-gradient(to_bottom,black,transparent_70%)]" aria-hidden="true"></div>
-
-  <div class="wrap sec-major">
-    <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+<!-- La banda del hero se abre en una franja azul con el título (no en un bloque entero: el azul es acento, no fondo)
+     y los servicios siguen en oscuro, en dos columnas hermanas: software a la medida y estudio creativo. -->
+<section id="servicios" class="relative isolate bg-noche" aria-labelledby="svc-title">
+  <div class="svc-plate relative isolate overflow-hidden bg-banda text-white">
+    <!-- Panal grabado en el azul, apenas visible -->
+    <div class="hexgrid pointer-events-none absolute inset-0 -z-10 opacity-[.22] mix-blend-soft-light [mask-image:linear-gradient(to_bottom,black,transparent_80%)]" aria-hidden="true"></div>
+    <div class="wrap grid gap-6 pb-[calc(clamp(37px,5vw,73px)+2.5rem)] pt-16 sm:pt-20 md:pt-24 lg:grid-cols-12 lg:items-end">
       <h2 id="svc-title" class="h-chapter lg:col-span-7">Lo que hacemos</h2>
       <p class="max-w-[46ch] text-lg leading-relaxed text-white/90 lg:col-span-5 lg:justify-self-end">
         Software a la medida para tu negocio y un estudio creativo para contarlo. Te decimos con sinceridad qué vale la pena hacer y qué no.
       </p>
     </div>
-    <div class="mt-8 border-t border-white/25 pt-6"><p class="max-w-[70ch] text-white/85">{audiencesLine}</p></div>
+    <!-- Salida: la franja termina en el escalón a 30° de la banda -->
+    <svg class="absolute inset-x-0 -bottom-px h-[clamp(37px,calc(5vw+1px),73px)] w-full" viewBox="0 0 1440 72" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <path d="M-40 72V44H520L568.5 16H1480V72Z" fill="var(--color-noche)" />
+    </svg>
+  </div>
 
-    <div class="sec-body grid gap-12 lg:grid-cols-12 lg:gap-10">
-      <!-- Software: la línea principal, en lista con reglas -->
-      <div class="min-w-0 lg:col-span-7">
-        <h3 class="wide flex items-center gap-3 text-xl font-bold">
-          <span class="h-4 w-1.5 -skew-y-[30deg] bg-white" aria-hidden="true"></span>Software a la medida
-        </h3>
-        <ul class="mt-5 border-t border-white/25">
-          {software.map((s) => {
-            const Icon = icons[s.icon as keyof typeof icons];
-            return (
-              <li class="svc-item flex gap-5 border-b border-white/25 py-7 sm:gap-6">
-                <HexBadge size={56} band="none" flat><Icon /></HexBadge>
-                <div class="min-w-0">
-                  <h4 class="wide text-lg font-bold sm:text-xl">{s.title}</h4>
-                  <p class="mt-2 max-w-[52ch] text-white/90">{s.text}</p>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+  <div class="wrap grid gap-14 pb-16 pt-12 sm:pb-20 md:pb-24 md:pt-16 lg:grid-cols-12 lg:gap-x-16">
+    <!-- Software a la medida -->
+    <div class="min-w-0 lg:col-span-7">
+      <h3 class="wide flex items-center gap-3 text-xl font-bold text-marfil">
+        <span class="h-4 w-1.5 -skew-y-[30deg] bg-banda" aria-hidden="true"></span>Software a la medida
+      </h3>
+      <ul class="mt-5 border-t border-white/10">
+        {software.map((s) => {
+          const Icon = icons[s.icon as keyof typeof icons];
+          return (
+            <li class="svc-item flex gap-5 border-b border-white/10 py-7 sm:gap-6">
+              <HexBadge size={56} band="none" flat><Icon /></HexBadge>
+              <div class="min-w-0">
+                <h4 class="wide text-lg font-bold text-marfil sm:text-xl">{s.title}</h4>
+                <p class="mt-2 max-w-[52ch] text-niebla-2">{s.text}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
 
-      <!-- Creativo: la segunda línea, en su propio panel -->
-      <div class="min-w-0 lg:col-span-5">
-        <div class="svc-item rounded-2xl bg-azul-prof p-6 ring-1 ring-white/15 sm:p-8">
-          <h3 class="wide flex items-center gap-3 text-xl font-bold">
-            <span class="h-4 w-1.5 -skew-y-[30deg] bg-white" aria-hidden="true"></span>Estudio creativo
-          </h3>
-          <ul class="mt-5 grid gap-7">
-            {creativo.map((s) => {
-              const Icon = icons[s.icon as keyof typeof icons];
-              return (
-                <li class="flex gap-5 sm:gap-6">
-                  <HexBadge size={56} band="none" flat><Icon /></HexBadge>
-                  <div class="min-w-0">
-                    <h4 class="wide text-lg font-bold sm:text-xl">{s.title}</h4>
-                    <p class="mt-2 text-white/90">{s.text}</p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-          <a href="#estudio" class="mt-7 inline-flex min-h-11 items-center gap-1.5 font-semibold text-white underline decoration-white/50 underline-offset-4 transition-colors hover:decoration-white">
-            Ver el estudio <ArrowRight size={16} aria-hidden="true" />
-          </a>
-        </div>
+    <!-- Estudio creativo: mismo lenguaje que la columna de software; abajo, para quién trabajamos -->
+    <div class="flex min-w-0 flex-col lg:col-span-5">
+      <h3 class="wide flex items-center gap-3 text-xl font-bold text-marfil">
+        <span class="h-4 w-1.5 -skew-y-[30deg] bg-banda" aria-hidden="true"></span>Estudio creativo
+      </h3>
+      <ul class="mt-5 border-t border-white/10">
+        {creativo.map((s) => {
+          const Icon = icons[s.icon as keyof typeof icons];
+          return (
+            <li class="svc-item flex gap-5 border-b border-white/10 py-7 sm:gap-6">
+              <HexBadge size={56} band="none" flat><Icon /></HexBadge>
+              <div class="min-w-0">
+                <h4 class="wide text-lg font-bold text-marfil sm:text-xl">{s.title}</h4>
+                <p class="mt-2 text-niebla-2">{s.text}</p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      <a href="#estudio" class="mt-6 inline-flex min-h-11 items-center gap-1.5 self-start font-semibold text-azul-luz underline decoration-azul-luz/40 underline-offset-4 transition-colors hover:text-marfil hover:decoration-marfil">
+        Ver el estudio <ArrowRight size={16} aria-hidden="true" />
+      </a>
+
+      <div class="svc-item mt-10 border-t border-white/10 pt-6 lg:mt-auto">
+        <p class="text-sm font-semibold text-marfil">Para quién trabajamos</p>
+        <p class="mt-2 max-w-[44ch] text-niebla-2">{audiencesLine}</p>
       </div>
     </div>
   </div>
-
-  <!-- Salida: la sección termina en el mismo escalón a 30° de la banda -->
-  <svg class="absolute inset-x-0 -bottom-px h-[clamp(37px,calc(5vw+1px),73px)] w-full" viewBox="0 0 1440 72" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <path d="M-40 72V44H520L568.5 16H1480V72Z" fill="var(--color-noche)" />
-  </svg>
 </section>
 
 <script>
   import { gsap, reduced } from '../scripts/motion';
 
-  // La sección nace como una banda delgada con su escalón a 30° y se abre hasta llenar el bloque.
-  // Solo se aplica con JS y lo controla el scroll; sin JS la sección se ve completa.
-  const svc = document.querySelector<HTMLElement>('.svc')!;
-  const band = 'polygon(0% 6%, 46% 6%, 54% 1%, 100% 1%, 100% 5%, 54% 5%, 46% 10%, 0% 10%)';
+  // La franja nace como una banda delgada con su escalón a 30° y se abre con el scroll hasta su alto.
+  // Solo se aplica con JS y lo controla el scroll; sin JS la franja se ve completa.
+  const plate = document.querySelector<HTMLElement>('.svc-plate')!;
+  const band = 'polygon(0% 34%, 46% 34%, 54% 22%, 100% 22%, 100% 32%, 54% 32%, 46% 44%, 0% 44%)';
   const full = 'polygon(0% 0%, 46% 0%, 54% 0%, 100% 0%, 100% 100%, 54% 100%, 46% 100%, 0% 100%)';
-  gsap.fromTo(svc, { clipPath: band }, {
+  gsap.fromTo(plate, { clipPath: band }, {
     clipPath: full,
     ease: 'power2.inOut',
-    scrollTrigger: { trigger: svc, start: 'top 95%', end: 'top 20%', scrub: reduced ? true : 0.6 },
-    onComplete: () => { svc.style.clipPath = ''; },
+    scrollTrigger: { trigger: plate, start: 'top 95%', end: 'top 35%', scrub: reduced ? true : 0.6 },
+    onComplete: () => { plate.style.clipPath = ''; },
   });
-  // Los servicios entran detrás de la apertura, en escalera
+  // Los servicios entran en escalera cuando la franja ya se abrió
   if (!reduced) {
-    gsap.fromTo(svc.querySelectorAll('.svc-item'), { y: 40, opacity: 0 }, {
-      y: 0, opacity: 1, stagger: 0.08, ease: 'power2.out',
-      scrollTrigger: { trigger: svc, start: 'top 60%', end: 'top 25%', scrub: 0.6 },
+    gsap.fromTo(document.querySelectorAll('#servicios .svc-item'), { y: 32, opacity: 0 }, {
+      y: 0, opacity: 1, stagger: 0.06, ease: 'power2.out',
+      scrollTrigger: { trigger: '#servicios', start: 'top 45%', end: 'top 5%', scrub: 0.6 },
     });
   }
 </script>

@@ -1,78 +1,113 @@
 import { contactHref } from '../lib/contact';
 import { url } from '../lib/url';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { useState, type FormEvent } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 import { CheckCircle2, Loader2, Send } from 'lucide-react';
 
-// Alineado con las dos líneas: software (sistema, plataforma, asistente) y estudio creativo (video, 3D)
-const types = ['Sistema web o integración', 'Plataforma educativa', 'Asistente o automatización', 'Video con Zy', 'Diseño o impresión 3D', 'Otro'] as const;
+// Formulario corto: dos toques (qué y para cuándo), el nombre y, si quiere, una frase.
+// Sin campo de contacto: por WhatsApp el número ya llega con el mensaje.
+// Con `endpoint` (Formspree) se pide además un correo o WhatsApp para poder responder.
 
-const schema = z.object({
-  nombre: z.string().trim().min(2, 'Escribe tu nombre.'),
-  contacto: z
-    .string()
-    .trim()
-    .refine(
-      (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || v.replace(/\D/g, '').length >= 7,
-      'Escribe un correo válido o un número de WhatsApp.',
-    ),
-  empresa: z.string().trim().optional(),
-  tipo: z.enum(types),
-  mensaje: z.string().trim().min(10, 'Cuéntanos un poco más: al menos una frase.'),
-  // Autorización previa y expresa para tratar los datos (Ley 1581 de 2012)
-  acepta: z.boolean().refine((v) => v, 'Para responderte necesitamos tu autorización.'),
-});
-type Values = z.infer<typeof schema>;
+// Alineado con las dos líneas: software (sistema, plataforma, asistente) y estudio creativo (video, 3D).
+// El emoji ayuda a clasificar el mensaje de un vistazo en WhatsApp; el ejemplo guía la frase.
+const types = [
+  { label: 'Sistema web o integración', emoji: '💻', example: 'Ej.: llevo las ventas y el inventario en un cuaderno y quiero tenerlo en el computador y el celular.' },
+  { label: 'Plataforma educativa', emoji: '🎓', example: 'Ej.: una capacitación con juegos para mi equipo, con certificado al final.' },
+  { label: 'Asistente o automatización', emoji: '🤖', example: 'Ej.: que un asistente responda por WhatsApp las preguntas y pedidos más comunes.' },
+  { label: 'Video con Zy', emoji: '🎬', example: 'Ej.: un video corto para presentar mi negocio en Instagram.' },
+  { label: 'Diseño o impresión 3D', emoji: '🧊', example: 'Ej.: llaveros con el logo de mi empresa para un evento.' },
+  { label: 'Otra idea', emoji: '✨', example: 'Cuéntanos tu idea en una o dos frases.' },
+] as const;
+const timings = ['Lo antes posible', 'En 1 a 3 meses', 'Solo estoy explorando'] as const;
 
 type Props = { endpoint: string; successImg?: string };
+type Errors = Partial<Record<'tipo' | 'nombre' | 'contacto', string>>;
 
 const field =
   'w-full rounded-md border bg-white px-3.5 py-3 text-base text-noche outline-none transition-[border-color,box-shadow] placeholder:text-tinta-2 focus:border-azul focus:ring-4 focus:ring-azul/15';
+const chip =
+  'inline-flex min-h-11 w-full items-center rounded-md border border-noche/15 px-3.5 text-sm text-noche transition-colors peer-checked:border-azul peer-checked:bg-azul peer-checked:text-white peer-focus-visible:ring-4 peer-focus-visible:ring-azul/25 hover:border-noche/40 sm:w-auto';
+
+/** Mensaje que llega por WhatsApp: ordenado, con negritas de WhatsApp (*texto*) y la autorización al final. */
+function buildMessage(d: { nombre: string; negocio: string; tipo: (typeof types)[number]; plazo: string; mensaje: string }) {
+  return [
+    'Hola, equipo de Zyvo 👋',
+    '',
+    `Soy *${d.nombre}*${d.negocio ? ` de *${d.negocio}*` : ''}.`,
+    `Me interesa: ${d.tipo.emoji} *${d.tipo.label}*`,
+    `Para cuándo: ${d.plazo || 'Aún no lo tengo claro'}`,
+    '',
+    '*Lo que necesito:*',
+    d.mensaje || 'Prefiero contárselo por aquí.',
+    '',
+    '—',
+    'Les escribo desde la página web de Zyvo. Autorizo el uso de mis datos para que me respondan, según su política de privacidad.',
+  ].join('\n');
+}
 
 export default function ContactForm({ endpoint, successImg }: Props) {
-  const [sent, setSent] = useState<null | 'mail' | 'wa'>(null);
+  const [tipo, setTipo] = useState<number | null>(null);
+  const [plazo, setPlazo] = useState('');
+  const [nombre, setNombre] = useState('');
+  const [negocio, setNegocio] = useState('');
+  const [contacto, setContacto] = useState('');
+  const [mensaje, setMensaje] = useState('');
+  const [errors, setErrors] = useState<Errors>({});
+  const [sending, setSending] = useState(false);
   const [failed, setFailed] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<Values>({ resolver: zodResolver(schema), defaultValues: { tipo: types[0], acepta: false } });
+  const [sent, setSent] = useState<null | { via: 'mail' } | { via: 'wa'; href: string }>(null);
 
-  const onSubmit = async (data: Values) => {
+  const validate = (): Errors => {
+    const e: Errors = {};
+    if (tipo === null) e.tipo = 'Elige qué te gustaría hacer.';
+    if (nombre.trim().length < 2) e.nombre = 'Escribe tu nombre.';
+    if (endpoint && !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contacto.trim()) || contacto.replace(/\D/g, '').length >= 7))
+      e.contacto = 'Escribe un correo válido o un número de WhatsApp.';
+    return e;
+  };
+
+  const onSubmit = async (ev: FormEvent) => {
+    ev.preventDefault();
+    const e = validate();
+    setErrors(e);
+    if (Object.keys(e).length) {
+      // Lleva el foco al primer campo con problema
+      document.getElementById(e.tipo ? 'cf-tipo-0' : e.nombre ? 'cf-nombre' : 'cf-contacto')?.focus();
+      return;
+    }
+    const data = { nombre: nombre.trim(), negocio: negocio.trim(), tipo: types[tipo!], plazo, mensaje: mensaje.trim() };
+    const text = buildMessage(data);
     setFailed(false);
+
     if (endpoint) {
+      setSending(true);
       try {
         const res = await fetch(endpoint, {
           method: 'POST',
-          body: JSON.stringify(data),
+          body: JSON.stringify({ _subject: `${data.tipo.emoji} ${data.tipo.label} · ${data.nombre}`, ...data, tipo: data.tipo.label, contacto: contacto.trim(), mensaje: text }),
           headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         });
         if (!res.ok) throw new Error(String(res.status));
-        reset();
-        setSent('mail');
+        setSent({ via: 'mail' });
       } catch {
         setFailed(true);
+      } finally {
+        setSending(false);
       }
       return;
     }
-    // Sin endpoint configurado: abre WhatsApp con el mensaje armado
-    const text = `Hola Zyvo, soy ${data.nombre}${data.empresa ? ` de ${data.empresa}` : ''}.\nProyecto: ${data.tipo}\n${data.mensaje}\nContacto: ${data.contacto}\n\nAutorizo el tratamiento de mis datos según la política de privacidad de Zyvo.`;
-    window.open(contactHref('wa', text), '_blank', 'noopener');
-    setSent('wa');
+    // Sin endpoint: abre WhatsApp con el mensaje armado. Si el navegador bloquea la ventana, queda el botón.
+    const href = contactHref('wa', text);
+    window.open(href, '_blank', 'noopener');
+    setSent({ via: 'wa', href });
   };
 
-  const err = (k: keyof Values) =>
-    errors[k] ? (
-      <span id={`err-${k}`} className="text-sm font-normal text-error-tinta">
-        {errors[k]?.message}
-      </span>
-    ) : null;
-  const aria = (k: keyof Values) => ({ 'aria-invalid': !!errors[k], 'aria-describedby': errors[k] ? `err-${k}` : undefined });
-  const border = (k: keyof Values) => (errors[k] ? 'border-error-tinta' : 'border-noche/15');
+  const reset = () => {
+    setSent(null); setTipo(null); setPlazo(''); setMensaje(''); setErrors({});
+  };
+
+  const errorText = (k: keyof Errors) =>
+    errors[k] ? <span id={`err-${k}`} className="text-sm font-normal text-error-tinta">{errors[k]}</span> : null;
 
   return (
     <MotionConfig reducedMotion="user">
@@ -84,7 +119,7 @@ export default function ContactForm({ endpoint, successImg }: Props) {
               initial={{ opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              className="grid min-h-[420px] place-content-center justify-items-center gap-4 text-center"
+              className="grid min-h-[380px] place-content-center justify-items-center gap-4 text-center"
               role="status"
             >
               {successImg ? (
@@ -101,85 +136,121 @@ export default function ContactForm({ endpoint, successImg }: Props) {
               ) : (
                 <CheckCircle2 size={52} className="text-senal" aria-hidden="true" />
               )}
-              <h3 className="display text-2xl text-noche">{sent === 'mail' ? 'Mensaje enviado' : 'WhatsApp abierto'}</h3>
-              <p className="max-w-[36ch] text-tinta-2">
-                {sent === 'mail'
+              <h3 className="display text-2xl text-noche">{sent.via === 'mail' ? 'Mensaje enviado' : 'Tu mensaje está listo'}</h3>
+              <p className="max-w-[38ch] text-tinta-2">
+                {sent.via === 'mail'
                   ? 'Te respondemos en menos de 24 horas hábiles.'
-                  : 'Tu mensaje ya está escrito en WhatsApp. Solo falta darle enviar.'}
+                  : 'Lo abrimos en WhatsApp con todo escrito. Revísalo, dale enviar y te respondemos en menos de 24 horas hábiles.'}
               </p>
-              <button type="button" onClick={() => setSent(null)} className="btn-ghost mt-2 !border-noche/20 !text-noche hover:!border-azul">
-                Escribir otro mensaje
-              </button>
+              <div className="mt-2 flex flex-wrap justify-center gap-3">
+                {sent.via === 'wa' && (
+                  <a href={sent.href} target="_blank" rel="noopener" className="btn bg-whatsapp text-white hover:bg-whatsapp-hondo">
+                    Abrir WhatsApp de nuevo
+                  </a>
+                )}
+                <button type="button" onClick={reset} className="btn-ghost !border-noche/20 !text-noche hover:!border-azul">
+                  Escribir otro mensaje
+                </button>
+              </div>
             </motion.div>
           ) : (
-            <motion.form
-              key="form"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onSubmit={handleSubmit(onSubmit)}
-              noValidate
-              className="grid gap-5"
-            >
-              <div className="grid gap-5 sm:grid-cols-2">
-                <label className="grid gap-1.5 text-sm font-medium text-noche">
-                  Nombre
-                  <input {...register('nombre')} {...aria('nombre')} autoComplete="name" className={`${field} ${border('nombre')}`} />
-                  {err('nombre')}
-                </label>
-                <label className="grid gap-1.5 text-sm font-medium text-noche">
-                  Correo o WhatsApp
-                  <input {...register('contacto')} {...aria('contacto')} autoComplete="email" autoCapitalize="none" spellCheck={false} className={`${field} ${border('contacto')}`} />
-                  {err('contacto')}
-                </label>
-              </div>
-              <label className="grid gap-1.5 text-sm font-medium text-noche">
-                <span>
-                  Empresa u organización <span className="font-normal text-tinta-2">(opcional)</span>
-                </span>
-                <input {...register('empresa')} autoComplete="organization" className={`${field} border-noche/15`} />
-              </label>
-              <fieldset className="grid gap-2">
-                <legend className="mb-2 text-sm font-medium text-noche">Tipo de proyecto</legend>
+            <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onSubmit={onSubmit} noValidate className="grid gap-6">
+              <fieldset className="grid gap-2" aria-describedby={errors.tipo ? 'err-tipo' : undefined}>
+                <legend className="mb-2 text-sm font-medium text-noche">¿Qué te gustaría hacer?</legend>
                 <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-                  {types.map((t) => (
-                    <label key={t} className="cursor-pointer [&>span]:w-full sm:[&>span]:w-auto">
-                      <input type="radio" value={t} {...register('tipo')} className="peer sr-only" />
-                      <span className="inline-flex min-h-11 items-center rounded-md border border-noche/15 px-3.5 text-sm text-noche transition-colors peer-checked:border-azul peer-checked:bg-azul peer-checked:text-white peer-focus-visible:ring-4 peer-focus-visible:ring-azul/25 hover:border-noche/40">
-                        {t}
-                      </span>
+                  {types.map((t, i) => (
+                    <label key={t.label} className="cursor-pointer">
+                      <input
+                        id={`cf-tipo-${i}`}
+                        type="radio"
+                        name="tipo"
+                        checked={tipo === i}
+                        onChange={() => { setTipo(i); setErrors((e) => ({ ...e, tipo: undefined })); }}
+                        className="peer sr-only"
+                      />
+                      <span className={chip}>{t.label}</span>
+                    </label>
+                  ))}
+                </div>
+                {errorText('tipo')}
+              </fieldset>
+
+              <fieldset className="grid gap-2">
+                <legend className="mb-2 text-sm font-medium text-noche">
+                  ¿Para cuándo? <span className="font-normal text-tinta-2">(opcional)</span>
+                </legend>
+                <div className="grid gap-2 sm:flex sm:flex-wrap">
+                  {timings.map((t) => (
+                    <label key={t} className="cursor-pointer">
+                      <input type="radio" name="plazo" checked={plazo === t} onChange={() => setPlazo(t)} className="peer sr-only" />
+                      <span className={chip}>{t}</span>
                     </label>
                   ))}
                 </div>
               </fieldset>
-              <label className="grid gap-1.5 text-sm font-medium text-noche">
-                ¿Qué necesitas?
-                <textarea
-                  {...register('mensaje')}
-                  {...aria('mensaje')}
-                  rows={4}
-                  className={`${field} ${border('mensaje')} resize-y`}
-                  placeholder="Ej.: un sistema para manejar inventario y ventas en dos sedes…"
-                />
-                {err('mensaje')}
-              </label>
-              <div className="grid gap-1.5">
-                <label className="flex cursor-pointer items-start gap-3 text-sm text-tinta-2">
-                  <input type="checkbox" {...register('acepta')} {...aria('acepta')} className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-azul" />
-                  <span>
-                    Autorizo a Zyvo Solutions a usar mis datos para responder mi mensaje, según su{' '}
-                    <a href={url('/privacidad/')} target="_blank" rel="noopener" className="font-semibold text-noche underline decoration-azul decoration-2 underline-offset-2 hover:text-azul">
-                      política de privacidad
-                    </a>
-                    .
-                  </span>
+
+              <div className="grid gap-5 sm:grid-cols-2">
+                <label className="grid gap-1.5 text-sm font-medium text-noche">
+                  Tu nombre
+                  <input
+                    id="cf-nombre"
+                    value={nombre}
+                    onChange={(e) => { setNombre(e.target.value); setErrors((x) => ({ ...x, nombre: undefined })); }}
+                    autoComplete="name"
+                    aria-invalid={!!errors.nombre}
+                    aria-describedby={errors.nombre ? 'err-nombre' : undefined}
+                    className={`${field} ${errors.nombre ? 'border-error-tinta' : 'border-noche/15'}`}
+                  />
+                  {errorText('nombre')}
                 </label>
-                {err('acepta')}
+                <label className="grid gap-1.5 text-sm font-medium text-noche">
+                  <span>Negocio o institución <span className="font-normal text-tinta-2">(opcional)</span></span>
+                  <input value={negocio} onChange={(e) => setNegocio(e.target.value)} autoComplete="organization" className={`${field} border-noche/15`} />
+                </label>
               </div>
-              <button type="submit" disabled={isSubmitting} className="btn-primary mt-1 w-full !py-4 text-base disabled:opacity-70">
-                {isSubmitting ? <Loader2 size={18} className="animate-spin" aria-hidden="true" /> : <Send size={18} aria-hidden="true" />}
-                {isSubmitting ? 'Enviando…' : endpoint ? 'Enviar mensaje' : 'Enviar por WhatsApp'}
-              </button>
+
+              {endpoint && (
+                <label className="grid gap-1.5 text-sm font-medium text-noche">
+                  Correo o WhatsApp para responderte
+                  <input
+                    id="cf-contacto"
+                    value={contacto}
+                    onChange={(e) => { setContacto(e.target.value); setErrors((x) => ({ ...x, contacto: undefined })); }}
+                    autoComplete="email"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    aria-invalid={!!errors.contacto}
+                    aria-describedby={errors.contacto ? 'err-contacto' : undefined}
+                    className={`${field} ${errors.contacto ? 'border-error-tinta' : 'border-noche/15'}`}
+                  />
+                  {errorText('contacto')}
+                </label>
+              )}
+
+              <label className="grid gap-1.5 text-sm font-medium text-noche">
+                <span>Cuéntanos en una frase <span className="font-normal text-tinta-2">(opcional)</span></span>
+                <textarea
+                  value={mensaje}
+                  onChange={(e) => setMensaje(e.target.value)}
+                  rows={3}
+                  className={`${field} border-noche/15 resize-y`}
+                  placeholder={tipo === null ? 'Cuéntanos tu idea en una o dos frases.' : types[tipo].example}
+                />
+              </label>
+
+              <div className="grid gap-3">
+                <button type="submit" disabled={sending} className="btn-primary w-full !py-4 text-base disabled:opacity-70">
+                  {sending ? <Loader2 size={18} className="animate-spin" aria-hidden="true" /> : <Send size={18} aria-hidden="true" />}
+                  {sending ? 'Enviando…' : endpoint ? 'Enviar mensaje' : 'Enviar por WhatsApp'}
+                </button>
+                <p className="text-center text-xs text-tinta-2">
+                  Al enviar autorizas que usemos tus datos para responderte, según la{' '}
+                  <a href={url('/privacidad/')} target="_blank" rel="noopener" className="font-semibold text-noche underline decoration-azul decoration-2 underline-offset-2 hover:text-azul">
+                    política de privacidad
+                  </a>
+                  .
+                </p>
+              </div>
               {failed && (
                 <p role="alert" className="text-sm text-error-tinta">
                   No se pudo enviar. Usa los botones de WhatsApp o correo de la izquierda.
@@ -189,7 +260,7 @@ export default function ContactForm({ endpoint, successImg }: Props) {
           )}
         </AnimatePresence>
         <svg className="pointer-events-none absolute -bottom-px -right-px h-10 w-44" viewBox="0 0 176 40" aria-hidden="true">
-          <path d="M176 6 140 26H0v14h176Z" fill="#2456E8" />
+          <path d="M176 6 140 26H0v14h176Z" fill="var(--color-banda)" />
         </svg>
       </div>
     </MotionConfig>
