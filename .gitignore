@@ -9,3 +9,11 @@ visuales/
 # Exportes de video sueltos (los originales están en Desktop/animaciones). La web usa public/videos/
 src/assets/*.mp4
 src/assets/*.zip
+.env.*
+!.env.example
+.DS_Store
+*.log
+build/
+coverage/
+__pycache__/
+.venv/

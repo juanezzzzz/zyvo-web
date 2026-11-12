@@ -11,9 +11,11 @@ const decode = (s: string) => atob(s).split('').reverse().join('');
 
 export type ContactKind = 'wa' | 'mail';
 
-export function contactHref(kind: ContactKind, text?: string) {
+/** En WhatsApp `text` es el mensaje; en el correo es el asunto y `body` el cuerpo. */
+export function contactHref(kind: ContactKind, text?: string, body?: string) {
   if (kind === 'wa') return `https://wa.me/${decode(ENC.wa)}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
-  return `mailto:${decode(ENC.mail)}${text ? `?subject=${encodeURIComponent(text)}` : ''}`;
+  const q = [text && `subject=${encodeURIComponent(text)}`, body && `body=${encodeURIComponent(body)}`].filter(Boolean).join('&');
+  return `mailto:${decode(ENC.mail)}${q ? `?${q}` : ''}`;
 }
 
 /** Activa los enlaces <a data-contact="wa|mail" data-contact-text="…"> de la página. */
