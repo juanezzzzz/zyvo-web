@@ -3,6 +3,7 @@
 // (compilado en el Decreto 1074 de 2015) y los derechos del art. 8 de la Ley 1581 de 2012.
 // Los datos del responsable se editan en src/data/site.ts (legal).
 import Legal from '../layouts/Legal.astro';
+import { url } from '../lib/url';
 import { legal, site } from '../data/site';
 ---
 <Legal
@@ -24,8 +25,12 @@ import { legal, site } from '../data/site';
 
   <h2>Qué datos recogemos</h2>
   <p>Solo los que tú nos das cuando nos escribes por el formulario, WhatsApp o correo: <strong>tu nombre, tu correo o número de WhatsApp, el nombre de tu empresa (si lo escribes) y lo que nos cuentas de tu proyecto</strong>.</p>
-  <p>No pedimos datos sensibles, como salud, origen étnico, creencias u orientación política, ni datos de niñas, niños o adolescentes. Por favor no los incluyas en tu mensaje.</p>
+  <p>No pedimos datos sensibles, como salud, origen étnico, creencias u orientación política. Por favor no los incluyas en tu mensaje.</p>
+  <p>El formulario y nuestros canales de contacto son para <strong>personas mayores de 18 años</strong>. No recogemos a sabiendas datos de niñas, niños o adolescentes; si nos llegan, los borramos.</p>
   <p>Esta página no usa cookies propias, herramientas de analítica ni publicidad que te sigan.</p>
+
+  <h2>Cómo nos das tu autorización</h2>
+  <p>En el formulario marcas una casilla, que viene sin marcar, para autorizarnos a tratar tus datos. El texto de esa autorización, con la fecha de esta política, viaja dentro del mensaje que nos envías, y el mensaje queda con su fecha y hora. Así podemos demostrar que nos autorizaste. Si nos escribes directamente por WhatsApp o correo, tu mensaje es la autorización para responderte.</p>
 
   <h2>Para qué los usamos</h2>
   <ul>
@@ -36,7 +41,14 @@ import { legal, site } from '../data/site';
   <p>No vendemos ni alquilamos tus datos, y no los usamos para enviarte publicidad sin tu permiso.</p>
 
   <h2>Con quién se comparten</h2>
-  <p>Para comunicarnos contigo usamos servicios de terceros que guardan la información en servidores que pueden estar fuera de Colombia: <strong>WhatsApp</strong> (Meta) cuando nos escribes por ese medio, <strong>Gmail</strong> (Google) cuando nos escribes por correo y <strong>GitHub</strong>, donde está alojada esta página. Cada uno trata los datos según su propia política de privacidad. Al escribirnos, autorizas este envío.</p>
+  <p>Para comunicarnos contigo y publicar esta página usamos servicios de terceros. Ellos reciben o guardan la información por nosotros:</p>
+  <ul>
+    <li><strong>WhatsApp</strong> (Meta), cuando nos escribes por ese medio o envías el formulario por WhatsApp.</li>
+    <li><strong>Gmail</strong> (Google), cuando nos escribes por correo.</li>
+    {site.formEndpoint && <li><strong>Formspree</strong>, que recibe lo que envías por el formulario y nos lo reenvía por correo.</li>}
+    <li><strong>Vercel</strong> y <strong>GitHub</strong>, donde está alojada esta página. Como cualquier servidor web, registran datos técnicos de la visita, como la dirección IP y el navegador, para entregar la página y protegerla de ataques.</li>
+  </ul>
+  <p>Estos servicios guardan los datos en servidores de <strong>Estados Unidos</strong> y otros países. La Superintendencia de Industria y Comercio considera que Estados Unidos ofrece un nivel adecuado de protección de datos (Circular Externa 8 de 2017), así que esta transferencia está permitida. Cada servicio trata los datos según su propia política de privacidad. Al escribirnos, autorizas este envío.</p>
   <p>Solo entregaremos tus datos a una autoridad si la ley lo exige.</p>
 
   <h2>Cuánto tiempo los guardamos</h2>
@@ -54,7 +66,7 @@ import { legal, site } from '../data/site';
   </ul>
 
   <h2 id="contacto-legal">Cómo ejercerlos</h2>
-  <p>Escríbenos al correo de arriba con el asunto «Datos personales». Indica tu nombre, cómo te contactamos y qué quieres: consultar, corregir, borrar o retirar la autorización. La persona encargada de atender estas solicitudes es el equipo de {legal.responsable}.</p>
+  <p>Usa la página de <a href={url('/pqr/')}>peticiones, quejas y reclamos</a> y elige «Datos personales»: te damos un número de radicado con la fecha y la hora. También puedes escribirnos al correo de arriba con el asunto «Datos personales». Indica tu nombre, cómo te contactamos y qué quieres: consultar, corregir, borrar o retirar la autorización. La persona encargada de atender estas solicitudes es el equipo de {legal.responsable}.</p>
   <ul>
     <li><strong>Consultas:</strong> te respondemos en máximo 10 días hábiles. Si no alcanzamos, te avisamos el motivo y respondemos en máximo 5 días hábiles más.</li>
     <li><strong>Reclamos</strong> (corregir, actualizar, borrar o retirar la autorización): te respondemos en máximo 15 días hábiles. Si no alcanzamos, te avisamos el motivo y respondemos en máximo 8 días hábiles más. Si al reclamo le falta información, te la pedimos dentro de los 5 días siguientes; si pasan dos meses sin que la envíes, entenderemos que desististe.</li>

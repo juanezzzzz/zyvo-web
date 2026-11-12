@@ -1,5 +1,6 @@
 import { contactHref } from '../lib/contact';
 import { url } from '../lib/url';
+import { legal, site } from '../data/site';
 import { useState, type FormEvent } from 'react';
 import { AnimatePresence, motion, MotionConfig } from 'motion/react';
 import { CheckCircle2, Loader2, Send } from 'lucide-react';
@@ -21,7 +22,10 @@ const types = [
 const timings = ['Lo antes posible', 'En 1 a 3 meses', 'Solo estoy explorando'] as const;
 
 type Props = { endpoint: string; successImg?: string };
-type Errors = Partial<Record<'tipo' | 'nombre' | 'contacto', string>>;
+type Errors = Partial<Record<'tipo' | 'nombre' | 'contacto' | 'autoriza', string>>;
+
+// Texto de la autorización: va igual en la casilla y en el mensaje, con la versión de la política, como prueba.
+const AUTORIZACION = `Soy mayor de edad y autorizo a ${legal.responsable} a tratar mis datos para responder mi solicitud, según la política de privacidad vigente desde el ${legal.vigencia}.`;
 
 const field =
   'w-full rounded-md border bg-white px-3.5 py-3 text-base text-noche outline-none transition-[border-color,box-shadow] placeholder:text-tinta-2 focus:border-azul focus:ring-4 focus:ring-azul/15';
@@ -41,7 +45,7 @@ function buildMessage(d: { nombre: string; negocio: string; tipo: (typeof types)
     d.mensaje || 'Prefiero contárselo por aquí.',
     '',
     '—',
-    'Les escribo desde la página web de Zyvo. Autorizo el uso de mis datos para que me respondan, según su política de privacidad.',
+    `Les escribo desde la página web de Zyvo. ${AUTORIZACION}`,
   ].join('\n');
 }
 
@@ -52,6 +56,8 @@ export default function ContactForm({ endpoint, successImg }: Props) {
   const [negocio, setNegocio] = useState('');
   const [contacto, setContacto] = useState('');
   const [mensaje, setMensaje] = useState('');
+  const [autoriza, setAutoriza] = useState(false);
+  const [trampa, setTrampa] = useState(''); // campo oculto: si lo llenan, es un bot
   const [errors, setErrors] = useState<Errors>({});
   const [sending, setSending] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -63,6 +69,7 @@ export default function ContactForm({ endpoint, successImg }: Props) {
     if (nombre.trim().length < 2) e.nombre = 'Escribe tu nombre.';
     if (endpoint && !(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contacto.trim()) || contacto.replace(/\D/g, '').length >= 7))
       e.contacto = 'Escribe un correo válido o un número de WhatsApp.';
+    if (!autoriza) e.autoriza = 'Necesitamos tu autorización para poder responderte.';
     return e;
   };
 
@@ -72,7 +79,7 @@ export default function ContactForm({ endpoint, successImg }: Props) {
     setErrors(e);
     if (Object.keys(e).length) {
       // Lleva el foco al primer campo con problema
-      document.getElementById(e.tipo ? 'cf-tipo-0' : e.nombre ? 'cf-nombre' : 'cf-contacto')?.focus();
+      document.getElementById(e.tipo ? 'cf-tipo-0' : e.nombre ? 'cf-nombre' : e.contacto ? 'cf-contacto' : 'cf-autoriza')?.focus();
       return;
     }
     const data = { nombre: nombre.trim(), negocio: negocio.trim(), tipo: types[tipo!], plazo, mensaje: mensaje.trim() };
@@ -80,11 +87,13 @@ export default function ContactForm({ endpoint, successImg }: Props) {
     setFailed(false);
 
     if (endpoint) {
+      // Bot: se finge el envío y no se manda nada
+      if (trampa) { setSent({ via: 'mail' }); return; }
       setSending(true);
       try {
         const res = await fetch(endpoint, {
           method: 'POST',
-          body: JSON.stringify({ _subject: `${data.tipo.emoji} ${data.tipo.label} · ${data.nombre}`, ...data, tipo: data.tipo.label, contacto: contacto.trim(), mensaje: text }),
+          body: JSON.stringify({ _subject: `${data.tipo.emoji} ${data.tipo.label} · ${data.nombre}`, ...data, tipo: data.tipo.label, contacto: contacto.trim(), mensaje: text, autorizacion: AUTORIZACION, autorizado_en: new Date().toISOString() }),
           headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
         });
         if (!res.ok) throw new Error(String(res.status));
@@ -103,7 +112,7 @@ export default function ContactForm({ endpoint, successImg }: Props) {
   };
 
   const reset = () => {
-    setSent(null); setTipo(null); setPlazo(''); setMensaje(''); setErrors({});
+    setSent(null); setTipo(null); setPlazo(''); setMensaje(''); setAutoriza(false); setErrors({});
   };
 
   const errorText = (k: keyof Errors) =>
@@ -139,8 +148,8 @@ export default function ContactForm({ endpoint, successImg }: Props) {
               <h3 className="display text-2xl text-noche">{sent.via === 'mail' ? 'Mensaje enviado' : 'Tu mensaje está listo'}</h3>
               <p className="max-w-[38ch] text-tinta-2">
                 {sent.via === 'mail'
-                  ? 'Te respondemos en menos de 24 horas hábiles.'
-                  : 'Lo abrimos en WhatsApp con todo escrito. Revísalo, dale enviar y te respondemos en menos de 24 horas hábiles.'}
+                  ? 'Solemos responder en menos de 24 horas hábiles.'
+                  : 'Lo abrimos en WhatsApp con todo escrito. Revísalo y dale enviar; solemos responder en menos de 24 horas hábiles.'}
               </p>
               <div className="mt-2 flex flex-wrap justify-center gap-3">
                 {sent.via === 'wa' && (
@@ -238,19 +247,39 @@ export default function ContactForm({ endpoint, successImg }: Props) {
                 />
               </label>
 
-              <div className="grid gap-3">
-                <button type="submit" disabled={sending} className="btn-primary w-full !py-4 text-base disabled:opacity-70">
-                  {sending ? <Loader2 size={18} className="animate-spin" aria-hidden="true" /> : <Send size={18} aria-hidden="true" />}
-                  {sending ? 'Enviando…' : endpoint ? 'Enviar mensaje' : 'Enviar por WhatsApp'}
-                </button>
-                <p className="text-center text-xs text-tinta-2">
-                  Al enviar autorizas que usemos tus datos para responderte, según la{' '}
+              {endpoint && (
+                // Campo trampa: invisible para personas, los bots lo llenan. Formspree descarta los envíos con _gotcha.
+                <input type="text" name="_gotcha" value={trampa} onChange={(e) => setTrampa(e.target.value)} tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+              )}
+
+              {/* Aviso de privacidad (art. 15 Decreto 1377 de 2013): quién, para qué, derechos y dónde está la política */}
+              <div className="grid gap-3 rounded-md border border-noche/10 bg-marfil-2/60 p-4 text-xs leading-relaxed text-tinta-2">
+                <p>
+                  <strong className="font-semibold text-noche">Aviso de privacidad.</strong> {site.name} usa tus datos solo para responderte y, si lo pides, enviarte una propuesta. No los vendemos ni te enviamos publicidad. Puedes consultarlos, corregirlos o pedir que los borremos cuando quieras. Este formulario es solo para mayores de 18 años. Detalles en la{' '}
                   <a href={url('/privacidad/')} target="_blank" rel="noopener" className="font-semibold text-noche underline decoration-azul decoration-2 underline-offset-2 hover:text-azul">
                     política de privacidad
                   </a>
                   .
                 </p>
+                <label className="flex cursor-pointer items-start gap-3 text-sm text-noche">
+                  <input
+                    id="cf-autoriza"
+                    type="checkbox"
+                    checked={autoriza}
+                    onChange={(e) => { setAutoriza(e.target.checked); setErrors((x) => ({ ...x, autoriza: undefined })); }}
+                    aria-invalid={!!errors.autoriza}
+                    aria-describedby={errors.autoriza ? 'err-autoriza' : undefined}
+                    className="mt-0.5 size-5 shrink-0 accent-azul"
+                  />
+                  <span>{AUTORIZACION}</span>
+                </label>
+                {errorText('autoriza')}
               </div>
+
+              <button type="submit" disabled={sending} className="btn-primary w-full !py-4 text-base disabled:opacity-70">
+                {sending ? <Loader2 size={18} className="animate-spin" aria-hidden="true" /> : <Send size={18} aria-hidden="true" />}
+                {sending ? 'Enviando…' : endpoint ? 'Enviar mensaje' : 'Enviar por WhatsApp'}
+              </button>
               {failed && (
                 <p role="alert" className="text-sm text-error-tinta">
                   No se pudo enviar. Usa los botones de WhatsApp o correo de la izquierda.
