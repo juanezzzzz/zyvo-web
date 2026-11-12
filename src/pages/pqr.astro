@@ -1,0 +1,24 @@
+---
+// Canal de peticiones, quejas y reclamos (art. 50 lit. g y art. 58 de la Ley 1480 de 2011).
+import Legal from '../layouts/Legal.astro';
+import PqrForm from '../components/PqrForm';
+import { url } from '../lib/url';
+import { legal } from '../data/site';
+---
+<Legal
+  title="Peticiones, quejas y reclamos"
+  description="Envía a Zyvo Solutions una petición, queja, reclamo o solicitud sobre tus datos personales y recibe un número de radicado con fecha y hora."
+  lead="Escríbenos aquí si necesitas algo de nosotros o si algo no salió como esperabas. Te damos un número de radicado para hacerle seguimiento."
+>
+  <h2>Cómo funciona</h2>
+  <ul>
+    <li>Llena el formulario. Al terminar te mostramos tu <strong>número de radicado</strong>, con la fecha y la hora.</li>
+    <li>Envíanos la solicitud por WhatsApp o por correo. Ya va escrita, con el radicado incluido.</li>
+    <li>Te respondemos en máximo <strong>15 días hábiles</strong>. Las solicitudes sobre datos personales tienen sus propios plazos: 10 días hábiles para consultas y 15 para reclamos, como explica la <a href={url('/privacidad/')}>política de privacidad</a>.</li>
+  </ul>
+  <p>Si no estás de acuerdo con la respuesta, puedes acudir a la <a href={legal.sic} target="_blank" rel="noopener">Superintendencia de Industria y Comercio</a>.</p>
+
+  <div slot="after" id="formulario">
+    <PqrForm client:visible />
+  </div>
+</Legal>

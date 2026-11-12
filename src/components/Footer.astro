@@ -1,6 +1,6 @@
 ---
 import { url, isHome } from '../lib/url';
-import { ArrowUpRight, MapPin } from '@lucide/astro';
+import { ArrowUpRight, Mail, MapPin, Phone } from '@lucide/astro';
 import Logo from './Logo.astro';
 import { site, nav, legal } from '../data/site';
 const year = new Date().getFullYear();
@@ -28,11 +28,15 @@ const linkCls = 'inline-flex min-h-11 items-center gap-1 text-niebla-2 transitio
     </div>
 
     <div class="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-white/10 pt-12 sm:mt-20 md:grid-cols-12 md:gap-x-8">
-      <!-- Marca (el contacto está en la sección Contacto y en el botón flotante de WhatsApp) -->
+      <!-- Marca y datos de contacto (art. 50 lit. a Ley 1480). El número y el correo se escriben en el navegador (anti-scraping) -->
       <div class="col-span-2 md:col-span-6">
         <Logo size={40} class="text-marfil" />
         <p class="mt-4 max-w-[38ch] text-niebla-2">Software a la medida y estudio creativo, hecho en Casanare.</p>
-        <p class="mt-6 flex items-center gap-2 text-sm text-niebla-2"><MapPin size={16} aria-hidden="true" class="shrink-0 text-azul-luz" /> {site.city}</p>
+        <ul class="mt-6 grid gap-1 text-sm">
+          <li class="flex min-h-11 items-center gap-2 text-niebla-2"><MapPin size={16} aria-hidden="true" class="shrink-0 text-azul-luz" /> {legal.direccion ? `${legal.direccion}, ${site.city}` : site.city}</li>
+          <li><a href={to("#contacto")} data-contact="wa" data-contact-text="Hola Zyvo" target="_blank" rel="noopener" class={linkCls}><Phone size={16} aria-hidden="true" class="shrink-0 text-azul-luz" /> <span data-contact-reveal="wa">WhatsApp</span></a></li>
+          <li><a href={to("#contacto")} data-contact="mail" data-contact-text="Contacto desde la web" class={`${linkCls} break-all`}><Mail size={16} aria-hidden="true" class="shrink-0 text-azul-luz" /> <span data-contact-reveal="mail">Correo</span></a></li>
+        </ul>
       </div>
 
       <nav aria-label="Pie de página" class="col-span-1 md:col-span-3">
@@ -45,6 +49,8 @@ const linkCls = 'inline-flex min-h-11 items-center gap-1 text-niebla-2 transitio
         <ul class="mt-2 grid">
           <li><a href={url('/privacidad/')} class={linkCls}>Política de privacidad</a></li>
           <li><a href={url('/terminos/')} class={linkCls}>Términos de uso</a></li>
+          <li><a href={url('/pqr/')} class={linkCls}>Quejas y reclamos (PQR)</a></li>
+          <li><a href={legal.sic} target="_blank" rel="noopener" aria-label="Superintendencia de Industria y Comercio (SIC), abre en otra pestaña" class={linkCls}>SIC<ArrowUpRight size={14} aria-hidden="true" /></a></li>
         </ul>
         {social.length > 0 && (
           <>

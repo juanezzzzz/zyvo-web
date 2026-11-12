@@ -34,7 +34,9 @@ export const legal = {
   documento: '', // NIT de la empresa o cédula de la persona responsable, ej. 'NIT 901.234.567-8'
   direccion: '', // dirección física para notificaciones, ej. 'Calle 10 # 20-30'
   ciudad: 'Yopal, Casanare, Colombia',
-  vigencia: '15 de octubre de 2026', // fecha desde la que rige la política; cámbiala si la actualizas
+  vigencia: '12 de noviembre de 2026', // fecha desde la que rige la política; cámbiala si la actualizas
+  // Autoridad de protección al consumidor y de datos personales: el enlace va en el pie (art. 50 Ley 1480 de 2011)
+  sic: 'https://www.sic.gov.co',
 };
 
 export const nav = [
